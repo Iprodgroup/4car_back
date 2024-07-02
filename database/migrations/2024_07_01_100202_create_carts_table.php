@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tires_id');
-            $table->integer('quantity');
+            $table->unsignedBigInteger('disk_id');
+            $table->integer('quantity')->default(1);
             $table->timestamps();
-
+            $table->foreign('disk_id')->references('id')->on('disks')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tires_id')->references('id')->on('tires')->onDelete('cascade');
         });

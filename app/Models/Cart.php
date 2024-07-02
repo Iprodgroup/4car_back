@@ -25,4 +25,9 @@ class Cart extends Model
     {
         return $this->belongsTo(Tires::class);
     }
+
+    public function disks(): BelongsTo
+    {
+        return $this->belongsTo(Disk::class);
+    }
 }

@@ -7,27 +7,21 @@ use App\Http\Controllers\TiresController;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\CartController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('cart/addDisks', [CartController::class, 'addToCartDisks']);
+    Route::post('cart/addTires', [CartController::class, 'addToCartTires']);
+    Route::get('cart', [CartController::class, 'getCart']);
 });
 
 Route::apiResources(
     ['news' => NewsController::class,
      'tires' => TiresController::class,
      'disk' => DiskController::class,
-     'payment-card' => PaymentCardController::class,
-     
-
+     'payment-card' => PaymentCardController::class,   
 ]);
+
