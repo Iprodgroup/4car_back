@@ -10,8 +10,3 @@ Route::get('/', function () {
 });
 
 // Route::get('/news', [NewsController::class, 'index'])->name('news');
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
