@@ -4,11 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PaymentCard extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'icon'];
+    protected $fillable = ['user_id', 'name', 'code', 'icon'];
     
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

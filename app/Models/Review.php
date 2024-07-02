@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Reviews extends Model
+class Review extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'tires_id',
-        'user_id',
-        'rating',
+        'user_id', 'text', 'title', 'rating', 'reviewable_id', 'reviewable_type'
 
     ];
 
@@ -22,8 +20,9 @@ class Reviews extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tires(): BelongsTo
+    public function reviewable()
     {
-        return $this->belongsTo(Tires::class);
+        return $this->morphTo();
     }
+    
 }

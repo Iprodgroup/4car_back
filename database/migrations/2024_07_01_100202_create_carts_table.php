@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('tires_id');
-            $table->unsignedBigInteger('disk_id');
+            $table->unsignedBigInteger('tires_id')->nullable();
+            $table->unsignedBigInteger('disk_id')->nullable();
             $table->integer('quantity')->default(1);
             $table->timestamps();
             $table->foreign('disk_id')->references('id')->on('disks')->onDelete('cascade');

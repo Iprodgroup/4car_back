@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('index_s');
             $table->string('run_flat');
             $table->string('image');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class CartController extends Controller
     public function addToCartTires(Request $request)
     {
         $request->validate([
-            'tires_id' => 'required|exists:disks,id',
+            'tires_id' => 'required|exists:tires,id',
             'quantity' => 'integer|min:1',
         ]);
 
@@ -44,11 +44,34 @@ class CartController extends Controller
         return new CartResource($cartItem);
     }
 
+    public function cleanOneElementFromCart(Request $request, $id)
+    {
+        $user = $request->user();
+        $tire_id = $request->tires_id;
+
+        $cartItem = Cart::where('user_id', $user->id)->where('tires_id', $tire_id)->delete();
+        
+        if ($cartItem) {
+            $cartItem->delete();
+            return $this->success('Товар успешно удален из корзины', 200);
+        } else {
+            return $this->error('Произошла ошибка при удалении товара', 404);
+        }
+    }
+    
+    public function cleanCart(Request $request)
+    {
+        $user = $request->user();
+        $cartItem = Cart::where('user_id', $user->id)->delete();
+        return $this->success('Корзина очищена', 200);
+    }
     public function getCart(Request $request)
     {
         $user = $request->user();
         $cartItem = Cart::where('user_id', $user->id)->get();
         return CartResource::collection($cartItem);
     }
+
+
 
 }

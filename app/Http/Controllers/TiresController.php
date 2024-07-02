@@ -48,6 +48,7 @@ class TiresController extends Controller
             $query->where('run_flat', $request->run_flat);
         }
         return $query->paginate(8);
+        
     }
 
     /**
