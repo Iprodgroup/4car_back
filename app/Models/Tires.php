@@ -12,8 +12,20 @@ class Tires extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'model', 'weight',  'height', 'diametr',
-        'season', 'spikes', 'index_n', 'index_s', 'run_flat','image',
+        'name', 
+        'brand', 
+        'model',
+        'weight',  
+        'height', 
+        'radius',
+        'spikes', 
+        'index_n', 
+        'index_s', 
+        'run_flat', 
+        'country',
+        'year',
+        'price',
+        'image',
     ];
 
 

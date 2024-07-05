@@ -10,8 +10,14 @@ class Disk extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'model', 'weight',  'height', 'diametr',
-        'season', 'spikes', 'index_n', 'index_s', 'run_flat','image',
+        'name', 'type',
+        'size',
+        'brand',
+        'model',
+        'number_of_holes',
+        'size_of_holes',
+        'width', 'diametr', 'departure',
+        'tco', 'price', 'image',
     ];
 
     public function reviews()

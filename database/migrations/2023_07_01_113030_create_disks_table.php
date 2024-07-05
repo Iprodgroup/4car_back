@@ -14,15 +14,19 @@ return new class extends Migration
         Schema::create('disks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type');
+            $table->string('size');
+            $table->string('brand');
             $table->string('model');
-            $table->string('weight');
-            $table->string('height');
+            $table->string('number_of_holes');
+            $table->string('size_of_holes');
+            $table->string('width');
             $table->string('diametr');
-            $table->string('season');
-            $table->string('spikes');
-            $table->string('index_n');
-            $table->string('index_s');
-            $table->string('run_flat');
+            $table->string('departure');
+            $table->string('tco');
+            $table->string('price');
+
+            
             $table->string('image');
             $table->softDeletes();
             $table->timestamps();

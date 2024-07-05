@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
-use Faker\Guesser\Name;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

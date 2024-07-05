@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('text');
             $table->enum('rating', [1,2,3,4,5]);
             $table->timestamps();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

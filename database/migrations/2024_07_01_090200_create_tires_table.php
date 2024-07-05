@@ -14,15 +14,18 @@ return new class extends Migration
         Schema::create('tires', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('brand');
             $table->string('model');
             $table->string('weight');
             $table->string('height');
-            $table->string('diametr');
-            $table->string('season');
-            $table->string('spikes');
+            $table->string('radius');
             $table->string('index_n');
             $table->string('index_s');
+            $table->string('spikes');
             $table->string('run_flat');
+            $table->string('country');
+            $table->string('year');
+            $table->string('price');
             $table->string('image');
             $table->timestamps();
         });
