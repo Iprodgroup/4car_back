@@ -1,0 +1,761 @@
+{
+	"info": {
+		"_postman_id": "e896b912-facc-4279-9572-5ce6680342e3",
+		"name": "4car",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27448026"
+	},
+	"item": [
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "Get All News",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/news",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get News By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/news/5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"news",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Новости"
+		},
+		{
+			"name": "Tires",
+			"item": [
+				{
+					"name": "Get All Tires",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tires",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tires"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tires By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tires/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tires",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://127.0.0.1:8000/api/tires?name=Qui ducimus velit quibusdam.&model=Praesentium aspernatur animi non iure tempore recusandae libero dignissimos.&weight=ds&height=WN&diametr=xZ&season=Mr.&spikes=Dr.&index_n=Sint et necessitatibus eius debitis aspernatu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/tires?name=Qui ducimus velit quibusdam.&model=Praesentium aspernatur animi non iure tempore recusandae libero dignissimos.&weight=ds&height=WN&diametr=xZ&season=Mr.&spikes=Dr.&index_n=Sint et necessitatibus eius debitis aspernatur illum omnis.&index_s=Et fugiat id eum aspernatur.&run flat=Optio et ad sed odio.",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tires"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Qui ducimus velit quibusdam."
+								},
+								{
+									"key": "model",
+									"value": "Praesentium aspernatur animi non iure tempore recusandae libero dignissimos."
+								},
+								{
+									"key": "weight",
+									"value": "ds"
+								},
+								{
+									"key": "height",
+									"value": "WN"
+								},
+								{
+									"key": "diametr",
+									"value": "xZ"
+								},
+								{
+									"key": "season",
+									"value": "Mr."
+								},
+								{
+									"key": "spikes",
+									"value": "Dr."
+								},
+								{
+									"key": "index_n",
+									"value": "Sint et necessitatibus eius debitis aspernatur illum omnis."
+								},
+								{
+									"key": "index_s",
+									"value": "Et fugiat id eum aspernatur."
+								},
+								{
+									"key": "run flat",
+									"value": "Optio et ad sed odio."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Шины"
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Ibrohim\",\n    \"last_name\": \"Nabijonov\", \n    \"email\": \"nibrohim04@gmail.com\",\n    \"password\": \"123456\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Auth User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "2|Zm8xzU6UF0DWAyjPMeW5k1StWKtyAbv6sq1GSJzRb1ca2f98",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|Y4SfedyFGdjb1kzBOqQxUOWptIXi5mVagPDS11Vp61f44551",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"nibrohim04@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Регистрация и авторизация пользователей"
+		},
+		{
+			"name": "Disks",
+			"item": [
+				{
+					"name": "Get All Disks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/disk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"disk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Disk By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/disk/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"disk",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://127.0.0.1:8000/api/disk?page=1&name=Quo omnis et in repudiandae corporis.&model=Sequi vitae porro et ipsum ut incidunt.&weight=eY&height=2N&diametr=7d&season=Ms.&spikes=Mr.&index_n=Rerum sed eum aut rem natus reprehenderit omnis.&index_s=Et earum c",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/disk?page=1&name=Quo omnis et in repudiandae corporis.&model=Sequi vitae porro et ipsum ut incidunt.&weight=eY&height=2N&diametr=7d&season=Ms.&spikes=Mr.&index_n=Rerum sed eum aut rem natus reprehenderit omnis.&index_s=Et earum cumque consequuntur et.&run_flat=Quia nulla dolorem fuga inventore quidem dicta.",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"disk"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "name",
+									"value": "Quo omnis et in repudiandae corporis."
+								},
+								{
+									"key": "model",
+									"value": "Sequi vitae porro et ipsum ut incidunt."
+								},
+								{
+									"key": "weight",
+									"value": "eY"
+								},
+								{
+									"key": "height",
+									"value": "2N"
+								},
+								{
+									"key": "diametr",
+									"value": "7d"
+								},
+								{
+									"key": "season",
+									"value": "Ms."
+								},
+								{
+									"key": "spikes",
+									"value": "Mr."
+								},
+								{
+									"key": "index_n",
+									"value": "Rerum sed eum aut rem natus reprehenderit omnis."
+								},
+								{
+									"key": "index_s",
+									"value": "Et earum cumque consequuntur et."
+								},
+								{
+									"key": "run_flat",
+									"value": "Quia nulla dolorem fuga inventore quidem dicta."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Диски"
+		},
+		{
+			"name": "Payment-Card",
+			"item": [
+				{
+					"name": "Get User Payment Cards",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payment-cards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment-cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Payment Card",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"11\",\n    \"name\": \"Ibrohim\",\n    \"code\" : \"6264570035362237\",\n    \"icon\": \"visa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payment-cards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment-cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Payment Card",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payment-cards/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payment-cards",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Платежные карты пользователей"
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Get Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Tires To Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tires_id\": 2,\n    \"quantity\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/cart/addTires",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"addTires"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Disks To Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"disk_id\": 1,\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/cart/addDisks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"addDisks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clean Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cart/clear",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete One Element From Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cart/clear/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"clear",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Корзина пользователя"
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nabijonov Ibrohim\",\n    \"district\": \"Tashkent\",\n    \"city\": \"Tashkent\",\n    \"delivery_method\": \"pickup\",\n    \"town\": \"yangiyol\",\n    \"adres\": \"Yangilik - 1\",\n    \"orient\": \"kumarik\",\n    \"work_adres\": \"Jemchug\",\n    \"comment\": \"asdad\",\n    \"coupon\": \"sda431ad\",\n    \"payment_method\": \"transfer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Link For Payment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ibrohim\",\n    \"phem\": \"nibrohim04@gmail.com\"\n}   \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://oryx.kz/api/send",
+							"protocol": "https",
+							"host": [
+								"oryx",
+								"kz"
+							],
+							"path": [
+								"api",
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get All Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Folder",
+			"item": []
+		},
+		{
+			"name": "New Request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"telegramId\" : 289116384\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ithub-community.uz/fetch_user.php",
+					"protocol": "https",
+					"host": [
+						"ithub-community",
+						"uz"
+					],
+					"path": [
+						"fetch_user.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

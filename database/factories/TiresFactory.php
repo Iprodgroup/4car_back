@@ -18,16 +18,19 @@ class TiresFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence, 
-            'model' => $this->faker->sentence, 
-            'weight' => Str::random(2),  
-            'height' => Str::random(2), 
-            'diametr'=> Str::random(2),
-            'season' => $this->faker->title(), 
-            'spikes' => $this->faker->title(), 
-            'index_n' => $this->faker->sentence, 
-            'index_s' => $this->faker->sentence, 
+            'name' => $this->faker->sentence,
+            'brand' => $this->faker->sentence,
+            'model' => $this->faker->sentence,
+            'weight' => Str::random(2),
+            'height' => Str::random(2),
+            'radius'=> Str::random(2),
+            'spikes' => $this->faker->title(),
+            'index_n' => $this->faker->randomDigit(),
+            'index_s' => $this->faker->randomDigit(),
             'run_flat' => $this->faker->sentence,
+            'country' => $this->faker->sentence,
+            'year' => $this->faker->date(),
+            'price' => $this->faker->sentence,
             'image' => $this->faker->sentence,
         ];
     }
