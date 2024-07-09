@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DiskController;
 use App\Http\Controllers\NewsController;
@@ -12,11 +14,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cart', [CartController::class, 'getCart']);
     Route::post('orders', [OrderController::class, 'store']);
     Route::delete('cart/clear', [CartController::class, 'cleanCart']);
-    
+
     Route::get('/payment-cards', [PaymentCardController::class, 'index']);
     Route::post('/payment-cards', [PaymentCardController::class, 'store']);
     Route::delete('/payment-cards/{paymentCard}', [PaymentCardController::class, 'destroy']);
-    
+
     Route::post('cart/addDisks', [CartController::class, 'addToCartDisks']);
     Route::post('cart/addTires', [CartController::class, 'addToCartTires']);
     Route::delete('cart/clear/{id}', [CartController::class, 'cleanOneElementFromCart']);
@@ -26,10 +28,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
+Route::get('/manufacturers', [ManufacturerController::class, 'index']);
+Route::get('/manufacturers/{slug}', [ManufacturerController::class, 'show']);
+
 Route::apiResources(
     [
         'news' => NewsController::class,
         'disk' => DiskController::class,
-        'tires' => TiresController::class, 
+        'tires' => TiresController::class,
     ]);
 

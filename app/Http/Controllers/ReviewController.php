@@ -13,7 +13,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -35,6 +35,7 @@ class ReviewController extends Controller
             'rating' => 'required',
         ]);
 
+
         $review = new Review([
             'user_id' => Auth::id(),
             'reviewable_id' => $reviewableId,
@@ -49,8 +50,6 @@ class ReviewController extends Controller
         return $this->success('Ваш отзыв успешно добавлен', $review);
 
     }
-
-
 
     /**
      * Display the specified resource.

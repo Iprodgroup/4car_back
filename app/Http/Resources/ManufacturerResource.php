@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class ManufacturerResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class ManufacturerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'slug' => $this->slug,
+//            'slug' => Str::slug('name'),
             'picture' => $this->picture,
         ];
     }

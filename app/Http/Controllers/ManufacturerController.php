@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ManufacturerResource;
 use App\Models\Manufacturer;
-use App\Models\News;
 use Illuminate\Http\Request;
 
 class ManufacturerController extends Controller
@@ -14,7 +13,8 @@ class ManufacturerController extends Controller
      */
     public function index()
     {
-        return $this->response(Manufacturer::all());
+        $query = Manufacturer::query();
+        return $query->paginate(8);
     }
 
     /**
@@ -36,9 +36,10 @@ class ManufacturerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Manufacturer $manufacturer)
+    public function show($slug)
     {
-        return response()->json(new ManufacturerResource($manufacturer));
+        $manufacturer = Manufacturer::where('slug', $slug)->firstOrFail();
+        return new ManufacturerResource($manufacturer);
     }
 
     /**
