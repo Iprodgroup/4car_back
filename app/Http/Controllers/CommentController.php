@@ -17,7 +17,8 @@ class CommentController extends Controller
     public function store(Request $request, $newsId)
     {
         $request->validate([
-            'content' => 'required|string|max:1000',
+            'title' => 'required|max:255',
+            'body' => 'required|string|max:1000',
         ]);
 
         $news = News::findOrFail($newsId);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DiskController;
@@ -14,6 +15,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cart', [CartController::class, 'getCart']);
     Route::post('orders', [OrderController::class, 'store']);
     Route::delete('cart/clear', [CartController::class, 'cleanCart']);
+
+    Route::post('/news/{newsId}/comments', [CommentController::class, 'store']);
+    Route::get('/news/{newsId}/comments', [CommentController::class, 'index']);
 
     Route::get('/payment-cards', [PaymentCardController::class, 'index']);
     Route::post('/payment-cards', [PaymentCardController::class, 'store']);

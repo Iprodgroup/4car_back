@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
-
 use Illuminate\Database\Eloquent\Model;
 use App\Models\News;
-
+use MoonShine\Components\Modal;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Image;
+use MoonShine\Fields\Relationships\BelongsTo;
+use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
@@ -16,9 +17,7 @@ use MoonShine\Fields\ID;
 use MoonShine\Fields\Field;
 use MoonShine\Components\MoonShineComponent;
 
-/**
- * @extends ModelResource<News>
- */
+
 class NewsResource extends ModelResource
 {
     protected string $model = News::class;
@@ -35,10 +34,24 @@ class NewsResource extends ModelResource
     /**
      * @return list<MoonShineComponent|Field>
      */
+
+//    public function components(): array
+//    {
+//        Modal::make(
+//            title: "Комментарии",
+//            components: HasMany::make('Комментарии', 'comments', resource: new CommentResource())
+//                ->creatable(),
+////                          ->fields([
+////                                BelongsTo::make('user'),
+////                                Text::make('title'),
+////                         ]),
+//        );
+//    }
     public function fields(): array
     {
         return [
-            Block::make([
+                Block::make([
+
                 ID::make()->sortable()->showOnExport(),
                 Text::make('Заголовок', 'title')->showOnExport(),
                 Text::make('Описание','description')->showOnExport(),

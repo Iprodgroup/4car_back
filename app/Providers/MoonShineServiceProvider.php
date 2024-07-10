@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\MoonShine\Resources\CommentResource;
 use App\MoonShine\Resources\ManufacturerResource;
 use App\MoonShine\Resources\NewsResource;
 use App\MoonShine\Resources\UserResource;
@@ -63,6 +64,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuGroup::make('Производители', [
                 MenuItem::make('Производители',
                 new ManufacturerResource())
+            ]),
+            MenuGroup::make('Комментарии', [
+                MenuItem::make('Комментарии',
+                    new CommentResource())
             ]),
         ];
     }
