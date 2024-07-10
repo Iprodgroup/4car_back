@@ -37,8 +37,8 @@ Route::get('/manufacturers/{slug}', [ManufacturerController::class, 'show']);
 
 Route::apiResources(
     [
+        'orders' => OrderController::class,
         'news' => NewsController::class,
         'disk' => DiskController::class,
         'tires' => TiresController::class,
     ]);
-

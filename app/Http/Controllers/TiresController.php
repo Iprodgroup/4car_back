@@ -14,11 +14,12 @@ class TiresController extends Controller
      */
     public function index(Request $request)
     {
-        // return $this->response(Tires::all());
-
         $query = Tires::query();
         if($request->has('name')){
             $query->where('name', $request->name);
+        }
+        if($request->has('brand')){
+            $query->where('brand', $request->brand);
         }
         if($request->has('model')){
             $query->where('model', $request->model);
@@ -29,11 +30,8 @@ class TiresController extends Controller
         if($request->has('height')){
             $query->where('height', $request->height);
         }
-        if($request->has('diametr')){
-            $query->where('diametr', $request->diametr);
-        }
-        if($request->has('season')){
-            $query->where('season', $request->season);
+        if($request->has('radius')){
+            $query->where('radius', $request->radius);
         }
         if($request->has('spikes')){
             $query->where('spikes', $request->spikes);
@@ -47,8 +45,12 @@ class TiresController extends Controller
         if($request->has('run_flat')){
             $query->where('run_flat', $request->run_flat);
         }
+        if($request->has('country')){
+            $query->where('country', $request->country);
+        }
+
         return $query->paginate(8);
-        
+
     }
 
     /**

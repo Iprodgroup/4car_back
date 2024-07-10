@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+    public function index(): JsonResponse
+    {
+        return $this->response(OrderResource::collection(auth()->user()->orders()->paginate(10)));
+    }
 
     public function store(Request $request)
     {
@@ -23,6 +34,8 @@ class OrderController extends Controller
             'work_adres' => 'required',
             'comment' => 'nullable',
             'coupon' => 'nullable',
+            'status' => 'required',
+            'tires' => 'required',
             'payment_method' => 'required|in:cash,transfer',
         ]);
 
@@ -39,6 +52,8 @@ class OrderController extends Controller
             'orient' => $request->orient,
             'work_adres' => $request->work_adres,
             'comment' => $request->comment,
+            'status' => $request->status,
+            'tires' => $request->tires,
             'coupon' => $request->coupon,
             'payment_method' => $request->payment_method,
         ]);
@@ -51,5 +66,17 @@ class OrderController extends Controller
         }
 
         return $this->success('Заказ оформлен', 200);
+    }
+
+    public function show(Order $order): JsonResponse
+    {
+        return $this->response(new OrderResource($order));
+    }
+
+    public function destroy(Order $order)
+    {
+        $this->authorize('delete');
+        $order->delete();
+        return 1;
     }
 }

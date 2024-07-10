@@ -14,34 +14,40 @@ class DiskController extends Controller
         if($request->has('name')){
             $query->where('name', $request->name);
         }
+        if($request->has('type')){
+            $query->where('type', $request->type);
+        }
+        if($request->has('size')) {
+            $query->where('size', $request->size);
+        }
+        if($request->has('brand')) {
+            $query->where('brand', $request->brand);
+        }
         if($request->has('model')){
             $query->where('model', $request->model);
         }
-        if($request->has('weight')){
-            $query->where('weight', $request->weight);
+        if($request->has('number_of_holes')){
+            $query->where('number_of_holes', $request->number_of_holes);
         }
-        if($request->has('height')){
-            $query->where('height', $request->height);
+        if($request->has('size_of_holes')){
+            $query->where('size_of_holes', $request->size_of_holes);
+        }
+        if($request->has('width')) {
+            $query->where('width', $request->width);
         }
         if($request->has('diametr')){
             $query->where('diametr', $request->diametr);
         }
-        if($request->has('season')){
-            $query->where('season', $request->season);
+        if($request->has('deparute')){
+            $query->where('departure', $request->departure);
         }
-        if($request->has('spikes')){
-            $query->where('spikes', $request->spikes);
+        if($request->has('tco')){
+            $query->where('tco', $request->tco);
         }
-        if($request->has('index_n')){
-            $query->where('index_n', $request->index_n);
+        if($request->has('price')){
+            $query->where('price', $request->price);
         }
-        if($request->has('index_s')){
-            $query->where('index_s', $request->index_s);
-        }
-        if($request->has('run_flat')){
-            $query->where('run_flat', $request->run_flat);
-        }
-        
+
         return $query->paginate(8);
     }
 
