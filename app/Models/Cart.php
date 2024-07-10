@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cart extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -31,4 +31,19 @@ class Cart extends Model
     {
         return $this->belongsTo(Disk::class);
     }
+    public function getTotalPriceAttribute(): float|int
+    {
+        $totalPrice = 0;
+
+        if ($this->tire) {
+            $totalPrice += $this->tire->price * $this->quantity;
+        }
+
+        if ($this->disk) {
+            $totalPrice += $this->disk->price * $this->quantity;
+        }
+
+        return $totalPrice;
+    }
+
 }

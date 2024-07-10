@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\MoonShine\Resources\CommentResource;
+use App\MoonShine\Resources\DiskResource;
 use App\MoonShine\Resources\ManufacturerResource;
 use App\MoonShine\Resources\NewsResource;
+use App\MoonShine\Resources\TiresResource;
 use App\MoonShine\Resources\UserResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
 use MoonShine\MoonShine;
@@ -68,6 +70,12 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             MenuGroup::make('Комментарии', [
                 MenuItem::make('Комментарии',
                     new CommentResource())
+            ]),
+            MenuGroup::make('Товары', [
+                MenuItem::make('Диски',
+                    new DiskResource()),
+                MenuItem::make('Шины',
+                    new TiresResource()),
             ]),
         ];
     }

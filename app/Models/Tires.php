@@ -12,22 +12,25 @@ class Tires extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 
-        'brand', 
+        'name',
+        'brand',
         'model',
-        'weight',  
-        'height', 
+        'weight',
+        'height',
         'radius',
-        'spikes', 
-        'index_n', 
-        'index_s', 
-        'run_flat', 
+        'spikes',
+        'index_n',
+        'index_s',
+        'run_flat',
         'country',
         'year',
         'price',
         'image',
     ];
-
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'tires_id');
+    }
 
     public function reviews()
     {

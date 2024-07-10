@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use App\Models\Disk;
 
-use MoonShine\Fields\Email;
+use MoonShine\Fields\Image;
+use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
-use MoonShine\Handlers\ImportHandler;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
@@ -17,39 +17,33 @@ use MoonShine\Fields\Field;
 use MoonShine\Components\MoonShineComponent;
 
 /**
- * @extends ModelResource<User>
+ * @extends ModelResource<Disk>
  */
-class UserResource extends ModelResource
+class DiskResource extends ModelResource
 {
-    protected string $model = User::class;
+    protected string $model = Disk::class;
 
-    protected string $title = 'Пользователи';
+    protected string $title = 'Диски';
     protected string $sortDirection = 'ASC';
-
-    public function search(): array
-    {
-        return ['id', 'first_name', 'last_name', 'email'];
-    }
-
-
     /**
      * @return list<MoonShineComponent|Field>
      */
     public function fields(): array
     {
-
         return [
             Block::make([
-//                ID::make()->sortable()->showOnExport(),
-                Text::make('Имя', "first_name")->showOnExport(),
-                Text::make('Фамилия', "last_name")->showOnExport(),
-                Email::make('Email', "email")->showOnExport(),
+                ID::make()->sortable(),
+                Image::make('Изображение', 'image'),
+                Text::make('Название', 'name'),
+                Number::make('Цена', 'price'),
+                Number::make('Количество'),
+
             ]),
         ];
     }
 
     /**
-     * @param Users $item
+     * @param Disk $item
      *
      * @return array<string, string[]|string>
      * @see https://laravel.com/docs/validation#available-validation-rules

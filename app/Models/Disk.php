@@ -10,7 +10,8 @@ class Disk extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'type',
+        'name',
+        'type',
         'size',
         'brand',
         'model',
@@ -19,6 +20,11 @@ class Disk extends Model
         'width', 'diametr', 'departure',
         'tco', 'price', 'image',
     ];
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'disk_id');
+    }
 
     public function reviews()
     {

@@ -23,6 +23,7 @@ class CartController extends Controller
             'quantity' => $request->quantity ?? 1
         ]
         );
+        $cartItem->load('tires');
         return new CartResource($cartItem);
     }
 
@@ -37,10 +38,12 @@ class CartController extends Controller
         $cartItem = Cart::firstOrCreate([
             'user_id' => $user->id,
             'disk_id' => $request->disk_id,
-        ], 
+        ],
         [
             'quantity' => $request->quantity ?? 1
         ]);
+
+        $cartItem->load('disks');
         return new CartResource($cartItem);
     }
 
@@ -50,7 +53,7 @@ class CartController extends Controller
         $tire_id = $request->tires_id;
 
         $cartItem = Cart::where('user_id', $user->id)->where('tires_id', $tire_id)->delete();
-        
+
         if ($cartItem) {
             $cartItem->delete();
             return $this->success('Товар успешно удален из корзины', 200);
@@ -58,7 +61,7 @@ class CartController extends Controller
             return $this->error('Произошла ошибка при удалении товара', 404);
         }
     }
-    
+
     public function cleanCart(Request $request)
     {
         $user = $request->user();
@@ -69,7 +72,16 @@ class CartController extends Controller
     {
         $user = $request->user();
         $cartItem = Cart::where('user_id', $user->id)->get();
-        return CartResource::collection($cartItem);
+
+        $totalPrice = $cartItem->sum(function ($cartItem)
+        {
+            return $cartItem->total_price;
+        });
+
+        return $this->response([
+            'data' => CartResource::collection($cartItem),
+            'total_price' => $totalPrice,
+        ]);
     }
 
 
