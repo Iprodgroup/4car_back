@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\MoonShine\Resources\CommentResource;
 use App\MoonShine\Resources\DiskResource;
+use App\MoonShine\Resources\FeedbackFinishResource;
 use App\MoonShine\Resources\FeedbackResource;
 use App\MoonShine\Resources\ManufacturerResource;
 use App\MoonShine\Resources\NewsResource;
@@ -84,7 +85,9 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
             ]),
             MenuGroup::make('Обратная связь', [
                 MenuItem::make('Заявки',
-                    new FeedbackResource())
+                    new FeedbackResource()),
+                MenuItem::make('Обработанные',
+                    new FeedbackFinishResource()),
             ]),
         ];
     }
