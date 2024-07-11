@@ -10,6 +10,7 @@ use App\Models\Disk;
 
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Number;
+use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Text;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
@@ -38,12 +39,11 @@ class DiskResource extends ModelResource
     {
         return [
             Block::make([
-                ID::make()->sortable(),
                 Image::make('Изображение', 'image'),
                 Text::make('Название', 'name'),
                 Number::make('Цена', 'price'),
                 Number::make('Количество'),
-
+                MorphMany::make('Отзывы', 'reviews')->onlyLink(),
             ]),
         ];
     }

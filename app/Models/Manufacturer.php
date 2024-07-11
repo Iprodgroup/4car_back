@@ -23,4 +23,9 @@ class Manufacturer extends Model
             $manufacturer->slug = Str::slug($manufacturer->name);
         });
     }
+
+    public function getShortDescriptionAttribute(): string
+    {
+        return Str::words($this->description, 15, '...');
+    }
 }

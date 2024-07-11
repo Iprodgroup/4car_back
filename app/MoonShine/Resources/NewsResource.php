@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\News;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Image;
+use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
+
 
 class NewsResource extends ModelResource
 {
@@ -29,9 +30,9 @@ class NewsResource extends ModelResource
     public function fields(): array
     {
         return [
+                HasMany::make('Comments', 'comments', CommentResource::class)->onlyLink(),
                 Block::make([
 
-                ID::make()->sortable()->showOnExport(),
                 Text::make('Заголовок', 'title')->showOnExport(),
                 Text::make('Описание','description')->showOnExport(),
                 Text::make("Текст",'text')->showOnExport(),
@@ -41,12 +42,6 @@ class NewsResource extends ModelResource
         ];
     }
 
-    /**
-     * @param News $item
-     *
-     * @return array<string, string[]|string>
-     * @see https://laravel.com/docs/validation#available-validation-rules
-     */
     public function rules(Model $item): array
     {
         return [];

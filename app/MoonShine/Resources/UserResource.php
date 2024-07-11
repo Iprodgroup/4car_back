@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use MoonShine\Fields\Email;
+use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
@@ -33,6 +34,7 @@ class UserResource extends ModelResource
                 Text::make('Имя', "first_name")->showOnExport(),
                 Text::make('Фамилия', "last_name")->showOnExport(),
                 Email::make('Email', "email")->showOnExport(),
+                HasMany::make('Комментарии', 'comments', CommentResource::class)->onlyLink()
             ]),
         ];
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DiskController;
@@ -35,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/manufacturers', [ManufacturerController::class, 'index']);
 Route::get('/manufacturers/{slug}', [ManufacturerController::class, 'show']);
-
+Route::post('feedback', [FeedbackController::class, 'store']);
 Route::apiResources(
     [
         'orders' => OrderController::class,

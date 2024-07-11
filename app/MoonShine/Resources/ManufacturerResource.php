@@ -6,6 +6,8 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Manufacturer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Slug;
 use MoonShine\Fields\Text;
@@ -28,6 +30,7 @@ class ManufacturerResource extends ModelResource
                 ->value(Manufacturer::count()),
         ];
     }
+
     public function import(): ?ImportHandler
     {
         return ImportHandler::make('Import')->disk('public');
@@ -38,7 +41,7 @@ class ManufacturerResource extends ModelResource
             Block::make([
                 ID::make()->sortable()->useOnImport(),
                 Text::make('Название', 'name')->useOnImport(),
-                Text::make('Описание', 'description')->useOnImport(),
+                Text::make('Описание', 'short_description')->useOnImport(),
                 Slug::make('Slug')
                     ->from('name')
                     ->separator('-')
