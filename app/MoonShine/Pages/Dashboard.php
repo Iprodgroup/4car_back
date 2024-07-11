@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages;
 
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Manufacturer;
+use MoonShine\Decorations\Divider;
+use MoonShine\Metrics\LineChartMetric;
+use MoonShine\Metrics\ValueMetric;
 use MoonShine\Pages\Page;
 use MoonShine\Components\MoonShineComponent;
+use MoonShine\Resources\ModelResource;
 
 class Dashboard extends Page
 {
@@ -21,7 +29,7 @@ class Dashboard extends Page
 
     public function title(): string
     {
-        return $this->title ?: 'Dashboard';
+        return $this->title ?: 'Главная панель';
     }
 
     /**
@@ -29,6 +37,34 @@ class Dashboard extends Page
      */
     public function components(): array
 	{
-		return [];
+        return [
+
+            ValueMetric::make('Производители')
+            ->value(Manufacturer::count())
+            ->columnSpan(6),
+            Divider::make(' '),
+
+            ValueMetric::make('Пользователи')
+            ->value(User::count())
+            ->columnSpan(6),
+            Divider::make(' '),
+
+            ValueMetric::make('Заказы')
+            ->value(Order::count())
+            ->columnSpan(6),
+            Divider::make(' '),
+
+            LineChartMetric::make('Заказы')
+                ->line([
+                    'Profit' => User::query()
+                        ->groupBy('id')
+                        ->pluck('id')
+                        ->toArray()
+                ])
+        ];
 	}
+
+
+
+
 }

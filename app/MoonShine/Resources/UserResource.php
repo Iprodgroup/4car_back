@@ -6,23 +6,18 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-
 use MoonShine\Fields\Email;
 use MoonShine\Fields\Text;
-use MoonShine\Handlers\ImportHandler;
+use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
 use MoonShine\Fields\Field;
 use MoonShine\Components\MoonShineComponent;
 
-/**
- * @extends ModelResource<User>
- */
 class UserResource extends ModelResource
 {
     protected string $model = User::class;
-
+    protected string $column = 'email';
     protected string $title = 'Пользователи';
     protected string $sortDirection = 'ASC';
 
@@ -31,10 +26,6 @@ class UserResource extends ModelResource
         return ['id', 'first_name', 'last_name', 'email'];
     }
 
-
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
     public function fields(): array
     {
 
@@ -48,12 +39,13 @@ class UserResource extends ModelResource
         ];
     }
 
-    /**
-     * @param Users $item
-     *
-     * @return array<string, string[]|string>
-     * @see https://laravel.com/docs/validation#available-validation-rules
-     */
+    public function metrics(): array
+    {
+        return [
+            ValueMetric::make('Пользователи')
+                ->value(User::count()),
+        ];
+    }
     public function rules(Model $item): array
     {
         return [];

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tires;
 
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
+use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
@@ -25,9 +27,14 @@ class TiresResource extends ModelResource
 
     protected string $title = 'Шины';
     protected string $sortDirection = 'ASC';
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
+
+    public function metrics(): array
+    {
+        return [
+            ValueMetric::make('Шины')
+                ->value(Tires::count()),
+        ];
+    }
     public function fields(): array
     {
         return [

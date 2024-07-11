@@ -6,27 +6,28 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Manufacturer;
-
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Slug;
 use MoonShine\Fields\Text;
 use MoonShine\Handlers\ImportHandler;
+use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-use MoonShine\Support\Filters;
 
-/**
- * @extends ModelResource<Manufacturer>
- */
 class ManufacturerResource extends ModelResource
 {
     protected string $model = Manufacturer::class;
 
     protected string $title = 'Manufacturers';
-
+    protected string $sortDirection = 'ASC';
+    public function metrics(): array
+    {
+        return [
+            ValueMetric::make('Производители')
+                ->value(Manufacturer::count()),
+        ];
+    }
     public function import(): ?ImportHandler
     {
         return ImportHandler::make('Import')->disk('public');

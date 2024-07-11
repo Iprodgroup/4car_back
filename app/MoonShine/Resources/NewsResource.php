@@ -23,7 +23,7 @@ class NewsResource extends ModelResource
     protected string $model = News::class;
 
     protected string $title = 'Новости';
-    protected string $column = 'id';
+    protected string $column = 'title';
     protected string $sortDirection = 'ASC';
 
 
