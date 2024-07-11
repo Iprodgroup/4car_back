@@ -6,27 +6,18 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
-
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
 
-/**
- * @extends ModelResource<Comment>
- */
+
 class CommentResource extends ModelResource
 {
     protected string $model = Comment::class;
 
     protected string $title = 'Комментарии';
 
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
     public function fields(): array
     {
         return [

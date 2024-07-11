@@ -6,14 +6,12 @@ namespace App\MoonShine\Pages;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Manufacturer;
 use MoonShine\Decorations\Divider;
 use MoonShine\Metrics\LineChartMetric;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Pages\Page;
 use MoonShine\Components\MoonShineComponent;
-use MoonShine\Resources\ModelResource;
 
 class Dashboard extends Page
 {

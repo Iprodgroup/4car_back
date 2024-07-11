@@ -11,8 +11,6 @@ use MoonShine\Fields\Text;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
 
 class UserResource extends ModelResource
 {

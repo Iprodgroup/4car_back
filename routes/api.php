@@ -27,9 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('cart/addTires', [CartController::class, 'addToCartTires']);
     Route::delete('cart/clear/{id}', [CartController::class, 'cleanOneElementFromCart']);
 
-    Route::post('/reviews/{reviewableType}/{reviewableId}', [ReviewController::class, 'store'])->name('reviews.store');
-    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
-    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::prefix('reviews')->group(function () {
+        Route::get('{type}/{id}', [ReviewController::class, 'index']);
+        Route::post('{type}/{id}', [ReviewController::class, 'store']);
+    });
 });
 
 Route::get('/manufacturers', [ManufacturerController::class, 'index']);

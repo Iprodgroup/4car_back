@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disk;
 use App\Models\Review;
+use App\Models\Tires;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
 
+    public function index(Request $request, $type, $id)
+    {
+        if ($type == 'tires') {
+            $model = Tires::findOrFail($id);
+        } elseif ($type == 'disk') {
+            $model = Disk::findOrFail($id);
+        } else {
+            return response()->json(['error' => 'Invalid type'], 400);
+        }
+
+        return response()->json($model->reviews, 201);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -27,28 +36,32 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $reviewableType, $reviewableId)
+    public function store(Request $request, $type, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:50',
-            'text' => 'required|string|max:255',
-            'rating' => 'required',
+            'text' => 'required|string',
+            'title' => 'required|string',
+            'rating' => 'required|integer',
+
+            'user_id' => 'required|exists:users,id',
         ]);
 
+        if ($type == 'tires') {
+            $model = Tires::findOrFail($id);
+        } elseif ($type == 'disk') {
+            $model = Disk::findOrFail($id);
+        } else {
+            return response()->json(['error' => 'Invalid type'], 400);
+        }
 
-        $review = new Review([
-            'user_id' => Auth::id(),
-            'reviewable_id' => $reviewableId,
-            'reviewable_type' => $reviewableType,
-            'title' => $request->title,
+        $review = $model->reviews()->create([
             'text' => $request->text,
+            'title' => $request->title,
             'rating' => $request->rating,
+            'user_id' => \auth()->user()->id,
         ]);
 
-        $review->save();
-
-        return $this->success('Ваш отзыв успешно добавлен', $review);
-
+        return $this->success('Review created', $review);
     }
 
     /**

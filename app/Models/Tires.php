@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Tires extends Model
 {
@@ -27,12 +28,12 @@ class Tires extends Model
         'price',
         'image',
     ];
-    public function carts()
+    public function carts(): HasMany
     {
         return $this->hasMany(Cart::class, 'tires_id');
     }
 
-    public function reviews()
+    public function reviews(): MorphMany
     {
         return $this->morphMany(Review::class, 'reviewable');
     }

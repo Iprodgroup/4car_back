@@ -5,18 +5,12 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\News;
-use MoonShine\Components\Modal;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Image;
-use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
-
 
 class NewsResource extends ModelResource
 {
@@ -31,22 +25,7 @@ class NewsResource extends ModelResource
     {
         return ['id', 'title', 'description', 'date'];
     }
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
 
-//    public function components(): array
-//    {
-//        Modal::make(
-//            title: "Комментарии",
-//            components: HasMany::make('Комментарии', 'comments', resource: new CommentResource())
-//                ->creatable(),
-////                          ->fields([
-////                                BelongsTo::make('user'),
-////                                Text::make('title'),
-////                         ]),
-//        );
-//    }
     public function fields(): array
     {
         return [

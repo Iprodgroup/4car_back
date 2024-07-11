@@ -8,17 +8,17 @@ use App\MoonShine\Resources\CommentResource;
 use App\MoonShine\Resources\DiskResource;
 use App\MoonShine\Resources\ManufacturerResource;
 use App\MoonShine\Resources\NewsResource;
+use App\MoonShine\Resources\OrderResource;
+use App\MoonShine\Resources\ReviewResource;
 use App\MoonShine\Resources\TiresResource;
 use App\MoonShine\Resources\UserResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
-use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
 use MoonShine\Resources\MoonShineUserResource;
 use MoonShine\Resources\MoonShineUserRoleResource;
 use MoonShine\Contracts\Resources\ResourceContract;
-use MoonShine\Menu\MenuElement;
-use MoonShine\Pages\Page;
+
 use Closure;
 
 class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
@@ -31,17 +31,12 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
         return [];
     }
 
-    /**
-     * @return list<Page>
-     */
+
     protected function pages(): array
     {
         return [];
     }
 
-    /**
-     * @return Closure|list<MenuElement>
-     */
     protected function menu(): array
     {
         return [
@@ -55,10 +50,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     new MoonShineUserRoleResource()
                 ),
             ]),
-            MenuGroup::make('Новости',[
-                MenuItem::make('Новости',
-                    new NewsResource())
-            ]),
+
             MenuGroup::make('Пользователи', [
                 MenuItem::make('Пользователи',
                 new UserResource())
@@ -67,9 +59,9 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Производители',
                 new ManufacturerResource())
             ]),
-            MenuGroup::make('Комментарии', [
-                MenuItem::make('Комментарии',
-                    new CommentResource())
+            MenuGroup::make('Заказы', [
+                MenuItem::make('Заказы',
+                    new OrderResource())
             ]),
             MenuGroup::make('Товары', [
                 MenuItem::make('Диски',
@@ -77,12 +69,22 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Шины',
                     new TiresResource()),
             ]),
+            MenuGroup::make('Отзывы', [
+                MenuItem::make('Отзывы',
+                    new ReviewResource())
+            ]),
+            MenuGroup::make('Новости',[
+                MenuItem::make('Новости',
+                    new NewsResource())
+            ]),
+            MenuGroup::make('Комментарии', [
+                MenuItem::make('Комментарии',
+                    new CommentResource())
+            ]),
         ];
     }
 
-    /**
-     * @return Closure|array{css: string, colors: array, darkColors: array}
-     */
+
     protected function theme(): array
     {
         return [];
