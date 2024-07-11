@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('number');
+            $table->integer('is_handling')->default(0);
             $table->timestamps();
         });
     }
