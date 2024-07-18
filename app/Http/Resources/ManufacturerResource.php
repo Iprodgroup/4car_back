@@ -19,8 +19,6 @@ class ManufacturerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-//            'slug' => Str::slug('name'),
-            'picture' => $this->picture,
         ];
     }
 }

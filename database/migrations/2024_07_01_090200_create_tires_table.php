@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('run_flat');
             $table->string('country');
             $table->string('year');
-            $table->string('price');
+            $table->integer('price');
             $table->string('image');
             $table->timestamps();
         });

@@ -6,11 +6,9 @@ use App\Models\Disk;
 use App\Models\Review;
 use App\Models\Tires;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-
     public function index(Request $request, $type, $id)
     {
         if ($type == 'tires') {

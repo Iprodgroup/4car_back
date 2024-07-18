@@ -28,7 +28,7 @@ class DiskFactory extends Factory
             'diametr' => $this->faker->randomDigit(),
             'departure' => $this->faker->sentence,
             'tco' => $this->faker->sentence,
-            'price' => $this->faker->sentence,
+            'price' => $this->faker->numberBetween(1000, 20000),
             'image' => $this->faker->sentence,
         ];
     }

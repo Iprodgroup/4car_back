@@ -30,7 +30,7 @@ class TiresFactory extends Factory
             'run_flat' => $this->faker->sentence,
             'country' => $this->faker->sentence,
             'year' => $this->faker->date(),
-            'price' => $this->faker->sentence,
+            'price' => $this->faker->numberBetween(1000, 10000),
             'image' => $this->faker->sentence,
         ];
     }

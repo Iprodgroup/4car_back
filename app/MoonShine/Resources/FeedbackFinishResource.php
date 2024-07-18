@@ -20,7 +20,7 @@ class FeedbackFinishResource extends ModelResource
 {
     protected string $model = Feedback::class;
 
-    protected string $title = 'FeedbackFinishes';
+    protected string $title = 'Обработанные отзывы';
 
     public function query(): Builder
     {
@@ -39,12 +39,6 @@ class FeedbackFinishResource extends ModelResource
         ];
     }
 
-    /**
-     * @param FeedbackFinish $item
-     *
-     * @return array<string, string[]|string>
-     * @see https://laravel.com/docs/validation#available-validation-rules
-     */
     public function rules(Model $item): array
     {
         return [];

@@ -24,9 +24,7 @@ return new class extends Migration
             $table->string('diametr');
             $table->string('departure');
             $table->string('tco');
-            $table->string('price');
-
-            
+            $table->integer('price');
             $table->string('image');
             $table->softDeletes();
             $table->timestamps();

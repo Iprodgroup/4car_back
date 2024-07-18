@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Services\AuthService;
 use App\Models\User;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -12,37 +15,24 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    protected $authService;
+    public function __construct(AuthService $authService)
     {
-        $validator = Validator::make($request->all(), [
-            // 'first_name' => 'required|string|max:255',
-            // 'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-    
+        $this->authService = $authService;
+    }
+    public function login(LoginRequest $request): JsonResponse
+    {
         $credentials = $request->only('email', 'password');
-    
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'message' => 'Invalid login details',
-            ], 401);
+        $result = $this->authService->login($credentials);
+        if (isset($result['error'])) {
+            return $this->error('Неправильные данные для входа');
         }
-    
-        $user = User::where('email', $request['email'])->firstOrFail();
-    
-        $token = $user->createToken('auth_token')->plainTextToken;
-    
+
         return response()->json([
-            'access_token' => $token,
+            'access_token' => $result['access_token'],
             'token_type' => 'Bearer',
-        ]);
-    
+        ],$result['status']);
+
     }
 
     public function logout()
@@ -50,31 +40,10 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            
-        ]);
-
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user,
-        ], 201);
+        $user = $this->authService->register($request->all());
+        return $this->success('User successfully registered', $user);
     }
 
     public function changePassword()

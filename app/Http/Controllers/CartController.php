@@ -2,88 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CartResource;
-use App\Models\Cart;
+use App\Http\Services\CartService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function addToCartTires(Request $request)
+    public function getCart(Request $request, CartService $cartService): JsonResponse
     {
-        $request->validate([
-            'tires_id' => 'required|exists:tires,id',
-            'quantity' => 'integer|min:1',
-        ]);
-
-        $user = $request->user();
-        $cartItem = Cart::firstOrCreate([
-            'user_id' => $user->id,
-            'tires_id' => $request->tires_id,
-        ], [
-            'quantity' => $request->quantity ?? 1
-        ]
-        );
-        $cartItem->load('tires');
-        return new CartResource($cartItem);
+        $detailedCart = $cartService->getCart($request);
+        return response()->json($detailedCart);
     }
 
-    public function addToCartDisks(Request $request)
+    public function addToCartTires(Request $request, CartService  $cartService): JsonResponse
     {
-        $request->validate([
-            'disk_id' => 'required|exists:disks,id',
-            'quantity' => 'integer|min:1',
-        ]);
-
-        $user = $request->user();
-        $cartItem = Cart::firstOrCreate([
-            'user_id' => $user->id,
-            'disk_id' => $request->disk_id,
-        ],
-        [
-            'quantity' => $request->quantity ?? 1
-        ]);
-
-        $cartItem->load('disks');
-        return new CartResource($cartItem);
+        $cart = $cartService->addTires($request);
+        return $this->success('Товары успешно добавлены в корзину!', $cart);
     }
 
-    public function cleanOneElementFromCart(Request $request, $id)
+
+    public function addToCartDisks(Request $request, CartService  $cartService): JsonResponse
     {
-        $user = $request->user();
-        $tire_id = $request->tires_id;
-
-        $cartItem = Cart::where('user_id', $user->id)->where('tires_id', $tire_id)->delete();
-
-        if ($cartItem) {
-            $cartItem->delete();
-            return $this->success('Товар успешно удален из корзины', 200);
-        } else {
-            return $this->error('Произошла ошибка при удалении товара', 404);
-        }
+        $cart = $cartService->addDisks($request);
+        return $this->success('Товары успешно добавлены в корзину!', $cart);
     }
+
 
     public function cleanCart(Request $request)
     {
-        $user = $request->user();
-        $cartItem = Cart::where('user_id', $user->id)->delete();
-        return $this->success('Корзина очищена', 200);
+        $request->session()->forget('cart');
+        return $this->success('Корзина успешно очищена!');
     }
-    public function getCart(Request $request)
+
+    public function cleanOneElementFromCart(Request $request, $type, $id)
     {
-        $user = $request->user();
-        $cartItem = Cart::where('user_id', $user->id)->get();
+        $cart = $request->session()->get('cart', []);
 
-        $totalPrice = $cartItem->sum(function ($cartItem)
-        {
-            return $cartItem->total_price;
-        });
+        if (isset($cart[$type][$id])) {
+            unset($cart[$type][$id]);
+            $request->session()->put('cart', $cart);
 
-        return $this->response([
-            'data' => CartResource::collection($cartItem),
-            'total_price' => $totalPrice,
-        ]);
+            return response()->json(['message' => 'Товар успешно удален из корзины', 'cart' => $cart]);
+        }
+
+        return response()->json(['message' => 'Произошла ошибка при удалении товара'], 404);
+
     }
-
-
-
 }

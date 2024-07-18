@@ -13,8 +13,8 @@ class ManufacturerController extends Controller
      */
     public function index()
     {
-        $query = Manufacturer::query();
-        return $query->paginate(8);
+        $query = Manufacturer::query()->paginate(10);
+        return response(ManufacturerResource::collection($query));
     }
 
     /**
@@ -38,7 +38,7 @@ class ManufacturerController extends Controller
      */
     public function show($slug)
     {
-        $manufacturer = Manufacturer::where('slug', $slug)->firstOrFail();
+        $manufacturer = Manufacturer::where('name', $slug)->firstOrFail();
         return new ManufacturerResource($manufacturer);
     }
 

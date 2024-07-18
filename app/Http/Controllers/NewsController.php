@@ -8,15 +8,17 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return $this->response(News::all());
+        $perPage = $request->input('per_page', 10);
+        $news = News::paginate($perPage);
+        return response()->json($news);
     }
 
-   
+
     public function create()
     {
-        
+
     }
 
     /**
@@ -27,9 +29,7 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(News $news)
     {
         return response(new NewsResource($news));

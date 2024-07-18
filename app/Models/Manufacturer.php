@@ -9,20 +9,11 @@ use Illuminate\Support\Str;
 class Manufacturer extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'slug', 'picture'];
-
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($manufacturer) {
-            $manufacturer->slug = Str::slug($manufacturer->name);
-        });
-
-        static::updating(function ($manufacturer) {
-            $manufacturer->slug = Str::slug($manufacturer->name);
-        });
-    }
+    protected $fillable = ['name', 'description',
+        'manufacturer_template_id', 'meta_keywords', 'meta_description',
+        'meta_title', 'picture_id', 'page_size', 'allow_customers_to_select_page_size',
+        'page_resize_options', 'price_ranges', 'subject_to_acl',
+        'limited_to_stories','published', 'deleted', 'display_order'];
 
     public function getShortDescriptionAttribute(): string
     {
