@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -14,6 +15,11 @@ class Product extends Model
                             'price', 'price', 'overhang', 'count_bolt', 'spacing_bolt',
                             'hole', 'type', 'colour'];
 
+    public function manufacturers(): BelongsToMany
+    {
+        return $this->belongsToMany(Manufacturer::class, 'product_manufacturer_mapping_models', 'products_id', 'manufacturer_id')
+            ->withPivot('is_featured_product', 'display_order');
+    }
 
 
 }
