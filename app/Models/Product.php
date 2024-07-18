@@ -21,5 +21,11 @@ class Product extends Model
             ->withPivot('is_featured_product', 'display_order');
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'product_category_mapping_models', 'products_id', 'category_id')
+            ->withPivot('is_featured_product', 'display_order');
+    }
+
 
 }
