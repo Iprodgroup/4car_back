@@ -10,6 +10,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table = 'category';
+
     protected $fillable = ['name', 'description', 'category_templated_id',
         'meta_keywords', 'meta_description', 'meta_title', 'parent_category_id',
         'picture_id','page_size','allow_customers_to_select_page_size', 'page_resize_options',
@@ -19,7 +21,7 @@ class Category extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->BelongsToMany('product_category_mapping_models', 'is_featured_product','display_order')
-                    ->withPivot('is_featured_product', 'display order');
+        return $this->BelongsToMany(Product::class, 'product_category_mappings', 'category_id', 'products_id')
+                    ->withPivot('is_featured_product', 'display_order');
     }
 }

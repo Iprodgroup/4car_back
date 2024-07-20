@@ -86,7 +86,7 @@ return new class extends Migration
             $table->tinyInteger('publish_in_kaspi')->nullable();
             $table->tinyInteger('publish_in_main')->nullable();
             $table->tinyInteger('market_place_quantity')->nullable();
-            $table->tinyInteger('last_kaspi_price')->nullable();
+            $table->integer('last_kaspi_price')->nullable();
             $table->timestamps();
             $table->string('indeks_nagruzki')->nullable();
             $table->string('vidy_nomenklaturi')->nullable();

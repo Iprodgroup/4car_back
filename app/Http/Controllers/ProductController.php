@@ -2,33 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Http\Resources\ProductFullResource;
+use App\Models\Category;
+use App\Models\Disk;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('auth');
-    }
 
     public function showDisks(): JsonResponse
     {
-        $products = Product::where('category', 'disks')->get;
-        return $this->response($products);
-    }
+        $category = Category::where('id', 370)->firstOrFail();
 
+        $products = $category->products()->paginate(10);
+
+        return response()->json([
+           'category' => $category->name,
+           'product' => '',
+            'pagination' => [
+                'total' => $products->total(),
+                'per_page' => $products->perPage(),
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'next_page_url' => $products->nextPageUrl(),
+                'prev_page_url' => $products->previousPageUrl(),
+            ],
+        ]);
+    }
     public function showTires(): JsonResponse
     {
-        $products = Product::where('category', ['tires_summer', 'tires_winter'])->get;
+        $category = Category::where('id', 369)->firstOrFail();
 
-        $products->transform(function ($product) {
-            $product->category = 'tires';
-            return $product;
-        });
+        $products = $category->products()->paginate(10);
 
-        return response()->json($products);
+        return response()->json([
+            'category' => $category->name,
+            'product' => ProductFullResource::collection($products),
+            'pagination' => [
+                'total' => $products->total(),
+                'per_page' => $products->perPage(),
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'next_page_url' => $products->nextPageUrl(),
+                'prev_page_url' => $products->previousPageUrl(),
+            ],
+        ]);
     }
+
 
 }

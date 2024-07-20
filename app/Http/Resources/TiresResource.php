@@ -7,29 +7,24 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TiresResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
+            'year' => $this->year,
             'name' => $this->name,
             'model' => $this->model,
+            'price' => $this->price,
+            'image' => $this->image,
+            'radius'=> $this->radius,
             'weight' => $this->weight,
             'height' => $this->height,
-            'radius'=> $this->radius,
             'season' => $this->season,
             'spikes' => $this->spikes,
             'index_n' => $this->index_n,
             'index_s' => $this->index_s,
-            'run_flat' => $this->run_flat,
             'country' => $this->country,
-            'year' => $this->year,
-            'price' => $this->price,
-            'image' => $this->image,
+            'run_flat' => $this->run_flat,
         ];
     }
 }

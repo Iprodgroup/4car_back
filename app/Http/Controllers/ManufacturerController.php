@@ -3,43 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ManufacturerResource;
+use App\Http\Services\ManufacturerService;
 use App\Models\Manufacturer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ManufacturerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $query = Manufacturer::query()->paginate(10);
         return response(ManufacturerResource::collection($query));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($slug)
+    public function show($slug, ManufacturerService $service):JsonResponse
     {
-        $manufacturer = Manufacturer::where('name', $slug)->firstOrFail();
-        return new ManufacturerResource($manufacturer);
+        $manufacturer = $service->showManufacturerWithProductAndPagination($slug);
+        return $this->response($manufacturer);
     }
 
     /**

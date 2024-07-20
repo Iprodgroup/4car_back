@@ -1,27 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Services;
 
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ManufacturerResource;
 use App\Http\Resources\ProductMinimalResource;
-use App\Models\Category;
+use App\Models\Manufacturer;
 use Illuminate\Http\JsonResponse;
 
-class CategoryController extends Controller
+class ManufacturerService
 {
-    public function index()
+    public function showManufacturerWithProductAndPagination($slug): JsonResponse
     {
-        $categories = Category::where('published', 1)->get();
-        return CategoryResource::collection($categories);
-    }
+        $manufacturer = Manufacturer::where('name', $slug)->firstOrFail();
 
-    public function show($slug): JsonResponse
-    {
-        $categories = Category::where('name',  $slug)->firstOrFail();
-
-        $products = $categories->products()->paginate(10);
+        $products = $manufacturer->products()->paginate(10);
 
         return response()->json([
+            'manufacturer' => new ManufacturerResource($manufacturer),
             'products' => ProductMinimalResource::collection($products),
             'pagination' => [
                 'total' => $products->total(),
@@ -31,9 +26,6 @@ class CategoryController extends Controller
                 'next_page_url' => $products->nextPageUrl(),
                 'prev_page_url' => $products->previousPageUrl(),
             ],
-        ]);
-
+    ]);
     }
-
-
 }

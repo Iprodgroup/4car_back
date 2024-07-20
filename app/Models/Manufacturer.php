@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Manufacturer extends Model
@@ -16,13 +17,13 @@ class Manufacturer extends Model
         'page_resize_options', 'price_ranges', 'subject_to_acl',
         'limited_to_stories','published', 'deleted', 'display_order'];
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_manufacturer_mapping', 'manufacturer_id', 'products_id')
+            ->withPivot('is_featured_product', 'display_order');
+    }
     public function getShortDescriptionAttribute(): string
     {
         return Str::words($this->description, 15, '...');
-    }
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class, 'product_manufacturer_mapping_models', 'manufacturer_id', 'products_id')
-            ->withPivot('is_featured_product', 'display_order');
     }
 }

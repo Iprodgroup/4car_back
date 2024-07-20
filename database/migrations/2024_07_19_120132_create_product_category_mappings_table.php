@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('product_category_mappings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('products_id');
-            $table->unsignedBigInteger('category_id');
+            $table->foreignId('products_id')->references('id')->on('products')->cascadeOnDelete();
+            $table->foreignId('category_id')->references('id')->on('category')->cascadeOnDelete();
             $table->integer('is_featured_product')->default(0);
             $table->integer('display_order')->nullable();
-            $table->foreignId('products_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->foreignId('category_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 
