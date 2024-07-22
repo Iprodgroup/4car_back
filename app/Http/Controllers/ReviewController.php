@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function index(Request $request, $type, $id)
+    public function index($type, $id)
     {
         if ($type == 'tires') {
             $model = Tires::findOrFail($id);
@@ -23,17 +23,12 @@ class ReviewController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, $type, $id)
     {
         $request->validate([
@@ -62,17 +57,12 @@ class ReviewController extends Controller
         return $this->success('Review created', $review);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Review $reviews)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Review $reviews)
     {
         //

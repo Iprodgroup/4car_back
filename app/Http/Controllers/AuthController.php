@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Services\AuthService;
 use App\Models\User;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
     protected $authService;
@@ -20,19 +15,32 @@ class AuthController extends Controller
     {
         $this->authService = $authService;
     }
-    public function login(LoginRequest $request): JsonResponse
+
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $credentials = $request->only('email', 'password');
-        $result = $this->authService->login($credentials);
-        if (isset($result['error'])) {
-            return $this->error('Неправильные данные для входа');
+        $user = $this->authService->register($request);
+        if ($this->authService) {
+            return $this->error('Пользователь с таким email уже зарегистрирован!', $user, 400);
         }
+        return $this->success('Вы успешно зарегестрировались!', $user, 201);
+    }
 
-        return response()->json([
-            'access_token' => $result['access_token'],
-            'token_type' => 'Bearer',
-        ],$result['status']);
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
 
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Неверный логин или пароль'
+            ], 401);
+        }
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'],200);
     }
 
     public function logout()
@@ -40,18 +48,10 @@ class AuthController extends Controller
 
     }
 
-    public function register(RegisterRequest $request): JsonResponse
-    {
-        $user = $this->authService->register($request->all());
-        return $this->success('User successfully registered', $user);
-    }
-
     public function changePassword()
     {
 
     }
-
-
 
     public function user(Request $request)
     {

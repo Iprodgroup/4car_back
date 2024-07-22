@@ -16,25 +16,27 @@ class Controller extends BaseController
             'data' => $data,
         ]);
     }
-    public function success(string $message, $data = null): JsonResponse
+    public function success(string $message, $data = null, int $code = null): JsonResponse
     {
         return response()->json([
             'success' => true,
             'status' => 'success',
             'message' => $message ?? 'operation successfull',
             'data' => $data,
+            'code' => $code,
         ]);
 
     }
 
 
-    public function error(string $message, $data = null): JsonResponse
+    public function error(string $message, $data = null, int $code = null): JsonResponse
     {
         return response()->json([
             'success' => false,
             'status' => 'error',
             'message' => $message ?? 'error occured',
             'data' => $data,
+            'code' => $code,
         ]);
     }
 
