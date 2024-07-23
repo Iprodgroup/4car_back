@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductFullResource;
@@ -7,6 +6,7 @@ use App\Http\Resources\ProductMinimalResource;
 use App\Http\Services\ProductService;
 use App\Models\Category;
 use App\Models\Manufacturer;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,8 +21,8 @@ class ProductController extends Controller
     {
         $category = Category::where('id', 369)->firstOrFail();
 
-        $products = $category->products()->paginate(10);
-
+        $products = $category->products()->paginate(8);
+//        dd($products->perPage());
         return response()->json([
            'category' => $category->name,
            'product' => ProductMinimalResource::collection($products),
@@ -37,13 +37,35 @@ class ProductController extends Controller
         ]);
     }
 
+    public function showTire($slug): JsonResponse
+    {
+        $skuPart = substr(strrchr($slug, '-p'), 2);
+
+        // Extract the name part
+        $namePart = str_replace('-p' . $skuPart, '', $slug);
+        $namePart = str_replace('-', ' ', $namePart);
+
+        // Replace hyphens back to spaces and slashes
+        $namePart = str_replace('-', ' ', $namePart);
+        $namePart = str_replace(' ', '/', $namePart);
+
+
+        $product = Product::where('name', 'LIKE', "%$namePart%")->where('sku', $skuPart)->firstOrFail();
+
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        return response()->json(new ProductFullResource($product));
+    }
 
     public function showTires(Request $request): JsonResponse
     {
         $category = Category::where('id', 370)->firstOrFail();
-        $filteredProducts = $this->productService->tiresFilter($request);
+        $filteredProductsQuery = $this->productService->tiresFilter($request);
+        $filteredProducts = $filteredProductsQuery->paginate(10);
 
-        $manufacturers = Manufacturer::query()->paginate(10);
+        $manufacturers = Manufacturer::query()->paginate(8);
         $manufacturersCollection = $manufacturers->getCollection();
         $manufacturerNames = $manufacturersCollection->pluck('name');
 
@@ -62,9 +84,5 @@ class ProductController extends Controller
         ]);
     }
 
-    public function showOneTireWithSlug(Request $request, $slug): JsonResponse
-    {
 
-        return response()->json(['product' => ProductFullResource::collection()]);
-    }
 }

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -49,6 +48,12 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_category_mappings', 'products_id', 'category_id')
             ->withPivot('is_featured_product', 'display_order');
     }
+    protected static function boot()
+    {
+        parent::boot();
 
-
+        static::saving(function ($product) {
+            $product->slug = $this->generateSlug($product);
+        });
+    }
 }

@@ -13,7 +13,7 @@ class ManufacturerController extends Controller
     public function index()
     {
         $query = Manufacturer::query()->paginate(10);
-        return response(ManufacturerResource::collection($query));
+        return response()->json(ManufacturerResource::collection($query));
     }
 
     public function create()
@@ -29,7 +29,7 @@ class ManufacturerController extends Controller
     public function show($slug, ManufacturerService $service):JsonResponse
     {
         $manufacturer = $service->showManufacturerWithProductAndPagination($slug);
-        return $this->response($manufacturer);
+        return response()->json($manufacturer);
     }
 
     /**
