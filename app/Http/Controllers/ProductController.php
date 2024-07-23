@@ -63,16 +63,12 @@ class ProductController extends Controller
     {
         $category = Category::where('id', 370)->firstOrFail();
         $filteredProductsQuery = $this->productService->tiresFilter($request);
-        $filteredProducts = $filteredProductsQuery->paginate(10);
-
-        $manufacturers = Manufacturer::query()->paginate(8);
-        $manufacturersCollection = $manufacturers->getCollection();
-        $manufacturerNames = $manufacturersCollection->pluck('name');
-
+        $filteredProducts = $filteredProductsQuery->paginate(12);
+        $productsForFilter = $this->productService->filtersAttributes();
         return response()->json([
             'category' => $category->name,
-            'manufacturer' => $manufacturerNames,
             'products' => ProductMinimalResource::collection($filteredProducts),
+            'filter' => $productsForFilter,
             'pagination' => [
                 'total' => $filteredProducts->total(),
                 'per_page' => $filteredProducts->perPage(),

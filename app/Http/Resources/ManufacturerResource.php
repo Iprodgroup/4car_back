@@ -9,7 +9,7 @@ class ManufacturerResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $baseUrl = 'https://c3b1-93-188-86-71.ngrok-free.app/storage/users/ass.jpeg';
+        $baseUrl = 'https://2416-93-188-86-71.ngrok-free.app/storage/users/ass.jpeg';
 
         return [
             'id' => $this->id,

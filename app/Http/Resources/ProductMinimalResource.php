@@ -10,7 +10,7 @@ class ProductMinimalResource extends JsonResource
 {
     public function toArray(Request $request)
     {
-        $baseUrl = 'https://0b70-93-188-86-71.ngrok-free.app/storage/users/shina.png';
+        $baseUrl = 'https://2416-93-188-86-71.ngrok-free.app/storage/users/shina.png';
 
         return [
           'id' => $this->id,
