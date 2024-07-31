@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tires;
-use Illuminate\Http\Request;
+use App\Models\Product\Tires;
 
 class TiresController extends Controller
 {

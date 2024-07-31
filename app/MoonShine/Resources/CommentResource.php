@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\Product\Comment;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Comment;
+use MoonShine\Decorations\Block;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
 
 
 class CommentResource extends ModelResource

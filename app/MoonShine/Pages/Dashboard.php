@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages;
 
-use App\Models\Order;
+use App\Models\Product\Manufacturer;
+use App\Models\Product\Order;
 use App\Models\User;
-use App\Models\Manufacturer;
+use MoonShine\Components\MoonShineComponent;
 use MoonShine\Decorations\Divider;
 use MoonShine\Metrics\LineChartMetric;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Pages\Page;
-use MoonShine\Components\MoonShineComponent;
 
 class Dashboard extends Page
 {

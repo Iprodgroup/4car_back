@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\User;
+use App\Models\Product\Disk;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Disk;
-
+use MoonShine\Decorations\Block;
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Text;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Field;
-use MoonShine\Components\MoonShineComponent;
 
 /**
  * @extends ModelResource<Disk>

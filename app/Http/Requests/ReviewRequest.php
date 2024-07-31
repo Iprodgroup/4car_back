@@ -15,7 +15,9 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'title' => 'string',
+            'text' => 'string',
+            'rating' => 'integer',
         ];
     }
 }

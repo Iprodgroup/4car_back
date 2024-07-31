@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\Disk;
-use App\Models\Tires;
+use App\Models\Product\Disk;
+use App\Models\Product\Review;
+use App\Models\Product\Tires;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Review;
+use MoonShine\Decorations\Block;
 use MoonShine\Fields\Relationships\MorphTo;
 use MoonShine\Fields\Text;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
 
 class ReviewResource extends ModelResource
 {

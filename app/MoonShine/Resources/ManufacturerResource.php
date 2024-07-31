@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Models\Product\Manufacturer;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Manufacturer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use MoonShine\Decorations\Block;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
 use MoonShine\Fields\Slug;
 use MoonShine\Fields\Text;
 use MoonShine\Handlers\ImportHandler;
 use MoonShine\Metrics\ValueMetric;
 use MoonShine\Resources\ModelResource;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\ID;
 
 class ManufacturerResource extends ModelResource
 {

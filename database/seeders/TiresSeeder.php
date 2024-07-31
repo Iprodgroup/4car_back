@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tires;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product\Tires;
 use Illuminate\Database\Seeder;
 
 class TiresSeeder extends Seeder

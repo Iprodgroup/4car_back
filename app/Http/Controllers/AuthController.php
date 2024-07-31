@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Http\Services\AuthService;
+
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Services\AuthService;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
 class AuthController extends Controller
 {
     protected $authService;

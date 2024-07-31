@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Disk;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product\Disk;
 use Illuminate\Database\Seeder;
 
 class DiskSeeder extends Seeder

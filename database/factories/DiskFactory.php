@@ -4,8 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Disk>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product\Disk>
  */
 class DiskFactory extends Factory
 {
