@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Models\News;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
-use App\Http\Services\Product\CommentService;
+use App\Models\News;
+use App\Services\Product\CommentService;
 
 class CommentController extends Controller
 {
@@ -16,7 +16,7 @@ class CommentController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function index($newsId)
+    public function getComments($newsId)
     {
         $news = News::findOrFail($newsId);
         $comments = $news->comments()->with('user')->get();
@@ -31,6 +31,5 @@ class CommentController extends Controller
         );
         return $this->success('Комментарий успешно создан', $comment);
     }
-
 
 }

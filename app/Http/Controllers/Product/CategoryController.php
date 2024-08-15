@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Product;
 
-use Illuminate\Http\Request;
-use App\Models\Product\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
-use App\Http\Services\Product\CategoryService;
+use App\Models\Product\Category;
+use App\Services\Product\CategoryService;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {

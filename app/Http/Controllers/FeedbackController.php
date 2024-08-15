@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FeedbackRequest;
-use App\Http\Services\FeedbackService;
 use App\Models\Feedback;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\FeedbackRequest;
 
 class FeedbackController extends Controller
 {

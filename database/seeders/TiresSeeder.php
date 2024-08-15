@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product\Tires;
+use League\Csv\Reader;
+use App\Models\Product\Brand;
 use Illuminate\Database\Seeder;
 
 class TiresSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
-        Tires::factory()->count(20)->create();
+        $csv = Reader::createFromPath(database_path('seeders/csv/tires.csv'), 'r');
+        $csv->setHeaderOffset(0);
+
+        foreach ($csv as $record) {
+            Brand::firstOrCreate(['name' => $record['Brand']]);
+        }
     }
 }

@@ -1,81 +1,43 @@
 <?php
 namespace App\Http\Controllers\Product;
 
-use Illuminate\Http\Request;
-use App\Models\Product\Product;
-use App\Models\Product\Category;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductFullResource;
-use App\Http\Resources\ProductMinimalResource;
-use App\Http\Services\Product\ProductService;
+use App\Services\Product\ProductService;
+use App\Traits\PaginationTrait;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
+    use PaginationTrait;
     protected ProductService $productService;
     public function __construct(ProductService $productService){
         $this->productService = $productService;
     }
 
-    public function showDisks(): JsonResponse
+    public function showTireWithSlug($slug): JsonResponse
     {
-        $category = Category::where('id', 369)->firstOrFail();
-
-        $products = $category->products()->paginate(8);
-
-        return response()->json([
-           'category' => $category->name,
-           'product' => ProductMinimalResource::collection($products),
-            'pagination' => [
-                'total' => $products->total(),
-                'per_page' => $products->perPage(),
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'next_page_url' => $products->nextPageUrl(),
-                'prev_page_url' => $products->previousPageUrl(),
-            ],
-        ]);
-    }
-
-    public function showTire($slug): JsonResponse
-    {
-        $skuPart = substr(strrchr($slug, '-p'), 2);
-
-        // Extract the name part
-        $namePart = str_replace('-p' . $skuPart, '', $slug);
-        $namePart = str_replace('-', ' ', $namePart);
-
-        // Replace hyphens back to spaces and slashes
-        $namePart = str_replace('-', ' ', $namePart);
-        $namePart = str_replace(' ', '/', $namePart);
-
-        $product = Product::where('name', 'LIKE', "%$namePart%")->where('sku', $skuPart)->firstOrFail();
-
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-
+        $product = $this->productService->showTireBySlug($slug);
         return response()->json(new ProductFullResource($product));
     }
 
-    public function showTires(Request $request): JsonResponse
+    public function showAllTires(Request $request): JsonResponse
     {
-        $category = Category::where('id', 370)->firstOrFail();
-        $filteredProductsQuery = $this->productService->tiresFilter($request);
-        $filteredProducts = $filteredProductsQuery->paginate(12);
-        $productsForFilter = $this->productService->filtersAttributes();
-        return response()->json([
-            'category' => $category->name,
-            'products' => ProductMinimalResource::collection($filteredProducts),
-            'filter' => $productsForFilter,
-            'pagination' => [
-                'total' => $filteredProducts->total(),
-                'per_page' => $filteredProducts->perPage(),
-                'current_page' => $filteredProducts->currentPage(),
-                'last_page' => $filteredProducts->lastPage(),
-                'next_page_url' => $filteredProducts->nextPageUrl(),
-                'prev_page_url' => $filteredProducts->previousPageUrl(),
-            ],
-        ]);
+        $tires = $this->productService->getAllTires($request, $this->productService);
+        return response()->json($tires);
+    }
+
+    public function showAllDisks(): JsonResponse
+    {
+       $disks = $this->productService->getAllDisks();
+       return response()->json($disks);
+    }
+
+    public function showDiskBySlug($slug): JsonResponse
+    {
+        $product = $this->productService->showDiskBySlug($slug);
+        return response()->json(new ProductFullResource($product));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Product;
 
-use Illuminate\Http\Request;
-use App\Models\Product\Tires;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TiresResource;
-use App\Http\Services\Product\TiresService;
+use App\Models\Product\Tires;
+use App\Services\Product\TiresService;
+use Illuminate\Http\Request;
 
 class TiresController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Product;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Models\Product\Manufacturer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ManufacturerResource;
-use App\Http\Services\Product\ManufacturerService;
+use App\Models\Product\Manufacturer;
+use App\Services\Product\ManufacturerService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ManufacturerController extends Controller
 {

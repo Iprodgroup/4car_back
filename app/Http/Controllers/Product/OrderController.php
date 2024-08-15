@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Product;
 
-use Illuminate\Http\Request;
-use App\Models\Product\Order;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
-use App\Http\Services\Product\OrderService;
+use App\Models\Product\Order;
+use App\Services\Product\OrderService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
-        $this->middleware('auth:sanctum');
+        //$this->middleware('auth:sanctum');
     }
 
     public function index(): JsonResponse
@@ -26,8 +26,7 @@ class OrderController extends Controller
 
     public function store(OrderService $orderService, Request $urequest, OrderRequest $request): JsonResponse
     {
-       $order = $orderService->getProductsFromCartToOrder($urequest, $request);
-
+        $order = $orderService->getProductsFromCartToOrder($urequest, $request);
         return $this->success('Заказ успешно оформлен', $order);
     }
 
