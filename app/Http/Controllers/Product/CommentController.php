@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Models\News;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
-use App\Models\News;
 use App\Services\Product\CommentService;
 
 class CommentController extends Controller

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Models\Product\Disk;
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use App\Models\Product\Tires;
 use App\Models\Product\Review;
@@ -10,17 +11,10 @@ use App\Http\Controllers\Controller;
 
 class ReviewController extends Controller
 {
-    public function index($type, $id)
+    public function index($id)
     {
-        if ($type == 'tires') {
-            $model = Tires::findOrFail($id);
-        } elseif ($type == 'disk') {
-            $model = Disk::findOrFail($id);
-        } else {
-            return response()->json(['error' => 'Invalid type'], 400);
-        }
-
-        return response()->json($model->reviews, 201);
+        $product = Product::find($id);
+        return response()->json($product->reviews, 201);
     }
 
     public function create()
@@ -34,7 +28,6 @@ class ReviewController extends Controller
             'text' => 'required|string',
             'title' => 'required|string',
             'rating' => 'required|integer',
-
             'user_id' => 'required|exists:users,id',
         ]);
 

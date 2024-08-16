@@ -1,19 +1,20 @@
 <?php
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductFullResource;
-use App\Services\Product\ProductService;
+use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Product\ProductService;
+use App\Http\Resources\ProductFullResource;
 
 
 class ProductController extends Controller
 {
     use PaginationTrait;
     protected ProductService $productService;
-    public function __construct(ProductService $productService){
+    public function __construct(ProductService $productService)
+    {
         $this->productService = $productService;
     }
 

@@ -2,8 +2,8 @@
 
 namespace App\Services\Product;
 
-use App\Http\Requests\OrderRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
 
 class OrderService
 {
@@ -24,7 +24,6 @@ class OrderService
             }
             $request->session()->forget('cart');
         }
-
         $paymentMethod = $order['payment_method'];
 
         if ($paymentMethod === 'transfer') {
@@ -32,5 +31,12 @@ class OrderService
         }
 
         return $order->toArray();
+    }
+
+    // TODO сделать функционал заказа
+    public function orderProduct()
+    {
+        $order = auth()->user()->orders()->first();
+        return $order;
     }
 }

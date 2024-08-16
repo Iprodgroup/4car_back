@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Product;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Product\CartService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -15,19 +15,11 @@ class CartController extends Controller
         return response()->json($detailedCart);
     }
 
-    public function addToCartTires(Request $request, CartService  $cartService): JsonResponse
+    public function addToCartProducts(Request $request, CartService  $cartService): JsonResponse
     {
-        $cart = $cartService->addTires($request);
+        $cart = $cartService->addProductToCart($request);
         return $this->success('Товары успешно добавлены в корзину!', $cart);
     }
-
-
-    public function addToCartDisks(Request $request, CartService  $cartService): JsonResponse
-    {
-        $cart = $cartService->addDisks($request);
-        return $this->success('Товары успешно добавлены в корзину!', $cart);
-    }
-
 
     public function cleanCart(Request $request)
     {
@@ -47,6 +39,5 @@ class CartController extends Controller
         }
 
         return response()->json(['message' => 'Произошла ошибка при удалении товара'], 404);
-
     }
 }
