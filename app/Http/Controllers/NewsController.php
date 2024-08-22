@@ -3,59 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\NewsResource;
 
 class NewsController extends Controller
 {
-    public function index(Request $request)
+    use SlugTrait;
+    public function showAllNews(Request $request)
     {
         $perPage = $request->input('per_page', 10);
         $news = News::paginate($perPage);
-        return response()->json($news);
+        return NewsResource::collection($news);
     }
 
-
-    public function create()
+    public function showNewsBySLug($slug)
     {
+        $news = News::all()->first(function($newsItem) use ($slug) {
+            return $this->generateSlug($newsItem->title) === $slug;
+        });
 
-    }
+        if (!$news) {
+            abort(404, 'News not found');
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function show(News $news)
-    {
         return response(new NewsResource($news));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(News $news)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, News $news)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(News $news)
-    {
-        //
-    }
 }

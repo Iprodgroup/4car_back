@@ -2,19 +2,20 @@
 
 namespace App\Http\Resources;
 
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductFullResource extends JsonResource
 {
-
+    use SlugTrait;
     public function toArray(Request $request): array
     {
-        $baseUrl = 'https://0b70-93-188-86-71.ngrok-free.app/storage/users/shina.png';
+        $baseUrl = 'https://8eb0-93-188-86-71.ngrok-free.app/storage/users/shina.png';
         return [
-            'id' => $this->id,
-            'slug' => $this->generateSlug($this->name, $this->sku),
+
             'name' => $this->name,
+            'slug' => $this->generateSlug($this->name),
             'short_description' => $this->short_description,
             'full_description' => $this->full_description,
             'meta_description' => $this->full_description,
@@ -35,8 +36,8 @@ class ProductFullResource extends JsonResource
         ];
     }
 
-    private function generateSlug($name, $article)
-    {
-        return \Str::slug($name) . '-p' . $article;
-    }
+//    private function generateSlug($name, $article)
+//    {
+//        return \Str::slug($name) . '-p' . $article;
+//    }
 }

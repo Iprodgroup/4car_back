@@ -2,29 +2,16 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ManufacturerResource;
-use App\Models\Product\Manufacturer;
-use App\Services\Product\ManufacturerService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Product\ManufacturerService;
 
 class ManufacturerController extends Controller
 {
-    public function index()
+    public function index(ManufacturerService $manufacturerService)
     {
-        $query = Manufacturer::query()->paginate(10);
-        return response()->json(ManufacturerResource::collection($query));
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
+        $manufacturers = $manufacturerService->getManufacturers();
+        return response()->json($manufacturers, 200);
     }
 
     public function show($slug, ManufacturerService $service):JsonResponse
@@ -33,27 +20,4 @@ class ManufacturerController extends Controller
         return response()->json($manufacturer);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Manufacturer $manufacturer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Manufacturer $manufacturer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manufacturer $manufacturer)
-    {
-        //
-    }
 }

@@ -1,17 +1,18 @@
 <?php
 namespace App\Services\Product;
 
-use App\Http\Resources\ProductMinimalResource;
-use App\Models\Product\Category;
-use App\Models\Product\Manufacturer;
+use App\Traits\SlugTrait;
+use Illuminate\Http\Request;
 use App\Models\Product\Models;
 use App\Models\Product\Product;
 use App\Traits\PaginationTrait;
-use Illuminate\Http\Request;
+use App\Models\Product\Category;
+use App\Models\Product\Manufacturer;
+use App\Http\Resources\ProductMinimalResource;
 
 class ProductService
 {
-    use PaginationTrait;
+    use PaginationTrait, SlugTrait;
     public function tiresFilter(Request $request)
     {
 
@@ -73,57 +74,54 @@ class ProductService
         return $query;
     }
 
-//    public function rimsFilter(Request $request)
-//    {
-//        return Product::query();
-//
-//        if($request->has('category_id'))
-//        {
-//            $query->whereHas('category_id',function ($q) use($request){
-//                $q->where('category_id',$request->category_id);
-//            });
-//        }
-//
-//        if($request->has('price_min')){
-//            $query->where('price', '>=', $request->input('price_min'));
-//        }
-//        if($request->has('price_max')){
-//            $query->where('price', '<=', $request->input('price_max'));
-//        }
-//        if($request->has('brendy')){
-//            $query->where('brendy', $request->input('brendy'));
-//        }
-//        if($request->has('modeli')){
-//            $query->where('modeli', $request->input('modeli'));
-//        }
-//        if($request->has('shirina_shin')){
-//            $query->where('shirina_shin', $request->input('shirina_shin'));
-//        }
-//        if($request->has('vysota_shin')){
-//            $query->where('vysota_shin', $request->input('vysota_shin'));
-//        }
-//        if($request->has('diametr_shin')){
-//            $query->where('diametr_shin', $request->input('diametr_shin'));
-//        }
-//        if($request->has('sezony')){
-//            $query->where('sezony', $request->input('sezony'));
-//        }
-//        if($request->has('shipy')){
-//            $query->where('shipy', $request->input('shipy'));
-//        }
-//        if($request->has('indeks_nagruzki')){
-//            $query->where('indeks_nagruzki', $request->input('indeks_nagruzki'));
-//        }
-//        if($request->has('indeks_skorosti')){
-//            $query->where('indeks_skorosti', $request->input('indeks_skorosti'));
-//        }
-//        if($request->has('run_flat')){
-//            $query->where('run_flat', $request->input('run_flat'));
-//        }
-//    }
+    public function getAllTires(Request $request, ProductService $productService): array
+    {
+        $category = Category::where('id', 370)->firstOrFail();
+        $filteredProductsQuery = $productService->tiresFilter($request);
+        $filteredProducts = $filteredProductsQuery->paginate(12);
+        $productsForFilter = $productService->filtersAttributes();
+
+        return [
+            'category' => $category->name,
+            'products' => ProductMinimalResource::collection($filteredProducts),
+            'filter' => $productsForFilter,
+            'pagination' => $this->paginate($filteredProducts),
+
+        ];
+    }
 
 
-    public function filtersAttributes(): array
+    public function getAllDisks(Request $request, ProductService $productService): array
+    {
+        $category = Category::where('id', 369)->firstOrFail();
+        $filteredProductsQuery = $productService->tiresFilter($request);
+        $filteredProducts = $filteredProductsQuery->paginate(12);
+        $productsForFilter = $productService->filtersAttributes();
+
+        return [
+            'category' => $category->name,
+            'products' => ProductMinimalResource::collection($filteredProducts),
+            'filter' => $productsForFilter,
+            'pagination' => $this->paginate($filteredProducts),
+
+        ];
+    }
+
+    public function showDiskBySlug($slug):string
+    {
+        return $this->generateSlug($slug);
+    }
+
+    public function showTireBySlug($slug): string
+    {
+        return $this->getLowerSlug($slug);
+    }
+
+    public function showProductBySlug($slug):string
+    {
+        return $this->getLowerSlug($slug);
+    }
+    private function filtersAttributes(): array
     {
         $manufacturerNames = [];
         $modelNames = [];
@@ -180,70 +178,21 @@ class ProductService
         ];
         $run_flat = ['нет'];
         return [
-           'manufacturers' => $manufacturerNames,
-           'models' => $modelNames,
-           'width' => $width,
-           'height' => $height,
-           'diameter' => $diameter,
-           'season' => $season,
-           'spikes' => $spikes,
-           'indeks_nagruzki' => $indeks_nagruzki,
-           'indeks_skorosti' => $indeks_skorosti,
-           'run_flat' => $run_flat,
+            'manufacturers' => $manufacturerNames,
+            'models' => $modelNames,
+            'width' => $width,
+            'height' => $height,
+            'diameter' => $diameter,
+            'season' => $season,
+            'spikes' => $spikes,
+            'indeks_nagruzki' => $indeks_nagruzki,
+            'indeks_skorosti' => $indeks_skorosti,
+            'run_flat' => $run_flat,
         ];
     }
 
-    public function getLowerSlug($slug): string
+    public function findBySlug(string $slug)
     {
-        $skuPart = substr(strrchr($slug, '-p'), 2);
-
-        $namePart = str_replace('-p' . $skuPart, '', $slug);
-        $namePart = str_replace('-', ' ', $namePart);
-
-        $namePart = str_replace('-', ' ', $namePart);
-        $namePart = str_replace(' ', '/', $namePart);
-
-        $product = Product::where('name', 'LIKE', "%$namePart%")->where('sku', $skuPart)->firstOrFail();
-
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-        return $product;
-    }
-
-    public function getAllTires(Request $request, ProductService $productService): array
-    {
-        $category = Category::where('id', 370)->firstOrFail();
-        $filteredProductsQuery = $productService->tiresFilter($request);
-        $filteredProducts = $filteredProductsQuery->paginate(12);
-        $productsForFilter = $productService->filtersAttributes();
-        return [
-            'category' => $category->name,
-            'products' => ProductMinimalResource::collection($filteredProducts),
-            'filter' => $productsForFilter,
-            'pagination' => $this->paginate($filteredProducts)
-        ];
-    }
-    public function showTireBySlug($slug): string
-    {
-        return $this->getLowerSlug($slug);
-    }
-
-    public function getAllDisks(): array
-    {
-        $category = Category::where('id', 369)->firstOrFail();
-
-        $products = $category->products()->paginate(8);
-
-        return [
-            'category' => $category->name,
-            'product' => ProductMinimalResource::collection($products),
-            'pagination' => $this->paginate($products),
-        ];
-    }
-
-    public function showDiskBySlug($slug):string
-    {
-        return $this->getLowerSlug($slug);
+        return Product::where('name', $slug)->first();
     }
 }

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         TiresSeeder::class,
         UserSeeder::class,
         DiskSeeder::class,
+        CarsTableSeeder::class,
     ]);
         // \App\Models\User::factory(10)->create();
 

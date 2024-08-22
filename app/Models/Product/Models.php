@@ -2,14 +2,14 @@
 
 namespace App\Models\Product;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Models extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $fillable = ['brand_id', 'name', 'type'];
     public function brand(): BelongsTo
     {

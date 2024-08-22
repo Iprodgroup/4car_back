@@ -12,7 +12,5 @@ class ProductsSeeder extends Seeder
         $csv = Reader::createFromPath(database_path('seeders/csv/tires.csv'), 'r');
         $csv->setHeaderOffset(0);
 
-
-
     }
 }

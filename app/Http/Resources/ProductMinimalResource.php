@@ -2,29 +2,31 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Support\Str;
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductMinimalResource extends JsonResource
 {
+    use SlugTrait;
     public function toArray(Request $request)
     {
-        $baseUrl = 'https://2416-93-188-86-71.ngrok-free.app/storage/users/shina.png';
+        $baseUrl = 'https://8eb0-93-188-86-71.ngrok-free.app/storage/users/ass.jpeg';
 
         return [
           'id' => $this->id,
-          'slug' => $this->generateSlug($this->name, $this->sku),
+          'sku' => $this->sku,
           'name' => $this->name,
+          'slug' => $this->generateSlug($this->name),
           'price' => $this->price,
           'image' => $baseUrl,
         ];
     }
 
-    protected function generateSlug(string $name): string
+    protected function generateProductSlug(string $name, string $sku): string
     {
-        $namePart = Str::slug(str_replace('/', '-', $name), '-');
-        $sku = 'p' . $this->sku;
-        return "$namePart-$sku";
+        $namePart = $this->generateSlug($name);
+        $skuPart = 'p' . $sku;
+        return "$namePart-$skuPart";
     }
 }
