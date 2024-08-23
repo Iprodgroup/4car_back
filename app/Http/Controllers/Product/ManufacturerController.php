@@ -8,16 +8,27 @@ use App\Services\Product\ManufacturerService;
 
 class ManufacturerController extends Controller
 {
-    public function index(ManufacturerService $manufacturerService)
+    protected ManufacturerService $manufacturerService;
+    public function __construct(ManufacturerService $manufacturerService)
     {
-        $manufacturers = $manufacturerService->getManufacturers();
+        $this->manufacturerService = $manufacturerService;
+    }
+    public function getAllManufacturers()
+    {
+        $manufacturers = $this->manufacturerService->getManufacturers();
         return response()->json($manufacturers, 200);
     }
 
-    public function show($slug, ManufacturerService $service):JsonResponse
+    public function showManufacturerBySlug($slug):JsonResponse
     {
-        $manufacturer = $service->showManufacturerWithProductAndPagination($slug);
+        $manufacturer = $this->manufacturerService->showManufacturerWithProductAndPagination($slug);
         return response()->json($manufacturer);
+    }
+
+    public function getPartManufacturersInMainPage()
+    {
+        $manufacturers = $this->manufacturerService->getMainPageManufacturers();
+        return response()->json($manufacturers, 200);
     }
 
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Models\Product\Disk;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DiskResource;
-use App\Models\Product\Disk;
 use App\Services\Product\DiskService;
-use Illuminate\Http\Request;
 
 class DiskController extends Controller
 {

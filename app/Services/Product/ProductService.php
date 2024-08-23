@@ -86,10 +86,8 @@ class ProductService
             'products' => ProductMinimalResource::collection($filteredProducts),
             'filter' => $productsForFilter,
             'pagination' => $this->paginate($filteredProducts),
-
         ];
     }
-
 
     public function getAllDisks(Request $request, ProductService $productService): array
     {
@@ -107,19 +105,16 @@ class ProductService
         ];
     }
 
-    public function showDiskBySlug($slug):string
+    public function showProductBySlug($slug)
     {
-        return $this->generateSlug($slug);
-    }
+        $product = Product::where('name', '!=', null)->get()->first(function ($productItem) use ($slug) {
+            return $this->generateSlug($productItem->name) === $slug;
+        });
 
-    public function showTireBySlug($slug): string
-    {
-        return $this->getLowerSlug($slug);
-    }
-
-    public function showProductBySlug($slug):string
-    {
-        return $this->getLowerSlug($slug);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+        return $product;
     }
     private function filtersAttributes(): array
     {
@@ -191,8 +186,4 @@ class ProductService
         ];
     }
 
-    public function findBySlug(string $slug)
-    {
-        return Product::where('name', $slug)->first();
-    }
 }

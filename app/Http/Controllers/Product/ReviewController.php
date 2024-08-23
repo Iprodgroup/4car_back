@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Product;
 
 use App\Models\Product\Disk;
-use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use App\Models\Product\Tires;
 use App\Models\Product\Review;
+use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
 
 class ReviewController extends Controller

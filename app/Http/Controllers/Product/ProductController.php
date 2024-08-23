@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Product;
 use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
-use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Product\ProductService;
 use App\Http\Resources\ProductFullResource;
-
 
 class ProductController extends Controller
 {
@@ -18,12 +16,6 @@ class ProductController extends Controller
     public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
-    }
-
-    public function showTireWithSlug($slug): JsonResponse
-    {
-        $product = $this->productService->showTireBySlug($slug);
-        return response()->json(new ProductFullResource($product));
     }
 
     public function showAllTires(Request $request): JsonResponse
@@ -38,21 +30,9 @@ class ProductController extends Controller
        return response()->json($disks);
     }
 
-    public function showDiskBySlug($slug): JsonResponse
-    {
-        $product = $this->productService->generateSlug($slug);
-        return response()->json(new ProductFullResource($product));
-    }
-
     public function showProductBySlug($slug): JsonResponse
     {
-        $product = Product::all()->first(function($productItem) use ($slug) {
-            return $this->generateSlug($productItem->title) === $slug;
-        });
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-
+        $product = $this->productService->showProductBySlug($slug);
         return response()->json(new ProductFullResource($product));
     }
 }

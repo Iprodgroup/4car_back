@@ -8,7 +8,7 @@ use App\Http\Resources\ManufacturerResource;
 class ManufacturerService
 {
     use PaginationTrait;
-    public function showManufacturerWithProductAndPagination($slug)
+    public function showManufacturerWithProductAndPagination($slug): ManufacturerResource
     {
         $manufacturer = Manufacturer::with('products')
             ->where('name', $slug)
@@ -16,7 +16,7 @@ class ManufacturerService
         return new ManufacturerResource($manufacturer);
     }
 
-    public function getManufacturers()
+    public function getManufacturers(): array
     {
         $manufacturers = Manufacturer::query();
         $manufacturers = $manufacturers->paginate(18);
@@ -25,5 +25,11 @@ class ManufacturerService
             'pagination' => $this->paginate($manufacturers)
         ];
         return $query;
+    }
+
+    public function getMainPageManufacturers()
+    {
+        $manufacturers = Manufacturer::query()->limit(15)->get();
+        return ManufacturerResource::collection($manufacturers);
     }
 }

@@ -11,14 +11,12 @@ class ManufacturerResource extends JsonResource
     use SlugTrait;
     public function toArray(Request $request): array
     {
-        $baseUrl = 'https://8eb0-93-188-86-71.ngrok-free.app/storage/users/ass.jpeg';
-
         return [
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->generateSlug($this->name),
             'description' => $this->description,
-            'image' => $baseUrl,
+            'image' => "https://74f07b5f-3d2a-44e0-ab92-49f88604e3b9.tunnel4.com/" . $this->picture_id,
             'products' => ProductMinimalResource::collection($this->whenLoaded('products'))
         ];
     }
