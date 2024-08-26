@@ -29,6 +29,4 @@ class NewsController extends Controller
 
         return response(new NewsResource($news));
     }
-
-
 }
