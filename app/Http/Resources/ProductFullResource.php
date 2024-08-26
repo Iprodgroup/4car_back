@@ -12,7 +12,7 @@ class ProductFullResource extends JsonResource
     use SlugTrait;
     public function toArray(Request $request): array
     {
-        $baseUrl = 'https://74f07b5f-3d2a-44e0-ab92-49f88604e3b9.tunnel4.com/storage/users/shina.png';
+        $baseUrl = 'https://test.4car.kz/storage/users/shina.png';
         return [
             'name' => $this->name,
             'sku' => $this->sku,
@@ -52,7 +52,7 @@ class ProductFullResource extends JsonResource
                 'id' => $product->id,
                 'name' => $product->name,
                 'slug' => $this->generateSlug($product->name),
-                'image' => "https://74f07b5f-3d2a-44e0-ab92-49f88604e3b9.tunnel4.com$product->image",
+                'image' => "https://test.4car.kz$product->image",
                 'short_description' => $product->short_description,
                 'price' => $product->price,
             ];
