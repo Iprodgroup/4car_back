@@ -11,7 +11,6 @@ class ProductMinimalResource extends JsonResource
     use SlugTrait;
     public function toArray(Request $request)
     {
-        $baseUrl = 'https://test.4car.kz/storage/users/ass.jpeg';
 
         return [
           'id' => $this->id,
@@ -19,7 +18,7 @@ class ProductMinimalResource extends JsonResource
           'name' => $this->name,
           'slug' => $this->generateSlug($this->name),
           'price' => $this->price,
-          'image' => $baseUrl,
+          'image' => $this->image,
         ];
     }
 

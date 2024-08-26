@@ -12,7 +12,6 @@ class ProductFullResource extends JsonResource
     use SlugTrait;
     public function toArray(Request $request): array
     {
-        $baseUrl = 'https://test.4car.kz/storage/users/shina.png';
         return [
             'name' => $this->name,
             'sku' => $this->sku,
@@ -34,7 +33,7 @@ class ProductFullResource extends JsonResource
             'spikes' => $this->shipy,
             'indeks_nagruzki' => $this->indeks_nagruzki,
             'indeks_skorosti' => $this->indeks_skorosti,
-            'image' => $baseUrl,
+            'image' => $this->image,
             'similar_products' => $this->getSimilarProducts(),
         ];
     }
