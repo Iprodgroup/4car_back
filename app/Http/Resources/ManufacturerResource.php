@@ -16,7 +16,7 @@ class ManufacturerResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->generateSlug($this->name),
             'description' => $this->description,
-            'image' => $this->picture_id,
+            'image' => 'https://test.4car.kz/'.$this->picture_id,
             'products' => ProductMinimalResource::collection($this->whenLoaded('products'))
         ];
     }

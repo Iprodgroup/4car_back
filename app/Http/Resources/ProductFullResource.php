@@ -33,7 +33,7 @@ class ProductFullResource extends JsonResource
             'spikes' => $this->shipy,
             'indeks_nagruzki' => $this->indeks_nagruzki,
             'indeks_skorosti' => $this->indeks_skorosti,
-            'image' => $this->image,
+            'image' => 'https://test.4car.kz/'.$this->image,
             'similar_products' => $this->getSimilarProducts(),
         ];
     }
