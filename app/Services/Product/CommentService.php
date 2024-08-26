@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentService
 {
-    public function storeComment($newsId, $title, $body)
+    public function storeComment($newsId, $body)
     {
         $news = News::findOrFail($newsId);
 
         $comment = new Comment();
-        $comment->user_id = Auth::id();
+//        $comment->user_id = Auth::id();
         $comment->news_id = $news->id;
-        $comment->title = $title;
         $comment->body = $body;
         $comment->save();
 

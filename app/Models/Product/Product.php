@@ -48,6 +48,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_category_mappings', 'products_id', 'category_id')
             ->withPivot('is_featured_product', 'display_order');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
     protected static function boot()
     {
         parent::boot();

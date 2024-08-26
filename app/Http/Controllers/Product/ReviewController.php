@@ -2,48 +2,39 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Models\Product\Disk;
 use Illuminate\Http\Request;
-use App\Models\Product\Tires;
 use App\Models\Product\Review;
 use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
 
 class ReviewController extends Controller
 {
+
     public function index($id)
     {
         $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
         return response()->json($product->reviews, 201);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request, $type, $id)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'text' => 'required|string',
-            'title' => 'required|string',
             'rating' => 'required|integer',
-            'user_id' => 'required|exists:users,id',
+//            'user_id' => 'required|exists:users,id',
         ]);
 
-        if ($type == 'tires') {
-            $model = Tires::findOrFail($id);
-        } elseif ($type == 'disk') {
-            $model = Disk::findOrFail($id);
-        } else {
-            return response()->json(['error' => 'Invalid type'], 400);
+        $product = Product::findOrFail($id);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
         }
-
-        $review = $model->reviews()->create([
+        $review = $product->reviews()->create([
             'text' => $request->text,
-            'title' => $request->title,
             'rating' => $request->rating,
-            'user_id' => auth()->user()->id,
+//            'user_id' => auth()->user()->id,
         ]);
 
         return $this->success('Review created', $review);
@@ -66,7 +57,6 @@ class ReviewController extends Controller
     public function update(Request $request, Review $reviews)
     {
         $request->validate([
-            'title' => 'string',
             'text' => 'string',
             'rating' => 'integer',
         ]);

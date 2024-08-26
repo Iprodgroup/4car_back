@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
-        $this->middleware('auth:sanctum');
+//        $this->middleware('auth:sanctum');
     }
 
     public function getComments($newsId)
@@ -26,7 +26,6 @@ class CommentController extends Controller
     public function store(CommentRequest $request, $newsId)
     {
         $comment = $this->commentService->storeComment($newsId,
-            $request->input('title'),
             $request->input('body')
         );
         return $this->success('Комментарий успешно создан', $comment);
