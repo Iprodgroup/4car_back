@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
+
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();

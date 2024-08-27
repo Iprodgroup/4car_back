@@ -11,15 +11,6 @@ class SearchService
 {
     use SlugTrait, PaginationTrait;
 
-//    public function searchManufacturers(Request $request)
-//    {
-//        $query = $request->input('query');
-//        $manufacturers = Manufacturer::where('name', 'LIKE', "%{$query}%")
-//            ->select('id', 'name', DB::raw("REPLACE(LOWER(name), ' ', '-') as slug"))
-//            ->paginate(15);
-//        return $manufacturers;
-//    }
-
     public function searchProducts(Request $request)
     {
         $query = $request->input('query');

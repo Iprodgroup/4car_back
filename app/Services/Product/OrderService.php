@@ -18,11 +18,21 @@ class OrderService
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'У вас пока нет заказов'], 200);
         }
+
         return $this->response(OrderResource::collection($orders));
     }
+
+    /**
+     * @throws \Exception
+     */
+
     public function getProductsFromCartToOrder(OrderRequest $request, Request $urequest)
     {
-        $user = $urequest->user();
+        $user = auth()->user();
+
+        if (!$user) {
+            throw new \Exception("User not authenticated");
+        }
 
         $order = $user->orders()->create($request->validated());
 
@@ -36,11 +46,9 @@ class OrderService
         }
 
         $paymentMethod = $order->payment_method;
-
         if ($paymentMethod === 'transfer') {
             return redirect()->route('payment.page', ['order' => $order->id]);
         }
-
         return $order->toArray();
     }
 

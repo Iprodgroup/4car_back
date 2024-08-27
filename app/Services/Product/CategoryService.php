@@ -2,10 +2,10 @@
 
 namespace App\Services\Product;
 
-use App\Http\Resources\ProductMinimalResource;
-use App\Models\Product\Category;
-use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
+use App\Traits\PaginationTrait;
+use App\Models\Product\Category;
+use App\Http\Resources\ProductMinimalResource;
 
 class CategoryService
 {

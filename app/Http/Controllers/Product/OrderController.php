@@ -22,13 +22,16 @@ class OrderController extends Controller
     public function getUserOrders()
     {
         return $this->orderService->getOrders();
-        //return OrderResource::collection($orders);
     }
 
     public function storeUserOrder(OrderService $orderService, Request $urequest, OrderRequest $request): JsonResponse
     {
-        $order = $orderService->getProductsFromCartToOrder($urequest, $request);
-        return $this->success('Заказ успешно оформлен', $order);
+        try {
+            $order = $orderService->getProductsFromCartToOrder($urequest, $request);
+            return $this->success('Заказ успешно оформлен', $order);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     public function show(Order $order): JsonResponse

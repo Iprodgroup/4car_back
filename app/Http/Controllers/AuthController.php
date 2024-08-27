@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 
@@ -16,6 +17,11 @@ class AuthController extends Controller
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
+    }
+    public function showUserData()
+    {
+        $user = Auth::user();
+        return UserResource::collection($user);
     }
 
     public function register(RegisterRequest $request): JsonResponse
@@ -50,9 +56,27 @@ class AuthController extends Controller
 
     }
 
-    public function changePassword()
+    public function changePassword(Request $request)
     {
+        $this->validate($request, [
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
 
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'Текущий пароль неверный'
+            ], 400);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Пароль успешно изменен'
+        ], 200);
     }
 
     public function user(Request $request)
