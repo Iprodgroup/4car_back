@@ -3,10 +3,23 @@
 namespace App\Services\Product;
 
 use Illuminate\Http\Request;
+use App\Models\Product\Product;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
 
 class OrderService
 {
+    public function getOrders(): JsonResponse
+    {
+        $user = auth()->user();
+        $orders = $user->orders()->paginate(10);
+
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'У вас пока нет заказов'], 200);
+        }
+        return $this->response(OrderResource::collection($orders));
+    }
     public function getProductsFromCartToOrder(OrderRequest $request, Request $urequest)
     {
         $user = $urequest->user();
@@ -16,15 +29,13 @@ class OrderService
         $cart = $urequest->session()->get('cart', []);
 
         if (!empty($cart)) {
-            foreach ($cart['tires'] ?? [] as $tiresItem) {
-                $order->tires()->attach($tiresItem['tires_id'], ['quantity' => $tiresItem['quantity']]);
+            foreach ($cart['products'] ?? [] as $productItem) {
+                $order->products()->attach($productItem['product_id'], ['quantity' => $productItem['quantity']]);
             }
-            foreach ($cart['disks'] ?? [] as $disksItem) {
-                $order->disks()->attach($disksItem['disk_id'], ['quantity' => $disksItem['quantity']]);
-            }
-            $request->session()->forget('cart');
+            $urequest->session()->forget('cart');
         }
-        $paymentMethod = $order['payment_method'];
+
+        $paymentMethod = $order->payment_method;
 
         if ($paymentMethod === 'transfer') {
             return redirect()->route('payment.page', ['order' => $order->id]);
@@ -33,8 +44,7 @@ class OrderService
         return $order->toArray();
     }
 
-    // TODO сделать функционал заказа
-    public function orderProduct()
+    public function orderProduct(Request $request)
     {
         $order = auth()->user()->orders()->first();
         return $order;

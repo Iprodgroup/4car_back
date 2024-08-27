@@ -16,9 +16,10 @@ class ProductMinimalResource extends JsonResource
           'id' => $this->id,
           'sku' => $this->sku,
           'name' => $this->name,
+          'brand' => $this->brendy,
           'slug' => $this->generateSlug($this->name),
           'price' => $this->price,
-          'image' => 'https://test.4car.kz/'.$this->image,
+          'image' => 'https://strong-signs-tap.loca.lt/storage/users/shina.png',
         ];
     }
 

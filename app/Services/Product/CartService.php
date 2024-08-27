@@ -61,4 +61,25 @@ class CartService
         return $detailedCart;
     }
 
+    public function syncWithFrontend(Request $request, array $productIds)
+    {
+        $cart = $request->session()->get('cart', []);
+
+        foreach ($productIds as $productId) {
+            if (Product::find($productId)) {
+                if (isset($cart['products'][$productId])) {
+                    $cart['products'][$productId]['quantity'] += 1;
+                } else {
+                    $cart['products'][$productId] = [
+                        'product_id' => $productId,
+                        'quantity' => 1,
+                    ];
+                }
+            }
+        }
+
+        $request->session()->put('cart', $cart);
+        return $cart;
+    }
+
 }

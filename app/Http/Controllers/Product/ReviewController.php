@@ -16,7 +16,14 @@ class ReviewController extends Controller
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
-        return response()->json($product->reviews, 201);
+
+        $reviews = $product->reviews;
+        $avgRating = $reviews->avg('rating');
+
+        return response()->json([
+            'reviews' => $reviews,
+            'avg_rating' => $avgRating
+        ], 201);
     }
 
     public function store(Request $request, $id)

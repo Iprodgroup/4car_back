@@ -16,15 +16,16 @@ class OrderController extends Controller
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
-        //$this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum');
     }
 
-    public function index(): JsonResponse
+    public function getUserOrders()
     {
-        return $this->response(OrderResource::collection(auth()->user()->orders()->paginate(10)));
+        return $this->orderService->getOrders();
+        //return OrderResource::collection($orders);
     }
 
-    public function store(OrderService $orderService, Request $urequest, OrderRequest $request): JsonResponse
+    public function storeUserOrder(OrderService $orderService, Request $urequest, OrderRequest $request): JsonResponse
     {
         $order = $orderService->getProductsFromCartToOrder($urequest, $request);
         return $this->success('Заказ успешно оформлен', $order);

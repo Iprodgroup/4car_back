@@ -40,4 +40,11 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Произошла ошибка при удалении товара'], 404);
     }
+
+    public function syncCartWithFrontend(Request $request, CartService $cartService): JsonResponse
+    {
+        $productIds = $request->input('ids', []);
+        $cart = $cartService->syncWithFrontend($request, $productIds);
+        return response()->json(['message' => 'Корзина успешно обновлена', 'cart' => $cart]);
+    }
 }

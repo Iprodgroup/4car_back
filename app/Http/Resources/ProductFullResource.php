@@ -23,7 +23,7 @@ class ProductFullResource extends JsonResource
             'meta_title' => $this->meta_title,
             'model' => $this->modeli,
             'articul' => $this->sku,
-            'brend' => $this->brendy,
+            'brand' => $this->brendy,
             'season' => $this->sezony,
             'size_of_tires' => $this->razmer_shiny,
             'height' => $this->vysota_shin,
