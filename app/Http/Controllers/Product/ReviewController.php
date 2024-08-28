@@ -31,7 +31,7 @@ class ReviewController extends Controller
         $request->validate([
             'text' => 'required|string',
             'rating' => 'required|integer',
-//            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $product = Product::findOrFail($id);
@@ -41,7 +41,7 @@ class ReviewController extends Controller
         $review = $product->reviews()->create([
             'text' => $request->text,
             'rating' => $request->rating,
-//            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user()->id,
         ]);
 
         return $this->success('Review created', $review);

@@ -47,4 +47,13 @@ class CartController extends Controller
         $cart = $cartService->syncWithFrontend($request, $productIds);
         return response()->json(['message' => 'Корзина успешно обновлена', 'cart' => $cart]);
     }
+
+    public function updateQuantity(Request $request, CartService $cartService): JsonResponse
+    {
+        $updatedCart = $cartService->updateQuantity($request);
+        return response()->json([
+            'message' => 'Количество товара успешно обновлено!',
+            'cart' => $updatedCart
+        ]);
+    }
 }

@@ -82,4 +82,28 @@ class CartService
         return $cart;
     }
 
+    public function updateQuantity(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'integer|min:0',
+        ]);
+
+        $cart = $request->session()->get('cart', []);
+        $productId = $request->input('product_id');
+        $newQuantity = $request->input('quantity');
+
+        if (isset($cart['products'][$productId])) {
+            if ($newQuantity > 0) {
+                $cart['products'][$productId]['quantity'] = $newQuantity;
+            } else {
+                unset($cart['products'][$productId]);
+            }
+        }
+
+        $request->session()->put('cart', $cart);
+
+        return $cart;
+    }
+
 }

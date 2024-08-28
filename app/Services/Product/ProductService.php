@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use App\Traits\PaginationTrait;
 use App\Models\Product\Category;
 use App\Models\Product\Manufacturer;
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Resources\ProductMinimalResource;
 
 class ProductService
@@ -74,6 +75,13 @@ class ProductService
         return $query;
     }
 
+//    public function getBestSalesProducts(): Collection|array
+//    {
+//        return Product::query()
+//            ->where('publish_in_main','=', '1')
+//            ->limit(6)
+//            ->get();
+//    }
     public function getAllTires(Request $request, ProductService $productService): array
     {
         $category = Category::where('id', 370)->firstOrFail();
@@ -82,7 +90,7 @@ class ProductService
         $productsForFilter = $productService->filtersAttributes();
 
         return [
-            'category' => $category->name,
+            'category' => [$category->name, $category->id],
             'products' => ProductMinimalResource::collection($filteredProducts),
             'filter' => $productsForFilter,
             'pagination' => $this->paginate($filteredProducts),
@@ -97,7 +105,7 @@ class ProductService
         $productsForFilter = $productService->filtersAttributes();
 
         return [
-            'category' => $category->name,
+            'category' => ['name' => $category->name, 'id'=>$category->id],
             'products' => ProductMinimalResource::collection($filteredProducts),
             'filter' => $productsForFilter,
             'pagination' => $this->paginate($filteredProducts),

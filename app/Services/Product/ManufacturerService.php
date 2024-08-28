@@ -29,7 +29,11 @@ class ManufacturerService
 
     public function getMainPageManufacturers()
     {
-        $manufacturers = Manufacturer::query()->limit(15)->get();
+        $manufacturers = Manufacturer::query()
+            ->where('picture_id', '!=', 'storage/image/undo.png')
+            ->limit(15)
+            ->get();
+
         return ManufacturerResource::collection($manufacturers);
     }
 }
