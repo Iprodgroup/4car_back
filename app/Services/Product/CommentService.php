@@ -2,10 +2,10 @@
 
 namespace App\Services\Product;
 
-use App\Http\Resources\CommentResource;
 use App\Models\News;
 use App\Models\Product\Comment;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CommentResource;
 
 class CommentService
 {

@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->only('store');
     }
 
     public function getComments($newsId)

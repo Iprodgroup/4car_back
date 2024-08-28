@@ -75,7 +75,7 @@
                                 <tbody class="table-border-bottom-0">
                                 @foreach($reviews as $review)
                                     <tr>
-                                        <td>{{ $review->product->name }}</td>
+                                        <td>{{$review->product->name }}</td>
                                         <td>{{$review->rating}}</td>
                                         <td>{{$review->text}}</td>
                                         <td>{{$review->user->email}}</td>

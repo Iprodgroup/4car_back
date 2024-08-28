@@ -18,7 +18,7 @@ class ProductMinimalResource extends JsonResource
           'brand' => $this->brendy,
           'slug' => $this->generateSlug($this->name),
           'price' => $this->price,
-          'image' => 'https://cuddly-crabs-accept.loca.lt/storage/users/shina.png',
+          'image' => 'https://test.4car.kz/'.$this->image,
         ];
     }
 
