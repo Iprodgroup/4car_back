@@ -24,4 +24,5 @@ class Category extends Model
         return $this->BelongsToMany(Product::class, 'product_category_mappings', 'category_id', 'products_id')
                     ->withPivot('is_featured_product', 'display_order');
     }
+
 }

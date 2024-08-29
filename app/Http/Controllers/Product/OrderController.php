@@ -24,16 +24,36 @@ class OrderController extends Controller
         return $this->orderService->getOrders();
     }
 
-    public function storeUserOrder(OrderService $orderService, Request $urequest, OrderRequest $request): JsonResponse
+    public function createFromCart(Request $request): JsonResponse
     {
         try {
-            $order = $orderService->getProductsFromCartToOrder($urequest, $request);
-            return $this->success('Заказ успешно оформлен', $order);
+            $order = $this->orderService->createOrderFromCart($request);
+
+            if ($order->payment_method === 'card') {
+                return response()->json(['redirect' => route('payment.page', ['order' => $order->id])]);
+            }
+            return response()->json(['message' => 'Заказ успешно оформлен', 'order' => $order], 201);
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
+    public function createInstantOrder(OrderRequest $request): JsonResponse
+    {
+        try {
+            $order = $this->orderService->createInstantOrder($request->validated());
+
+            if ($order->payment_method === 'card') {
+                return response()->json(['redirect' => route('payment.page', ['order' => $order->id])]);
+            }
+
+            return response()->json(['message' => 'Заказ успешно оформлен', 'order' => $order], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
     public function show(Order $order): JsonResponse
     {
         return $this->response(new OrderResource($order));

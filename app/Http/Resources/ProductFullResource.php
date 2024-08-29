@@ -14,9 +14,10 @@ class ProductFullResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'category' =>  $this->categories->pluck('name'),
             'name' => $this->name,
             'sku' => $this->sku,
-            'slug' => $this->generateSlug($this->name),
+            'slug' => $this->generateSlug($this->name, $this->sku),
             'short_description' => $this->short_description,
             'full_description' => $this->full_description,
             'meta_description' => $this->full_description,
@@ -34,7 +35,7 @@ class ProductFullResource extends JsonResource
             'spikes' => $this->shipy,
             'indeks_nagruzki' => $this->indeks_nagruzki,
             'indeks_skorosti' => $this->indeks_skorosti,
-            'image' => $this->image ? 'https://test.4car.kz/'.$this->image : 'https://https://proud-snails-sing.loca.lt/storage/users/shina.png',
+            'image' => $this->image ? 'https://test.4car.kz/'.$this->image : 'https://sour-wombats-deny.loca.lt/storage/users/shina.png',
             'similar_products' => $this->getSimilarProducts(),
         ];
     }
@@ -51,8 +52,8 @@ class ProductFullResource extends JsonResource
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'slug' => $this->generateSlug($product->name),
-                'image' => "https://test.4car.kz$product->image",
+                'slug' => $this->generateSlug($product->name, $product->sku),
+                'image' => "https://test.4car.kz".$product->image,
                 'short_description' => $product->short_description,
                 'price' => $product->price,
             ];

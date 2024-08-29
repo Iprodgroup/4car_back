@@ -4,10 +4,11 @@ namespace App\Services\Product;
 use App\Traits\PaginationTrait;
 use App\Models\Product\Manufacturer;
 use App\Http\Resources\ManufacturerResource;
+use App\Traits\SlugTrait;
 
 class ManufacturerService
 {
-    use PaginationTrait;
+    use PaginationTrait, SlugTrait;
     public function showManufacturerWithProductAndPagination($slug): ManufacturerResource
     {
         $manufacturer = Manufacturer::with('products')
@@ -35,5 +36,10 @@ class ManufacturerService
             ->get();
 
         return ManufacturerResource::collection($manufacturers);
+    }
+
+    public function generateSlug($name): string
+    {
+        return strtolower(str_replace(' ', '-', $name));
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Services\Product;
 
-use Illuminate\Http\Request;
+use App\Models\Product\Order;
+use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\OrderRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\OrderResource;
 
 class OrderService
@@ -17,39 +18,106 @@ class OrderService
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'У вас пока нет заказов'], 200);
         }
-
         return $this->response(OrderResource::collection($orders));
     }
 
-    public function getProductsFromCartToOrder(OrderRequest $request, Request $urequest)
+
+    public function createOrderFromCart($request)
     {
-        $user = auth()->user();
+        $user = $request->user(); // Предполагаем, что пользователь аутентифицирован
+        $cart = $request->session()->get('cart', []);
 
-        if (!$user) {
-            throw new \Exception("User not authenticated");
+        if (empty($cart['products'])) {
+            throw new \Exception('Корзина пуста');
         }
 
-        $order = $user->orders()->create($request->validated());
+        $orderData = [
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'number' => $request->number,
+            'city' => $request->city,
+            'district' => $request->district,
+            'delivery_method' => $request->delivery_method,
+            'town' => $request->town,
+            'adres' => $request->adres,
+            'orient' => $request->orient,
+            'work_adres' => $request->work_adres,
+            'phone' => $request->phone,
+            'comment' => $request->comment,
+            'coupon' => $request->coupon,
+            'payment_method' => $request->payment_method,
+            'status_id' => 1, // Предположим, что 1 - это статус "новый заказ"
+            'sum' => $this->calculateTotal($cart),
+            'products' => json_encode($cart['products'])
+        ];
 
-        $cart = $urequest->session()->get('cart', []);
+        DB::beginTransaction();
+        try {
+            $order = Order::create($orderData);
 
-        if (!empty($cart)) {
-            foreach ($cart['products'] ?? [] as $productItem) {
-                $order->products()->attach($productItem['product_id'], ['quantity' => $productItem['quantity']]);
+            foreach ($cart['products'] as $productItem) {
+                $product = Product::find($productItem['product_id']);
+                if ($product) {
+                    $order->products()->attach($product->id, ['quantity' => $productItem['quantity']]);
+                }
             }
-            $urequest->session()->forget('cart');
-        }
 
-        $paymentMethod = $order->payment_method;
-        if ($paymentMethod === 'transfer') {
-            return redirect()->route('payment.page', ['order' => $order->id]);
+            $request->session()->forget('cart'); // Очищаем корзину
+            DB::commit();
+
+            return $order;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Не удалось создать заказ: ' . $e->getMessage());
         }
-        return $order->toArray();
     }
 
-    public function orderProduct(Request $request)
+    public function createInstantOrder(array $orderData)
     {
-        $order = auth()->user()->orders()->first();
-        return $order;
+        $product = Product::find($orderData['product_id']);
+        if (!$product) {
+            throw new \Exception('Продукт не найден');
+        }
+
+        $orderData['sum'] = $product->price * $orderData['quantity']; // Цена одного товара умноженная на количество
+        $orderData['products'] = json_encode([['product_id' => $orderData['product_id'], 'quantity' => $orderData['quantity']]]);
+
+        DB::beginTransaction();
+        try {
+            $order = Order::create($orderData);
+
+            $order->products()->attach($product->id, ['quantity' => $orderData['quantity']]);
+
+            DB::commit();
+
+            return $order;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Не удалось создать заказ: ' . $e->getMessage());
+        }
+    }
+
+    private function calculateTotal($cart)
+    {
+        $total = 0;
+        foreach ($cart['products'] as $productItem) {
+            $product = Product::find($productItem['product_id']);
+            if ($product) {
+                $total += $product->price * $productItem['quantity'];
+            }
+        }
+        return $total;
+    }
+
+    public function showOrder($orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+        return response()->json(['order' => $order]);
     }
 }

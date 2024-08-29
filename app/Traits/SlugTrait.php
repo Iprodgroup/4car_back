@@ -6,7 +6,7 @@ use App\Models\Product\Product;
 
 trait SlugTrait
 {
-    public function generateSlug(string $name)
+    public function generateSlug(string $name, string $sku = null)
     {
         $transliterationTable = $this->transliterate();
         $name = strtr($name, $transliterationTable);
@@ -14,6 +14,11 @@ trait SlugTrait
         $slug = preg_replace('/[^a-zA-Z0-9-]/', '-', $slug);
         $slug = preg_replace('/-+/', '-', $slug);
         $slug = strtolower($slug);
+
+        if ($sku) {
+            $slug .= '-p' . $sku;
+        }
+
         return $slug;
     }
 

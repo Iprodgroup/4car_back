@@ -26,7 +26,7 @@ class SearchService
                 'name' => $product['name'],
                 'slug' => $this->generateSlug($product['name']),
                 'price' => $product['price'],
-                'image'=> $product['image'],
+                'image'=> 'https://test.4car.kz'.$product['image'],
             ];
         });
         return [

@@ -82,6 +82,7 @@ class ProductService
     {
         $category = Category::where('id', 370)->firstOrFail();
         $filteredProductsQuery = $productService->tiresFilter($request, 370);
+        $filteredProductsQuery->where('published', 1);
         $filteredProducts = $filteredProductsQuery->paginate(12);
         $productsForFilter = $productService->filtersAttributes();
 
@@ -97,6 +98,7 @@ class ProductService
     {
         $category = Category::where('id', 369)->firstOrFail();
         $filteredProductsQuery = $productService->tiresFilter($request, 369);
+        $filteredProductsQuery->where('published', 1);
         $filteredProducts = $filteredProductsQuery->paginate(12);
         $productsForFilter = $productService->filtersAttributes();
 
@@ -111,8 +113,12 @@ class ProductService
 
     public function showProductBySlug($slug)
     {
-        $product = Product::where('name', '!=', null)->get()->first(function ($productItem) use ($slug) {
-            return $this->generateSlug($productItem->name) === $slug;
+        $product = Product::with('categories')
+            ->whereNotNull('name')
+            ->get()
+            ->first(function ($productItem) use ($slug)
+            {
+            return $this->generateSlug($productItem->name, $productItem->sku) === $slug;
         });
 
         if (!$product) {
