@@ -1,10 +1,10 @@
 <?php
 namespace App\Services\Product;
 
+use App\Traits\SlugTrait;
 use App\Traits\PaginationTrait;
 use App\Models\Product\Manufacturer;
 use App\Http\Resources\ManufacturerResource;
-use App\Traits\SlugTrait;
 
 class ManufacturerService
 {

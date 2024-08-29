@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\FeedbackRequest;
 
@@ -16,7 +17,7 @@ class FeedbackController extends Controller
     }
 
 
-    public function sendToTelegram(Feedback $feedback)
+    public function sendToTelegramWithoutEmail(Feedback $feedback)
     {
         $token = env('TELEGRAM_TOKEN');
         $chatId = env('TELEGRAM_CHAT_ID');
@@ -27,5 +28,25 @@ class FeedbackController extends Controller
             'chat_id' => $chatId,
             'text' => $message,
         ]);
+    }
+
+    public function sendToTelegramWithEmail($name, $email, $text)
+    {
+        $token = env('TELEGRAM_TOKEN');
+        $chatId = env('TELEGRAM_CHAT_ID');
+        $message = "Новое сообщение обратной связи:\n\nИмя: {$name}\nEmail: {$email}\nВаше сообщение: {$text} ";
+
+        $url = "https://api.telegram.org/bot{$token}/sendMessage";
+        Http::post($url, [
+            'chat_id' => $chatId,
+            'text' => $message,
+        ]);
+    }
+    public function send(Request $request)
+    {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $text = $request->input('text');
+        return $this->sendToTelegramWithEmail($name, $email, $text);
     }
 }
