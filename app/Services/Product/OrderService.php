@@ -3,7 +3,6 @@
 namespace App\Services\Product;
 
 use Illuminate\Http\Request;
-use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
@@ -21,10 +20,6 @@ class OrderService
 
         return $this->response(OrderResource::collection($orders));
     }
-
-    /**
-     * @throws \Exception
-     */
 
     public function getProductsFromCartToOrder(OrderRequest $request, Request $urequest)
     {

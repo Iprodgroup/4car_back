@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Product;
 
-use App\Models\Product\Product;
 use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
+use App\Models\Product\Product;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -19,6 +19,7 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
     }
+
     public function filter(Request $request)
     {
         $query = Product::query();

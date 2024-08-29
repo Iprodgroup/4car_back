@@ -74,7 +74,7 @@ class ProductService
     public function getBestSalesProducts()
     {
         return Product::query()
-            ->inRandomOrder()
+            ->where('image', '!=', 'NULL')
             ->limit(6)
             ->get();
     }
