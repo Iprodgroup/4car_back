@@ -106,4 +106,27 @@ class CartService
         return $cart;
     }
 
+    public function getProductInCart(Request $request, int $productId)
+    {
+        $cart = $request->session()->get('cart', []);
+
+        if (isset($cart['products'][$productId])) {
+            $product = Product::find($productId);
+
+            if ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'brand' => $product->brand,
+                    'image' => $product->image,
+                    'quantity' => $cart['products'][$productId]['quantity'],
+                    'price' => $product->price,
+                    'total_price' => $product->price * $cart['products'][$productId]['quantity'],
+                ];
+            }
+        }
+
+        return null;
+    }
+
 }

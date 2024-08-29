@@ -26,7 +26,7 @@ class SearchService
                 'name' => $product['name'],
                 'slug' => $this->generateSlug($product['name']),
                 'price' => $product['price'],
-                'image'=> 'https://8eb0-93-188-86-71.ngrok-free.app/storage/users/ass.jpeg',
+                'image'=> $product['image'],
             ];
         });
         return [

@@ -23,10 +23,17 @@ use App\Http\Controllers\Admin\ManufacturersController;
 Route::get('/products', [ProductController::class, 'showAllProducts'])->name('admin.products.index');
 //Categories
 Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('admin.categories.index');
+Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+Route::put('/categories/update/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 //Manufacturers
 Route::get('/manufacturers', [ManufacturersController::class, 'showAllManufacturers'])->name('admin.manufacturers.index');
+Route::get('/manufacturers/edit/{id}', [ManufacturersController::class, 'edit'])->name('admin.manufacturers.edit');
+Route::put('manufacturers/update/{id}', [ManufacturersController::class, 'update'])->name('admin.manufacturers.update');
+Route::delete('manufacturers/{id}', [ManufacturersController::class, 'destroy'])->name('admin.manufacturers.destroy');
 //Отзывы
 Route::get('/reviews', [ReviewsController::class, 'showAllReviews'])->name('admin.reviews.index');
+Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('admin.reviews.delete');
 //Users
 Route::get('/users', [UsersController::class, 'showAllUsers'])->name('admin.users.index');
 //Dashboard

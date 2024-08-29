@@ -8,22 +8,18 @@ use App\Models\Product\Product;
 use App\Traits\PaginationTrait;
 use App\Models\Product\Category;
 use App\Models\Product\Manufacturer;
-use Illuminate\Database\Eloquent\Collection;
 use App\Http\Resources\ProductMinimalResource;
 
 class ProductService
 {
     use PaginationTrait, SlugTrait;
-    public function tiresFilter(Request $request)
+    public function tiresFilter(Request $request, int $categoryId)
     {
 
         $query = Product::query();
-
-        if ($request->has('category_id')) {
-            $query->whereHas('category_id',function ($q) use($request){
-                $q->where('category_id',$request->category_id);
-            });
-        }
+        $query->whereHas('categories', function ($q) use ($categoryId) {
+            $q->where('category_id', $categoryId);
+        });
 
         if ($request->has('price_min')) {
             $query->where('price', '>=', $request->input('price_min'));
@@ -75,17 +71,17 @@ class ProductService
         return $query;
     }
 
-//    public function getBestSalesProducts(): Collection|array
-//    {
-//        return Product::query()
-//            ->where('publish_in_main','=', '1')
-//            ->limit(6)
-//            ->get();
-//    }
+    public function getBestSalesProducts()
+    {
+        return Product::query()
+            ->inRandomOrder()
+            ->limit(6)
+            ->get();
+    }
     public function getAllTires(Request $request, ProductService $productService): array
     {
         $category = Category::where('id', 370)->firstOrFail();
-        $filteredProductsQuery = $productService->tiresFilter($request);
+        $filteredProductsQuery = $productService->tiresFilter($request, 370);
         $filteredProducts = $filteredProductsQuery->paginate(12);
         $productsForFilter = $productService->filtersAttributes();
 
@@ -100,7 +96,7 @@ class ProductService
     public function getAllDisks(Request $request, ProductService $productService): array
     {
         $category = Category::where('id', 369)->firstOrFail();
-        $filteredProductsQuery = $productService->tiresFilter($request);
+        $filteredProductsQuery = $productService->tiresFilter($request, 369);
         $filteredProducts = $filteredProductsQuery->paginate(12);
         $productsForFilter = $productService->filtersAttributes();
 

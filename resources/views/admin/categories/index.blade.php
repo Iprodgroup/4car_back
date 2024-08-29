@@ -83,13 +83,12 @@
                                     <tr>
                                         <td>{{$product->name}}</td>
                                         <td>{{ $product->published ? 'Да' : 'Нет' }}</td>
-                                        <td><a type="button" href="#" class="btn btn-primary">Изменить</a></td>
+                                        <td><a type="button" href="{{route('admin.categories.edit', $product->id)}}" class="btn btn-primary">Изменить</a></td>
 
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-                            {{ $categories->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
                 </div>

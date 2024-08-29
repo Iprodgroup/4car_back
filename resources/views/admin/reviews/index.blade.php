@@ -80,7 +80,7 @@
                                         <td>{{$review->text}}</td>
                                         <td>{{$review->user->email}}</td>
                                         <td>
-                                            <form action="#" method="post"  onsubmit="return confirm('Вы уверены');">
+                                            <form action="{{ route('admin.reviews.delete', $review->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>

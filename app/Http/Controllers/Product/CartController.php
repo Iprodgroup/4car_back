@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -55,5 +56,28 @@ class CartController extends Controller
             'message' => 'Количество товара успешно обновлено!',
             'cart' => $updatedCart
         ]);
+    }
+
+    public function getProductInCart(Request $request, int $productId)
+    {
+        $cart = $request->session()->get('cart', []);
+
+        if (isset($cart['products'][$productId])) {
+            $product = Product::find($productId);
+
+            if ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'brand' => $product->brand,
+                    'image' => $product->image,
+                    'quantity' => $cart['products'][$productId]['quantity'],
+                    'price' => $product->price,
+                    'total_price' => $product->price * $cart['products'][$productId]['quantity'],
+                ];
+            }
+        }
+
+        return null;
     }
 }

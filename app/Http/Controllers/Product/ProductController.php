@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Controllers\Product;
 
-use App\Http\Resources\ProductMinimalResource;
+use App\Models\Product\Product;
 use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
-use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Product\ProductService;
 use App\Http\Resources\ProductFullResource;
+use App\Http\Resources\ProductMinimalResource;
 
 class ProductController extends Controller
 {
@@ -19,7 +19,42 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
     }
+    public function filter(Request $request)
+    {
+        $query = Product::query();
 
+        if ($request->has('season')) {
+            $query->where('sezony', $request->season);
+        }
+
+        if ($request->has('diameter')) {
+            $query->where('diametr_shin', $request->diameter);
+        }
+
+        if ($request->has('width')) {
+            $query->where('shirina_shin', $request->width);
+        }
+
+        if ($request->has('run_flat')) {
+            $query->where('run_flat', $request->run_flat);
+        }
+
+        if ($request->has('spikes')) {
+            $query->where('shipy', $request->spikes);
+        }
+
+        if ($request->has('indeks_nagruzki')) {
+            $query->where('indeks_nagruzki', $request->indeks_nagruzki);
+        }
+
+        if ($request->has('indeks_skorosti')) {
+            $query->where('indeks_skorosti', $request->indeks_skorosti);
+        }
+
+        $products = $query->get();
+
+        return ProductMinimalResource::collection($products);
+    }
     public function showAllTires(Request $request): JsonResponse
     {
         $tires = $this->productService->getAllTires($request, $this->productService);
@@ -40,11 +75,7 @@ class ProductController extends Controller
 
     public function getBestSellingProducts()
     {
-        $products = Product::query()
-            ->where('publish_in_main','=', 1)
-            ->limit(6)
-            ->get();
-        return ProductMinimalResource::collection($products);
-
+        $products = $this->productService->getBestSalesProducts();
+        return response()->json(ProductMinimalResource::collection($products));
     }
 }
