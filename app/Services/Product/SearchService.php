@@ -16,7 +16,7 @@ class SearchService
         $query = $request->input('query');
         $products = Product::where(function($q) use ($query) {
             $q->where('name', 'LIKE', "%{$query}%")
-            ->where('published', 1);
+            ->where('published', "!=", 0);
         })
             ->select('id', 'name', 'image', 'price')
             ->paginate(15);

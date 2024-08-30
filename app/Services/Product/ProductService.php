@@ -18,7 +18,9 @@ class ProductService
 
         $query = Product::query();
         $query->whereHas('categories', function ($q) use ($categoryId) {
-            $q->where('category_id', $categoryId);
+            $q->where('category_id', $categoryId)
+            ->where('published', '!=', 0);
+
         });
 
         if ($request->has('price_min')) {

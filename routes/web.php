@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ProductController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManufacturersController;
 
-//use hb\epay\HBepay;
+////use hb\epay\HBepay;
 //use Faker\Provider\ar_EG\Payment;
 //Route::get('/pay', function()
 //    {
@@ -37,3 +38,5 @@ Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('adm
 Route::get('/users', [UsersController::class, 'showAllUsers'])->name('admin.users.index');
 //Dashboard
 Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('admin.dashboard.index');
+//Orders
+Route::get('/orders', [OrdersController::class, 'getAllOrders'])->name('admin.orders.index');
