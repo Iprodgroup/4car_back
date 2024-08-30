@@ -2,12 +2,11 @@
 
 namespace App\Services\Product;
 
+use Illuminate\Http\Request;
 use App\Models\Product\Order;
 use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Http\Resources\OrderResource;
 
 class OrderService
@@ -50,6 +49,12 @@ class OrderService
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
+        $orderSum = $product->price * $quantity;
+
+        if ($validatedData['delivery_method'] === 'delivery') {
+            $orderSum += 10000;
+        }
+
 
         $order = Order::create([
             'user_id' => auth()->id(),
@@ -66,22 +71,22 @@ class OrderService
             'comment' => $validatedData['comment'] ?? '',
             'coupon' => $validatedData['coupon'] ?? '',
             'payment_method' => $validatedData['payment_method'],
-            'sum' => $product->price * $validatedData['quantity'],
+            'sum' => $orderSum,
             'products' => json_encode([
                 [
-                    'id' => $product->id,
+                    'id' => $productId,
                     'name' => $product->name,
                     'brand' => $product->brand,
                     'image' => $product->image,
-                    'quantity' => $validatedData['quantity'],
+                    'quantity' => $quantity,
                     'price' => $product->price,
-                    'total_price' => $product->price * $validatedData['quantity'],
+                    'total_price' => $product->price * $quantity,
                 ]
             ]),
             'status_id' => 1, // assuming default status is 1
         ]);
 
-        return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
+        return response()->json(['message' => 'Заказ успешно создан', 'order' => $order], 201);
     }
 
     public function showOrder($orderId)
