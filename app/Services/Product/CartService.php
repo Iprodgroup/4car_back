@@ -49,7 +49,7 @@ class CartService
                     'id' => $product->id,
                     'name' => $product->name,
                     'brand' => $product->brand,
-                    'image' => $product->image,
+                    'image' => 'https://test.4car.kz'.$product->image,
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
                     'total_price' => $totalPrice,

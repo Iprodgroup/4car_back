@@ -14,16 +14,16 @@ class OrderResource extends JsonResource
             'name' => $this->name,
             'district' => $this->district,
             'city' => $this->city,
-            'delivery_method' => $this->deliveryMethod,
+            'delivery_method' => $this->delively_method,
             'town' => $this->town,
             'adres' => $this->adres,
             'orient' => $this->orient,
-            'work_adres' => $this->wordAdres,
+            'work_adres' => $this->work_adres,
             'comment' => $this->comment,
             'coupon' => $this->coupon,
-            'payment_method' => $this->paymentMethod,
+            'payment_method' => $this->payment_method,
             'status_id' => $this->status_id,
-            'tires' => $this->tires,
+            'products' => $this->products,
         ];
     }
 }

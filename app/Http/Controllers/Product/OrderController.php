@@ -5,17 +5,19 @@ namespace App\Http\Controllers\Product;
 use Illuminate\Http\Request;
 use App\Models\Product\Order;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Services\Product\CartService;
 use App\Services\Product\OrderService;
 
 class OrderController extends Controller
 {
-    protected $orderService;
-    public function __construct(OrderService $orderService)
+    protected $orderService, $cartService;
+
+    public function __construct(OrderService $orderService, CartService  $cartService)
     {
         $this->orderService = $orderService;
+        $this->cartService = $cartService;
         $this->middleware('auth:sanctum');
     }
 
@@ -23,40 +25,68 @@ class OrderController extends Controller
     {
         return $this->orderService->getOrders();
     }
-
-    public function createFromCart(Request $request): JsonResponse
+    public function createOrderWithoutCart(Request $request)
     {
-        try {
-            $order = $this->orderService->createOrderFromCart($request);
-
-            if ($order->payment_method === 'card') {
-                return response()->json(['redirect' => route('payment.page', ['order' => $order->id])]);
-            }
-            return response()->json(['message' => 'Заказ успешно оформлен', 'order' => $order], 201);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
+        return $this->orderService->createOrderWithoutCart($request);
     }
-
-    public function createInstantOrder(OrderRequest $request): JsonResponse
+    public function placeOrder(Request $request): JsonResponse
     {
-        try {
-            $order = $this->orderService->createInstantOrder($request->validated());
 
-            if ($order->payment_method === 'card') {
-                return response()->json(['redirect' => route('payment.page', ['order' => $order->id])]);
-            }
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'number' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'district' => 'required|string|max:255',
+            'delivery_method' => 'required|in:delivery,pickup',
+            'town' => 'required|string|max:255',
+            'adres' => 'required|string|max:255',
+            'orient' => 'required|string|max:255',
+            'work_adres' => 'nullable|string|max:255',
+            'phone' => 'required|string|max:255',
+            'comment' => 'nullable|string',
+            'coupon' => 'nullable|string|max:255',
+            'payment_method' => 'required|in:cash,card',
+        ]);
 
-            return response()->json(['message' => 'Заказ успешно оформлен', 'order' => $order], 201);
 
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        $cart = $this->cartService->getCart($request);
+
+        if (empty($cart['items'])) {
+            return response()->json(['error' => 'Корзина пуста!'], 400);
         }
+        $orderSum = $cart['total_price'];
+
+        if ($validatedData['delivery_method'] === 'delivery') {
+            $orderSum += 10000;
+        }
+
+        $order = new Order();
+        $order->user_id = $request->user()->id ?? null; // Идентификатор пользователя, если он авторизован
+        $order->name = $validatedData['name'];
+        $order->number = $validatedData['number'];
+        $order->city = $validatedData['city'];
+        $order->district = $validatedData['district'];
+        $order->delively_method = $validatedData['delivery_method'];
+        $order->town = $validatedData['town'];
+        $order->adres = $validatedData['adres'];
+        $order->orient = $validatedData['orient'];
+        $order->work_adres = $validatedData['work_adres'];
+        $order->phone = $validatedData['phone'];
+        $order->comment = $validatedData['comment'];
+        $order->coupon = $validatedData['coupon'];
+        $order->payment_method = $validatedData['payment_method'];
+        $order->sum = $orderSum;
+        $order->products = json_encode($cart['items']);
+        $order->status_id = 1;
+
+        $order->save();
+        $request->session()->forget('cart');
+
+        return response()->json(['success' => 'Заказ успешно оформлен!', 'order_id' => $order->id], 201);
     }
     public function show(Order $order): JsonResponse
     {
-        return $this->response(new OrderResource($order));
+        return response()->json(new OrderResource($order));
     }
 
     public function destroy(Order $order)
