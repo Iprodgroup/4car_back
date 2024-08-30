@@ -74,7 +74,7 @@ class ProductService
     public function getBestSalesProducts()
     {
         return Product::query()
-            ->where('image', '!=', 'NULL')
+            ->where('published', '!=', '0')
             ->limit(6)
             ->get();
     }
