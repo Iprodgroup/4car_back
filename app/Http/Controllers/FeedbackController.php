@@ -17,7 +17,7 @@ class FeedbackController extends Controller
     }
 
 
-    public function sendToTelegramWithoutEmail(Feedback $feedback)
+    public function sendToTelegram(Feedback $feedback)
     {
         $token = env('TELEGRAM_TOKEN');
         $chatId = env('TELEGRAM_CHAT_ID');
