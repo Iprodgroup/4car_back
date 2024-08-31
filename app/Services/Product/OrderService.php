@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Product\Order;
 use App\Models\Product\Product;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
 
 class OrderService
@@ -14,7 +13,7 @@ class OrderService
     public function getOrders(): JsonResponse
     {
         $user = auth()->user();
-        $orders = $user->orders()->paginate(10);
+        $orders = $user->orders()->with('status')->paginate(10);
 
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'У вас пока нет заказов'], 200);

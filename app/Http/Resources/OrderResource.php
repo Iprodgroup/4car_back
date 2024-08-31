@@ -22,7 +22,7 @@ class OrderResource extends JsonResource
             'comment' => $this->comment,
             'coupon' => $this->coupon,
             'payment_method' => $this->payment_method,
-            'status_id' => $this->status_id,
+            'status_id' => $this->status ? $this->status->name : null,
             'products' => $this->products,
         ];
     }
