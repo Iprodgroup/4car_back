@@ -2,11 +2,13 @@
 
 namespace App\Services\Product;
 
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
 
 class CartService
 {
+    use SlugTrait;
     public function addProductToCart(Request $request)
     {
         $request->validate([
@@ -47,6 +49,7 @@ class CartService
 
                 $detailedCart['items'][] = [
                     'id' => $product->id,
+                    'slug' => $this->generateSlug($product->name, $product->sku),
                     'name' => $product->name,
                     'brand' => $product->brand,
                     'image' => 'https://test.4car.kz'.$product->image,
