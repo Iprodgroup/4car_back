@@ -98,6 +98,11 @@
                         <div data-i18n="Under Maintenance">Отзывы о товарах</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.comments.index') }}" class="menu-link">
+                        <div data-i18n="Under Maintenance">Комментарии к новостям</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item open" style="">

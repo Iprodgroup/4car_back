@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\OrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
@@ -40,3 +41,6 @@ Route::get('/users', [UsersController::class, 'showAllUsers'])->name('admin.user
 Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('admin.dashboard.index');
 //Orders
 Route::get('/orders', [OrdersController::class, 'getAllOrders'])->name('admin.orders.index');
+//Comments
+Route::get('/comments/', [CommentsController::class, 'index'])->name('admin.comments.index');
+Route::delete('comments/{id}', [CommentsController::class, 'destroy'])->name('admin.comments.delete');

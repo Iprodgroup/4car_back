@@ -35,7 +35,7 @@ class ProductFullResource extends JsonResource
             'spikes' => $this->shipy,
             'indeks_nagruzki' => $this->indeks_nagruzki,
             'indeks_skorosti' => $this->indeks_skorosti,
-            'image' => $this->image ? 'https://test.4car.kz/'.$this->image : 'https://sour-wombats-deny.loca.lt/storage/users/shina.png',
+            'image' => 'https://test.4car.kz/'.$this->image,
             'similar_products' => $this->getSimilarProducts(),
         ];
     }
@@ -45,6 +45,7 @@ class ProductFullResource extends JsonResource
         $similarProducts = Product::query()
             ->where('modeli', $this->modeli) // Условие для модели
             ->where('id', '!=', $this->id)
+            ->where('price', '!=', 0)
             ->limit(10)
             ->get();
 

@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
+         //\App\Http\Middleware\TrustHosts::class,
         Controllers\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         Controllers\Middleware\PreventRequestsDuringMaintenance::class,
@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
