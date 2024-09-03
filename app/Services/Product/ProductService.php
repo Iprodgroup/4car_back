@@ -80,6 +80,7 @@ class ProductService
             ->limit(6)
             ->get();
     }
+
     public function getAllTires(Request $request, ProductService $productService): array
     {
         $category = Category::where('id', 370)->firstOrFail();
@@ -128,6 +129,7 @@ class ProductService
         }
         return $product;
     }
+
     private function filtersAttributes(): array
     {
         $manufacturerNames = [];
@@ -197,5 +199,4 @@ class ProductService
             'run_flat' => $run_flat,
         ];
     }
-
 }

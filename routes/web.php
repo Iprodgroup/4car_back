@@ -41,6 +41,7 @@ Route::get('/users', [UsersController::class, 'showAllUsers'])->name('admin.user
 Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('admin.dashboard.index');
 //Orders
 Route::get('/orders', [OrdersController::class, 'getAllOrders'])->name('admin.orders.index');
+Route::delete('orders/{id}', [OrdersController::class, 'destroy'])->name('admin.orders.delete');
 //Comments
 Route::get('/comments/', [CommentsController::class, 'index'])->name('admin.comments.index');
 Route::delete('comments/{id}', [CommentsController::class, 'destroy'])->name('admin.comments.delete');

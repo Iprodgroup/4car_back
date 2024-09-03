@@ -110,6 +110,7 @@
                                     <th>Адрес</th>
                                     <th>Дата </th>
                                     <th>Сумма</th>
+                                    <th>Удалить</th>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                 @foreach($orders as $order)
@@ -120,7 +121,13 @@
                                         <td>{{$order->adres}}</td>
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->sum}}</td>
-
+                                        <td>
+                                            <form action="{{ route('admin.comments.delete', $new->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
