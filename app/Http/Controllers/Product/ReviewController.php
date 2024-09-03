@@ -47,8 +47,11 @@ class ReviewController extends Controller
             'rating' => $request->rating,
             'user_id' => auth()->user()->id,
         ]);
+        $userName = auth()->user()->first_name . ' ' . auth()->user()->last_name;
 
-        return $this->success('Review created', $review);
+        $reviewWithUserName = $review->toArray();
+        $reviewWithUserName['user_name'] = $userName;
+        return $this->success('Review created', $reviewWithUserName);
     }
 
     public function show(Review $reviews)
