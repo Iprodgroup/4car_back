@@ -14,7 +14,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'slug' => $this->generateSlug($this->name),
+            'slug' => $this->generateSlug($this->name, $this->sku),
             'district' => $this->district,
             'city' => $this->city,
             'delivery_method' => $this->delively_method,

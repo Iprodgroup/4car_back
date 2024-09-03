@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Models\Product\Order;
 use App\Models\Product\Product;
@@ -10,6 +11,7 @@ use App\Http\Resources\OrderResource;
 
 class OrderService
 {
+    use SlugTrait;
     public function getOrders(): JsonResponse
     {
         $user = auth()->user();
@@ -75,6 +77,7 @@ class OrderService
                 [
                     'id' => $productId,
                     'name' => $product->name,
+                    'slug' => $this->generateSlug($product->name, $product->sku),
                     'brand' => $product->brendy,
                     'image' => $product->image,
                     'quantity' => $quantity,
