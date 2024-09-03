@@ -122,7 +122,7 @@
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->sum}}</td>
                                         <td>
-                                            <form action="{{ route('admin.comments.delete', $new->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
+                                            <form action="{{ route('admin.comments.delete', $order->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>
