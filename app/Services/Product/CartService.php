@@ -51,7 +51,7 @@ class CartService
                     'id' => $product->id,
                     'slug' => $this->generateSlug($product->name, $product->sku),
                     'name' => $product->name,
-                    'brand' => $product->brand,
+                    'brand' => $product->brendy,
                     'image' => 'https://test.4car.kz'.$product->image,
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
@@ -120,7 +120,7 @@ class CartService
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
-                    'brand' => $product->brand,
+                    'brand' => $product->brendy,
                     'image' => 'https://test.4car.kz'.$product->image,
                     'quantity' => $cart['products'][$productId]['quantity'],
                     'price' => $product->price,

@@ -75,7 +75,7 @@ class OrderService
                 [
                     'id' => $productId,
                     'name' => $product->name,
-                    'brand' => $product->brand,
+                    'brand' => $product->brendy,
                     'image' => $product->image,
                     'quantity' => $quantity,
                     'price' => $product->price,
