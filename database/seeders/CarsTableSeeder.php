@@ -11,15 +11,14 @@ class CarsTableSeeder extends Seeder
     public function run(): void
     {
         $csv = Reader::createFromPath(base_path() . '/database/seeders/csv/cars.csv', 'r');
-        $csv->setHeaderOffset(0); // Устанавливаем первую строку как заголовки
-
+        $csv->setHeaderOffset(0);
 
          foreach ($csv as $record) {
              Cars::firstOrCreate([
+                 'Id' => $record['Id'],
                  'Status' => $record['Status'],
                  'CarMarkCode' => $record['CarMarkCode'],
                  'CarModelCode' => $record['CarModelCode'],
-                 'CarModel' => $record['CarModel'],
                  'CarYear' => $record['CarYear'],
                  'CarModificationCode' => $record['CarModificationCode'],
                  'Processing' => $record['Processing'],
