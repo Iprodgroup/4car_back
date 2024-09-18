@@ -39,9 +39,9 @@ class OrderController extends Controller
             'district' => 'required|string|max:255',
             'delivery_method' => 'required|in:delivery,pickup',
             'town' => 'required|string|max:255',
-            'adres' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
             'orient' => 'required|string|max:255',
-            'work_adres' => 'nullable|string|max:255',
+            'work_address' => 'nullable|string|max:255',
             'phone' => 'required|string|max:255',
             'comment' => 'nullable|string',
             'coupon' => 'nullable|string|max:255',
@@ -68,9 +68,9 @@ class OrderController extends Controller
         $order->district = $validatedData['district'];
         $order->delively_method = $validatedData['delivery_method'];
         $order->town = $validatedData['town'];
-        $order->adres = $validatedData['adres'];
+        $order->adres = $validatedData['address'];
         $order->orient = $validatedData['orient'];
-        $order->work_adres = $validatedData['work_adres'];
+        $order->work_adres = $validatedData['work_address'];
         $order->phone = $validatedData['phone'];
         $order->comment = $validatedData['comment'];
         $order->coupon = $validatedData['coupon'];

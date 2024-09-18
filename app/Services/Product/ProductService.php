@@ -2,6 +2,7 @@
 namespace App\Services\Product;
 
 use App\Traits\SlugTrait;
+use App\Models\Product\Cars;
 use Illuminate\Http\Request;
 use App\Models\Product\Models;
 use App\Models\Product\Product;
@@ -72,6 +73,7 @@ class ProductService
         }
         return $query;
     }
+
 
     public function getBestSalesProducts()
     {

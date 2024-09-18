@@ -12,10 +12,12 @@ class Cars extends Model
     public $timestamps = false;
     protected $fillable =
         [
-            'Status', 'CarMarkCode', 'CarModelCode',
+            'Status', 'CarMarkCode', 'CarMark', 'CarModelCode',
             'CarModel', 'CarYear', 'CarModificationCode', 'Processing',
             'DiskProcessed', 'TireProcessed', 'Kuzov', 'Dvigatel',
             'krepezh', 'krepezhraz', 'krepezhraz2', 'counthole',
             'pcd', 'dia', 'diamax'
         ];
+
+
 }

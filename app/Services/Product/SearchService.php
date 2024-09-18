@@ -18,14 +18,15 @@ class SearchService
             $q->where('name', 'LIKE', "%{$query}%")
             ->where('published', "!=", 0);
         })
-            ->select('id', 'name', 'image', 'price')
+            ->select('id', 'name', 'sku', 'image', 'price')
             ->paginate(15);
 
         $productsData = collect($products->items())->map(function ($product) {
             return [
                 'id' => $product['id'],
                 'name' => $product['name'],
-                'slug' => $this->generateSlug($product['name']),
+                'sku' => $product['sku'],
+                'slug' => $this->generateSlug($product['name'], $product['sku']),
                 'price' => $product['price'],
                 'image'=> 'https://test.4car.kz'.$product['image'],
             ];

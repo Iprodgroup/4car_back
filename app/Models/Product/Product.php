@@ -2,6 +2,8 @@
 
 namespace App\Models\Product;
 
+use App\Models\Disk;
+use App\Models\Tire;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -48,7 +50,15 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_category_mappings', 'products_id', 'category_id')
             ->withPivot('is_featured_product', 'display_order');
     }
+    public function tires()
+    {
+        return $this->hasMany(Tire::class, 'product_id');
+    }
 
+    public function disks()
+    {
+        return $this->hasMany(Disk::class, 'product_id');
+    }
     public function reviews()
     {
         return $this->hasMany(Review::class);
