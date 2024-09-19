@@ -25,6 +25,7 @@ class ProductFullResource extends JsonResource
             'model' => $this->modeli,
             'articul' => $this->sku,
             'brand' => $this->brendy,
+            'brand_slug' => $this->generateSlug($this->brendy),
             'season' => $this->sezony,
             'size_of_tires' => $this->razmer_shiny,
             'height' => $this->vysota_shin,
