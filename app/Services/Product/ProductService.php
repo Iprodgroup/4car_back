@@ -10,6 +10,7 @@ use App\Traits\PaginationTrait;
 use App\Models\Product\Category;
 use App\Models\Product\Manufacturer;
 use App\Http\Resources\ProductMinimalResource;
+use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
@@ -73,7 +74,6 @@ class ProductService
         }
         return $query;
     }
-
 
     public function getBestSalesProducts()
     {
@@ -201,5 +201,82 @@ class ProductService
             'indeks_skorosti' => $indeks_skorosti,
             'run_flat' => $run_flat,
         ];
+    }
+
+    public function modelsByBrand(Request $request)
+    {
+        $brands = [
+            'ACURA', 'ALFA ROMEO', 'ASTON MARTIN', 'AUDI', 'BENTLEY', 'BMW', 'BRILLIANCE', 'BYD',
+            'CADILLAC', 'CHANGAN', 'CHERY', 'CHEVROLET', 'CHRYSLER', 'CITROEN', 'DAEWOO', 'DAIHATSU',
+            'DATSUN', 'DODGE', 'DONGFENG', 'DS', 'DW', 'FAW', 'FERRARI', 'FIAT', 'FORD', 'FOTON',
+            'GEELY', 'GENESIS', 'GREAT WALL', 'HAFEI', 'HAIMA', 'HAVAL', 'HAWTAI', 'HONDA', 'HUMMER',
+            'HYUNDAI', 'INFINITI', 'IRAN KHODRO', 'ISUZU', 'IVECO', 'JAC', 'JAGUAR', 'JEEP', 'KIA',
+            'LADA', 'LAMBORGHINI', 'LAND ROVER', 'LEXUS', 'LIFAN', 'LINCOLN', 'MASERATI', 'MAYBACH',
+            'MAZDA', 'MERCEDES', 'MINI', 'MITSUBISHI', 'NISSAN', 'OPEL', 'PEUGEOT', 'PONTIAC', 'PORSCHE',
+            'RAVON', 'RENAULT', 'ROLLS-ROYCE', 'ROVER', 'SAAB', 'SEAT', 'SKODA', 'SMART', 'SSANG YONG',
+            'SUBARU', 'SUZUKI', 'TagAZ', 'TESLA', 'TOYOTA', 'VOLKSWAGEN', 'VOLVO', 'VORTEX (TagAZ)', 'ZAZ',
+            'ZOTYE', 'АЗЛК', 'ГАЗ', 'ОКА', 'УАЗ'
+        ];
+
+        if ($request->has('brand')) {
+            $brand = $request->input('brand');
+            $models = Cars::where('CarMark', $brand)
+                ->select('CarModelCode', 'CarModel')
+                ->distinct()
+                ->get();
+
+            return $models;
+        }
+        return $brands;
+    }
+
+    public function yearsByModel(Request $request)
+    {
+        if ($request->has('model')) {
+            $model = $request->input('model');
+            $years = Cars::where('CarModel', $model)
+                ->select('CarYear')
+                ->distinct()
+                ->get();
+
+            return $years;
+        }
+        return(['error' => 'Модель не выбрана']);
+    }
+
+    public function modificationByModelAndYear(Request $request)
+    {
+        if ($request->has(['model', 'year'])) {
+            $model = $request->input('model');
+            $year = $request->input('year');
+
+            $modifications = Cars::where('CarModel', $model)
+                ->where('CarYear', $year)
+                ->select('Kuzov', 'Dvigatel')
+                ->distinct()
+                ->get();
+
+            return $modifications;
+        }
+        return (['error' => 'Модель или год не выбраны']);
+    }
+
+    public function optionsByModification(Request $request)
+    {
+        if ($request->has('modification')) {
+            $modification = $request->input('modification');
+
+            $options = DB::table('disks')
+                ->join('cars', 'cars.id', '=', 'disks.item') // Соединение таблицы disks с таблицей cars по полю кузов
+                ->where('cars.kuzov', $modification)
+                ->select('disks.description', 'disks.shirina', 'disks.dia')
+                ->first();
+
+            if ($options) {
+                return $options;
+            }
+            return (['error' => 'Данные не найдены']);
+        }
+        return (['error' => 'Модификация не выбрана']);
     }
 }
