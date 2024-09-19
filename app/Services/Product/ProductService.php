@@ -17,12 +17,10 @@ class ProductService
     use PaginationTrait, SlugTrait;
     public function tiresFilter(Request $request, int $categoryId)
     {
-
         $query = Product::query();
         $query->whereHas('categories', function ($q) use ($categoryId) {
             $q->where('category_id', $categoryId)
             ->where('published', '!=', 0);
-
         });
 
         if ($request->has('price_min')) {
@@ -267,15 +265,52 @@ class ProductService
             $modification = $request->input('modification');
 
             $options = DB::table('disks')
-                ->join('cars', 'cars.id', '=', 'disks.item') // Соединение таблицы disks с таблицей cars по полю кузов
+                ->join('cars', 'cars.id', '=', 'disks.item')
                 ->where('cars.kuzov', $modification)
                 ->select('disks.description', 'disks.shirina', 'disks.dia')
                 ->first();
 
-            if ($options) {
-                return $options;
+
+            if (!$options) {
+                return response()->json(['error' => 'Данные не найдены']);
             }
-            return (['error' => 'Данные не найдены']);
+            $similarProducts = DB::table('products')
+                ->where('shirina', $options->shirina)
+                ->where('diametr', $options->dia)
+                ->select('products.name', 'products.price', 'products.description')
+                ->get();
+
+            return response()->json([
+                'options' => $options,
+                'similar_products' => $similarProducts
+            ]);
+        }
+        return (['error' => 'Модификация не выбрана']);
+    }
+
+    public function optionsByModificationForTires(Request $request)
+    {
+        if ($request->has('modification')) {
+            $modification = $request->input('modification');
+
+            $options = DB::table('tires')
+                ->join('cars', 'cars.id', '=', 'tires.item')
+                ->where('cars.kuzov', $modification)
+                ->select('tires.description' )
+                ->first();
+
+            if (!$options) {
+                return response()->json(['error' => 'Данные не найдены']);
+            }
+            $similarProducts = DB::table('products')
+                ->where('razmer_shiny', $options->description)
+                ->select('products.name', 'products.price')
+                ->get();
+
+            return [
+                'options' => $options,
+                'similar_products' => $similarProducts
+            ];
         }
         return (['error' => 'Модификация не выбрана']);
     }
