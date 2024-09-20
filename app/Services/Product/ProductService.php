@@ -117,7 +117,7 @@ class ProductService
     public function showProductBySlug($slug)
     {
         ini_set('memory_limit', '512M');
-        $product = Product::with('categories')
+        $product = Product::with('categories', 'images')
             ->whereNotNull('name')
             ->get()
             ->first(function ($productItem) use ($slug)
@@ -270,20 +270,19 @@ class ProductService
                 ->select('disks.description', 'disks.shirina', 'disks.dia')
                 ->first();
 
-
             if (!$options) {
-                return response()->json(['error' => 'Данные не найдены']);
+                return['error' => 'Данные не найдены'];
             }
             $similarProducts = DB::table('products')
-                ->where('shirina', $options->shirina)
-                ->where('diametr', $options->dia)
-                ->select('products.name', 'products.price', 'products.description')
+                ->where('shirina_shin', $options->shirina)
+                ->where('diametr_shin', $options->dia)
+                ->select('products.name', 'products.price', 'products.short_description')
                 ->get();
 
-            return response()->json([
+            return [
                 'options' => $options,
                 'similar_products' => $similarProducts
-            ]);
+            ];
         }
         return (['error' => 'Модификация не выбрана']);
     }

@@ -2,8 +2,9 @@
 
 namespace App\Models\Product;
 
-use App\Models\Disk;
 use App\Models\Tire;
+use App\Models\Disk;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -39,6 +40,10 @@ class Product extends Model
         'modeli', 'vysota_shin', 'shipy', 'usileniye','run_flat', 'nepublikovat','otverstiya', 'rasstoyaniya',
         'kolichestvo_boltov', 'cveta', 'image'];
 
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
     public function manufacturers(): BelongsToMany
     {
         return $this->belongsToMany(Manufacturer::class, 'product_manufacturer_mapping', 'products_id','manufacturer_id')
