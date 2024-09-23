@@ -309,7 +309,7 @@ class ProductService
             $options = DB::table('tires')
                 ->join('cars', 'cars.id', '=', 'tires.item')
                 ->where('cars.kuzov', $modification)
-                ->select('tires.description' )
+                ->select('tires.description', 'tires.shirina', 'tires.diametr')
                 ->first();
 
             if (!$options)
