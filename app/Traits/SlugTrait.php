@@ -54,4 +54,10 @@ trait SlugTrait
             'ы' => 'y', 'ъ' => '', 'э' => 'e', 'ю' => 'yu', 'я' => 'ya'
         ];
     }
+
+    function cleanImageUrl($imageUrl) {
+        $cleanUrl = str_replace(['[\"', '\"]'], '', $imageUrl);
+        return $cleanUrl;
+    }
+
 }

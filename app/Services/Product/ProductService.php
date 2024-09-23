@@ -8,9 +8,9 @@ use App\Models\Product\Models;
 use App\Models\Product\Product;
 use App\Traits\PaginationTrait;
 use App\Models\Product\Category;
+use Illuminate\Support\Facades\DB;
 use App\Models\Product\Manufacturer;
 use App\Http\Resources\ProductMinimalResource;
-use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
@@ -259,7 +259,7 @@ class ProductService
         return (['error' => 'Модель или год не выбраны']);
     }
 
-    public function optionsByModification(Request $request)
+    public function filterByModification(Request $request)
     {
         if ($request->has('modification')) {
             $modification = $request->input('modification');
@@ -271,20 +271,34 @@ class ProductService
                 ->first();
 
             if (!$options) {
-                return['error' => 'Данные не найдены'];
+                return (['error' => 'Данные не найдены']);
             }
-            $similarProducts = DB::table('products')
-                ->where('shirina_shin', $options->shirina)
-                ->where('diametr_shin', $options->dia)
+            return (['options' => $options]);
+        }
+        return (['error' => 'Модификация не выбрана']);
+    }
+
+    public function searchSimilarProducts(Request $request)
+    {
+        if ($request->has(['shirina', 'dia'])) {
+            $shirina = $request->input('shirina');
+            $dia = $request->input('dia');
+
+           // $similarProducts = DB::table('products')
+            $similarProducts = Product::query()
+                ->where('shirina_shin', $shirina)
+                ->where('diametr_shin', $dia)
+                ->where('published', '=', 1)
+                ->whereHas('categories', function ($q) {
+                    $q->where('category_id', 369)
+                        ->where('published', '!=', 0);
+                })
                 ->select('products.name', 'products.price', 'products.short_description')
                 ->get();
 
-            return [
-                'options' => $options,
-                'similar_products' => $similarProducts
-            ];
+            return response()->json(['similar_products' => $similarProducts], 200);
         }
-        return (['error' => 'Модификация не выбрана']);
+        return response()->json(['error' => 'Характеристики не выбраны'], 400);
     }
 
     public function optionsByModificationForTires(Request $request)
@@ -298,9 +312,11 @@ class ProductService
                 ->select('tires.description' )
                 ->first();
 
-            if (!$options) {
+            if (!$options)
+            {
                 return response()->json(['error' => 'Данные не найдены']);
             }
+
             $similarProducts = DB::table('products')
                 ->where('razmer_shiny', $options->description)
                 ->select('products.name', 'products.price')

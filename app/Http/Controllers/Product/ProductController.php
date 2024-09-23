@@ -100,8 +100,26 @@ class ProductController extends Controller
 
     public function getOptionsByModification(Request $request)
     {
-        $result = $this->productService->optionsByModification($request);
+        $result = $this->productService->filterByModification($request);
         return response()->json($result);
+    }
+
+    public function searchDisks(Request $request)
+    {
+        if ($request->has(['shirina', 'dia'])) {
+            $shirina = $request->input('shirina');
+            $dia = $request->input('dia');
+
+            $newRequest = new Request([
+                'shirina' => $shirina,
+                'dia' => $dia
+            ]);
+
+            $disks = $this->productService->searchSimilarProducts($newRequest);
+            return response()->json($disks);
+        }
+
+        return response()->json(['error' => 'Характеристики не выбраны'], 400);
     }
 
     public function getOptionsByModificationTires(Request $request)
