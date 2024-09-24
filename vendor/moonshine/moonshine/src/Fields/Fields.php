@@ -74,6 +74,11 @@ final class Fields extends FormElements
         return $this->filter(static fn (Field $field): bool => ! $field instanceof HasFields);
     }
 
+    public function onlyVisible(): self
+    {
+        return $this->filter(static fn (Field $field): bool => $field->isSee($field->toValue()));
+    }
+
     /**
      * @throws Throwable
      */
@@ -139,11 +144,11 @@ final class Fields extends FormElements
                 $parent ? $field->column() : null,
             );
 
-            if($field->getAttribute('multiple') || $field->isGroup()) {
+            if ($field->getAttribute('multiple') || $field->isGroup()) {
                 $name .= '[]';
             }
 
-            if($parent) {
+            if ($parent) {
                 $field
                     ->formName($parent?->getFormName())
                     ->setParent($parent);
@@ -195,7 +200,7 @@ final class Fields extends FormElements
                 );
         }
 
-        if($withOutside) {
+        if ($withOutside) {
             return $this->filter(static fn (Field $field): bool => $field->isOnDetail());
         }
 

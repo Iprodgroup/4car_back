@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MoonShine\Fields\Relationships;
 
 use Closure;
-
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -89,7 +88,7 @@ class HasMany extends ModelRelationField implements HasFields
 
     public function getRedirectAfter(Model|int|null|string $parentId): string
     {
-        if(! is_null($this->redirectAfter)) {
+        if (! is_null($this->redirectAfter)) {
             return value($this->redirectAfter, $parentId, $this);
         }
 
@@ -129,7 +128,7 @@ class HasMany extends ModelRelationField implements HasFields
     }
 
     /**
-     * @param  Closure(TableBuilder $table, bool $preview, self $field): TableBuilder  $callback
+     * @param  Closure(TableBuilder $table, bool $preview): TableBuilder  $callback
      */
     public function modifyTable(Closure $callback): self
     {
@@ -403,7 +402,7 @@ class HasMany extends ModelRelationField implements HasFields
             isAsync: $this->isAsync()
         );
 
-        if(! is_null($this->modifyItemButtons)) {
+        if (! is_null($this->modifyItemButtons)) {
             return value(
                 $this->modifyItemButtons,
                 $detailButton,
@@ -433,7 +432,7 @@ class HasMany extends ModelRelationField implements HasFields
      */
     protected function resolvePreview(): View|string
     {
-        if($this->isRawMode()) {
+        if ($this->isRawMode()) {
             return '';
         }
 
@@ -456,7 +455,7 @@ class HasMany extends ModelRelationField implements HasFields
         if (is_null($this->toValue())) {
             $casted = $this->getRelatedModel();
             $relation = $casted?->{$this->getRelationName()}();
-            $resource = $this->getResource();
+            $resource = $this->getResource()->disableSaveFilterState();
 
             $resource->customBuilder(
                 is_null($this->modifyBuilder)

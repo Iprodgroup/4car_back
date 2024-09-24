@@ -1,4 +1,4 @@
-import {moonShineRequest, withSelectorsParams} from './asyncFunctions.js'
+import {getQueryString, moonShineRequest, withSelectorsParams} from './asyncFunctions.js'
 import {ComponentRequestData} from '../moonshine.js'
 
 export default (asyncUpdateRoute = '') => ({
@@ -28,6 +28,7 @@ export default (asyncUpdateRoute = '') => ({
     const query = new URLSearchParams(body).toString()
 
     t.asyncUpdateRoute += t.asyncUpdateRoute.includes('?') ? '&' + query : '?' + query
+    t.asyncUpdateRoute += getQueryString(this.$event.detail)
 
     let stopLoading = function (data, t) {
       t.loading = false

@@ -12,6 +12,7 @@ export default (
   actionsOpen: false,
   lastRow: null,
   table: null,
+  block: null,
   async: async,
   asyncUrl: asyncUrl,
   sortable: sortable,
@@ -19,6 +20,7 @@ export default (
   reindex: reindex,
   loading: false,
   init() {
+    this.block = this.$root
     this.table = this.$root.querySelector('table')
     const removeAfterClone = this.table?.dataset?.removeAfterClone
     const tbody = this.table?.querySelector('tbody')
@@ -55,9 +57,9 @@ export default (
     this.initColumnSelection()
   },
   getName() {
-    let name = this.table.dataset?.name ?? ''
+    let name = this.table?.dataset?.name ?? ''
 
-    if (this.table.dataset?.uniqueId) {
+    if (this.table?.dataset?.uniqueId) {
       name = `${name}-${this.table.dataset?.uniqueId}`
     }
 
@@ -68,8 +70,12 @@ export default (
       return
     }
 
+    if (!this.table) {
+      return
+    }
+
     const total = this.table.querySelectorAll('tbody > tr').length
-    const limit = this.table.dataset?.creatableLimit
+    const limit = this.table?.dataset?.creatableLimit
 
     if (limit && parseInt(total) >= parseInt(limit)) {
       return
@@ -88,7 +94,11 @@ export default (
     }
   },
   initColumnSelection() {
-    this.$root.querySelectorAll('[data-column-selection-checker]').forEach(el => {
+    if (!this.block) {
+      return
+    }
+
+    this.block.querySelectorAll('[data-column-selection-checker]').forEach(el => {
       let stored = localStorage.getItem(this.getColumnSelectionStoreKey(el))
 
       el.checked = stored === null || stored === 'true'
@@ -103,6 +113,10 @@ export default (
     const el = element ?? this.$el
     localStorage.setItem(this.getColumnSelectionStoreKey(el), el.checked)
 
+    if (!this.table) {
+      return
+    }
+
     this.table.querySelectorAll(`[data-column-selection="${el.dataset.column}"]`).forEach(e => {
       e.hidden = !el.checked
     })
@@ -115,7 +129,7 @@ export default (
     let table = this.table
 
     this.$nextTick(() => {
-      MoonShine.iterable.reindex(table, 'tr')
+      MoonShine.iterable.reindex(table, 'tbody > tr:not(tr tr)', 'tr')
     })
   },
   asyncFormRequest() {
@@ -141,6 +155,7 @@ export default (
       .get(t.asyncUrl + `&_key=${key}&_index=${index}`)
       .then(response => {
         tr.outerHTML = response.data
+        t.initColumnSelection()
       })
       .catch(error => {})
   },

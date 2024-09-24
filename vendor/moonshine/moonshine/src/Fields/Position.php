@@ -28,8 +28,8 @@ class Position extends Preview
 
     protected function resolvePreview(): View|string
     {
-        if($this->isRawMode()) {
-            return parent::resolvePreview();
+        if ($this->isRawMode()) {
+            return (string) $this->toFormattedValue();
         }
 
         return $this->render();

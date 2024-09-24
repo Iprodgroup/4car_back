@@ -46,12 +46,14 @@ class BelongsTo extends ModelRelationField implements
 
     protected bool $toOne = true;
 
+    protected bool $native = false;
+
     /**
      * @throws Throwable
      */
     protected function resolvePreview(): string
     {
-        if($this->isRawMode()) {
+        if ($this->isRawMode()) {
             return (string) ($this->toValue()?->getKey() ?? $this->toFormattedValue() ?? '');
         }
 
@@ -81,6 +83,18 @@ class BelongsTo extends ModelRelationField implements
     protected function resolveValue(): mixed
     {
         return $this->toValue()?->getKey();
+    }
+
+    public function native(): static
+    {
+        $this->native = true;
+
+        return $this;
+    }
+
+    public function isNative(): bool
+    {
+        return $this->native;
     }
 
     public function isSelected(string $value): bool

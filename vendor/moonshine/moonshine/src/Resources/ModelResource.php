@@ -7,7 +7,6 @@ namespace MoonShine\Resources;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
-use Illuminate\View\ComponentAttributeBag;
 use MoonShine\Enums\ClickAction;
 use MoonShine\Enums\JsEvent;
 use MoonShine\Exceptions\ResourceException;
@@ -29,6 +28,7 @@ use MoonShine\Traits\Resource\ResourceModelQuery;
 use MoonShine\Traits\Resource\ResourceModelValidation;
 use MoonShine\Traits\Resource\ResourceWithButtons;
 use MoonShine\Traits\Resource\ResourceWithFields;
+use MoonShine\Traits\Resource\ResourceWithTableModifiers;
 use MoonShine\Traits\WithIsNowOnRoute;
 use MoonShine\TypeCasts\ModelCast;
 use Throwable;
@@ -40,6 +40,7 @@ abstract class ModelResource extends Resource
 {
     use ResourceWithFields;
     use ResourceWithButtons;
+    use ResourceWithTableModifiers;
 
     /** @use ResourceModelValidation<TModel> */
     use ResourceModelValidation;
@@ -191,23 +192,12 @@ abstract class ModelResource extends Resource
         return $this->errorsAbove;
     }
 
-
     /**
      * @return list<Metric>
      */
     public function metrics(): array
     {
         return [];
-    }
-
-    public function trAttributes(): Closure
-    {
-        return fn (mixed $data, int $row, ComponentAttributeBag $attr): ComponentAttributeBag => $attr;
-    }
-
-    public function tdAttributes(): Closure
-    {
-        return fn (mixed $data, int $row, int $cell, ComponentAttributeBag $attr): ComponentAttributeBag => $attr;
     }
 
     /**
@@ -348,7 +338,7 @@ abstract class ModelResource extends Resource
         return $item;
     }
 
-    private function afterSave(Model $item, Fields $fields): Model
+    protected function afterSave(Model $item, Fields $fields): Model
     {
         $wasRecentlyCreated = $item->wasRecentlyCreated;
 

@@ -81,7 +81,7 @@ class IndexPage extends Page
 
     protected function metrics(): ?MoonShineComponent
     {
-        if($this->getResource()->isListComponentRequest()) {
+        if ($this->getResource()->isListComponentRequest()) {
             return null;
         }
 
@@ -195,6 +195,36 @@ class IndexPage extends Page
                 ! is_null($this->getResource()->tdAttributes()),
                 fn (TableBuilder $table): TableBuilder => $table->tdAttributes(
                     $this->getResource()->tdAttributes()
+                )
+            )
+            ->when(
+                ! is_null($this->getResource()->thead()),
+                fn (TableBuilder $table): TableBuilder => $table->thead(
+                    $this->getResource()->thead()
+                )
+            )
+            ->when(
+                ! is_null($this->getResource()->tbody()),
+                fn (TableBuilder $table): TableBuilder => $table->tbody(
+                    $this->getResource()->tbody()
+                )
+            )
+            ->when(
+                ! is_null($this->getResource()->tfoot()),
+                fn (TableBuilder $table): TableBuilder => $table->tfoot(
+                    $this->getResource()->tfoot()
+                )
+            )
+            ->when(
+                ! is_null($this->getResource()->tbodyBefore()),
+                fn (TableBuilder $table): TableBuilder => $table->bodyBefore(
+                    $this->getResource()->tbodyBefore()
+                )
+            )
+            ->when(
+                ! is_null($this->getResource()->tbodyAfter()),
+                fn (TableBuilder $table): TableBuilder => $table->bodyAfter(
+                    $this->getResource()->tbodyAfter()
                 )
             )
             ->buttons($this->getResource()->getIndexItemButtons())

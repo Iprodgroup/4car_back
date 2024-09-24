@@ -5,9 +5,10 @@ import {
   showWhenVisibilityChange,
 } from './showWhenFunctions'
 import {moonShineRequest, dispatchEvents as de} from './asyncFunctions'
-import {containsAttribute, getAncestorsUntil, isTextInput} from './supportFunctions.js'
+import {containsAttribute, isTextInput} from './supportFunctions.js'
 import {ComponentRequestData} from '../moonshine.js'
 import {addInvalidListener} from './formFunctions.js'
+import {formToJSON} from 'axios'
 
 export default (name = '', initData = {}, reactive = {}) => ({
   name: name,
@@ -135,6 +136,8 @@ export default (name = '', initData = {}, reactive = {}) => ({
 
         const data = errorResponse.response.data
 
+        inputsErrors(data, t.$el)
+
         let errors = ''
         let errorsData = data.errors
         for (const error in errorsData) {
@@ -180,8 +183,9 @@ export default (name = '', initData = {}, reactive = {}) => ({
 
         submitState(form, false, false)
       })
-      .withAfterErrorCallback(function () {
+      .withAfterErrorCallback(function (data) {
         submitState(form, false)
+        inputsErrors(data, t.$el)
       })
 
     moonShineRequest(
@@ -209,6 +213,8 @@ export default (name = '', initData = {}, reactive = {}) => ({
   },
 
   dispatchEvents(componentEvent, exclude = null, extra = {}) {
+    extra['_form'] = formToJSON(new FormData(this.$el))
+
     de(componentEvent, '', this, extra)
   },
 
@@ -306,7 +312,29 @@ function submitState(form, loading = true, reset = false) {
       form.reset()
     }
   } else {
+    const inputs = form.querySelectorAll('[name]')
+    if (inputs.length > 0) {
+      inputs.forEach(function (element) {
+        if (element.classList.contains('form-invalid')) {
+          element.classList.remove('form-invalid')
+        }
+      })
+    }
+
     form.querySelector('.form_submit_button').setAttribute('disabled', 'true')
     form.querySelector('.form_submit_button_loader').style.display = 'block'
+  }
+}
+
+function inputsErrors(data, form) {
+  if (!data.errors) {
+    return
+  }
+  for (let key in data.errors) {
+    let formattedKey = key.replace(/\.(\d+|\w+)/g, '[$1]')
+    const input = form.querySelector(`[name="${formattedKey}"]`)
+    if (input) {
+      input.classList.add('form-invalid')
+    }
   }
 }

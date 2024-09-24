@@ -10,6 +10,8 @@ use MoonShine\Fields\Field;
 // TODO array attributes to ?ComponentAttributeBag
 trait WithComponentAttributes
 {
+    use WithAlpineJsAttributes;
+
     protected array $attributes = [];
 
     protected array $customAttributes = [];
@@ -90,6 +92,12 @@ trait WithComponentAttributes
     {
         if (! $this instanceof Field) {
             return $this;
+        }
+
+        if ($level === 0 && $this->hasParent()) {
+            $this->parent()?->customAttributes([
+                'data-top-level' => true,
+            ]);
         }
 
         return $this->customAttributes([

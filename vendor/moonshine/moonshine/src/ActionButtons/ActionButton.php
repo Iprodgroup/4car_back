@@ -98,7 +98,7 @@ class ActionButton extends MoonShineComponent implements ActionButtonContract
         $this->isBulk = true;
         $this->bulkForComponent = $forComponent;
 
-        if(is_null($this->modal)) {
+        if (is_null($this->modal)) {
             $this->customAttributes(array_filter([
                 'data-button-type' => 'bulk-button',
                 'data-for-component' => $forComponent,
@@ -139,7 +139,7 @@ class ActionButton extends MoonShineComponent implements ActionButtonContract
 
     public function setItem(mixed $item): self
     {
-        if(! is_null($this->onBeforeSetCallback)) {
+        if (! is_null($this->onBeforeSetCallback)) {
             $item = value($this->onBeforeSetCallback, $item, $this);
         }
 
@@ -167,8 +167,15 @@ class ActionButton extends MoonShineComponent implements ActionButtonContract
 
     public function dispatchEvent(array|string $events): self
     {
+        if (! $this->attributes()->has('x-data')) {
+            $this->xDataMethod('actionButton');
+        }
+
         return $this->onClick(
-            fn (): string => AlpineJs::dispatchEvents($events),
+            fn (): string => "dispatchEvents(
+                `" . AlpineJs::prepareEvents($events) . "`,
+                `_component_name,_token,_method`
+            )",
             'prevent'
         );
     }
@@ -262,7 +269,7 @@ class ActionButton extends MoonShineComponent implements ActionButtonContract
             ))
         );
 
-        if($this->attributes->get('x-on:click.prevent') === 'request') {
+        if ($this->attributes->get('x-on:click.prevent') === 'request') {
             $removeAsyncAttr[] = 'x-on:click.prevent';
         }
 
