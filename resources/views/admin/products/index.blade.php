@@ -95,6 +95,8 @@
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">Товары</h4>
+
+
                     <a type="button" href="#">
                         <span class="tf-icons bx "></span>&nbsp; Создать
                     </a>

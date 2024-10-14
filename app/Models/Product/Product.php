@@ -38,7 +38,8 @@ class Product extends Model
         'market_place_quantity','last_kaspi_price', 'indeks_nagruzki', 'vidy_nomenklaturi',
         'diametr_shin', 'indeks_skorosti', 'brendy', 'sezony', 'razmer_shiny', 'shirina_shin',
         'modeli', 'vysota_shin', 'shipy', 'usileniye','run_flat', 'nepublikovat','otverstiya', 'rasstoyaniya',
-        'kolichestvo_boltov', 'cveta', 'image'];
+        'kolichestvo_boltov', 'cveta', 'image'
+    ];
 
     public function images()
     {
@@ -68,12 +69,12 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($product) {
-            $product->slug = $this->generateSlug($product);
-        });
-    }
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::saving(function ($product) {
+//            $product->slug = $product->generateSlug($product->name);
+//        });
+//    }
 }

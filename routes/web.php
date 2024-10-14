@@ -22,6 +22,11 @@ use App\Http\Controllers\Admin\ManufacturersController;
 //);
 //Products
 Route::get('/products', [ProductController::class, 'showAllProducts'])->name('admin.products.index');
+Route::get('/products/upload', [ProductController::class, 'showUploadForm']);
+Route::post('/products/upload', [ProductController::class, 'handleUpload'])->name('admin.upload.handle');
+Route::get('/products/export-with-orders', [ProductController::class, 'exportProductsWithOrders'])->name('admin.products.export-with-orders');
+Route::get('/products/export', [ProductController::class, 'exportProducts'])->name('admin.products.export');
+
 //Categories
 Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('admin.categories.index');
 Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
