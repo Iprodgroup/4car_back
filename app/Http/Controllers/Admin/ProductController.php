@@ -16,6 +16,89 @@ class ProductController extends Controller
         $products = Product::query()->paginate(15);
         return view('admin.products.index', compact('products'));
     }
+    public function create()
+    {
+        return view('admin.products.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'sku' => 'required|unique:products',
+            'name' => 'required',
+            'vidy_nomenklaturi' => 'required',
+            'brendy' => 'required',
+            'run_flat' => 'boolean',
+            'weight' => 'required|numeric',
+            'modeli' => 'required',
+            'sezony' => 'required',
+            'shipy' => 'required',
+            'vysota_shin' => 'required|numeric',
+            'diametr_shin' => 'required|numeric',
+            'indeks_nagruzki' => 'required',
+            'indeks_skorosti' => 'required',
+            'shirina_shin' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        if ($request->hasFile('images')) {
+           $imagePath = $request->file('images')->store('products', 'public');
+           $validatedData['images'] = $imagePath;
+        }
+
+        Product::create($validatedData);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('admin.products.edit', compact('product'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $validatedData = $request->validate([
+            'sku' => 'required|unique:products,sku,' . $product->id,
+            'name' => 'required',
+            'vidy_nomenklaturi' => 'required',
+            'brendy' => 'required',
+            'run_flat' => 'boolean',
+            'weight' => 'required|numeric',
+            'modeli' => 'required',
+            'sezony' => 'required',
+            'shipy' => 'required',
+            'vysota_shin' => 'required|numeric',
+            'diametr_shin' => 'required|numeric',
+            'indeks_nagruzki' => 'required',
+            'indeks_skorosti' => 'required',
+            'shirina_shin' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,jpg,png'
+        ]);
+        if ($request->hasFile('image')) {
+            // Удаляем старую фотографию, если она существует
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+
+        $product->update($validatedData);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+    }
 
     public function showUploadForm()
     {
@@ -24,7 +107,7 @@ class ProductController extends Controller
     public function handleUpload(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xml|max:30000', // максимум 10 MB
+            'file' => 'required|file|mimes:xml|max:30000',
         ]);
 
         Log::info('Файл загружен: ' . $request->file('file')->getClientOriginalName());
@@ -172,7 +255,8 @@ class ProductController extends Controller
             $orderNode->addAttribute('id', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('name', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('delivery_method', htmlspecialchars($order->delivery_method, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('adre', htmlspecialchars($order->adres, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('adres', htmlspecialchars($order->adres, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('payment_method', htmlspecialchars($order->payment_method, ENT_XML1, 'UTF-8'));
         }
 
         $filename = 'products_with_orders.xml';
