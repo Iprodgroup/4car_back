@@ -84,6 +84,11 @@
                     </a>
                 </li>
                 <li class="menu-item">
+                    <a href="{{ route('admin.products.upload') }}" class="menu-link">
+                        <div data-i18n="Under Maintenance">Загрузка/выгрузка</div>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="{{ route('admin.categories.index') }}" class="menu-link">
                         <div data-i18n="Under Maintenance">Категории</div>
                     </a>

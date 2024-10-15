@@ -97,9 +97,12 @@
                     <h4 class="fw-bold py-3 mb-4">Товары</h4>
 
 
-                    <a type="button" href="#">
+                    <a type="button" class="btn btn-primary" href="{{ route('admin.products.create') }}">
                         <span class="tf-icons bx "></span>&nbsp; Создать
                     </a>
+                    <br>
+                    <br>
+
                     <div class="card">
                         <h5 class="card-header">Товары</h5>
                         <div class="table-responsive text-nowrap">
@@ -119,12 +122,12 @@
                                         <td>{{$product->sku}}</td>
                                         <td>{{$product->price}}</td>
                                         <td>{{$product->stock_quantity}}</td>
-                                        <td><a type="button" href="#" class="btn btn-primary">Edit</a></td>
+                                        <td><a type="button" href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary">Изменить</a></td>
                                         <td>
-                                            <form action="#" method="post"  onsubmit="return confirm('Are you sure?');">
+                                            <form action="{{ route('admin.products.delete', $product->id) }}" method="post"  onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <button type="submit" class="btn btn-danger">Удалить</button>
                                             </form>
                                         </td>
                                     </tr>

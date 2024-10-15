@@ -22,11 +22,15 @@ use App\Http\Controllers\Admin\ManufacturersController;
 //);
 //Products
 Route::get('/products', [ProductController::class, 'showAllProducts'])->name('admin.products.index');
-Route::get('/products/upload', [ProductController::class, 'showUploadForm']);
+Route::get('/products/upload', [ProductController::class, 'showUploadForm'])->name('admin.products.upload');
 Route::post('/products/upload', [ProductController::class, 'handleUpload'])->name('admin.upload.handle');
 Route::get('/products/export-with-orders', [ProductController::class, 'exportProductsWithOrders'])->name('admin.products.export-with-orders');
 Route::get('/products/export', [ProductController::class, 'exportProducts'])->name('admin.products.export');
-
+Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
+Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
+Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
+Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('admin.products.delete');
 //Categories
 Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('admin.categories.index');
 Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
