@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Product\Order;
-use App\Models\Product\Tires;
 use App\Models\Product\Comment;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -22,6 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'token',
         'first_name',
         'last_name',
         'email',
