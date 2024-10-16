@@ -220,37 +220,23 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $orders = Order::all();
-
         $xml = new \SimpleXMLElement('<shop/>');
 
         $productsNode = $xml->addChild('products');
         foreach ($products as $product) {
             $productNode = $productsNode->addChild('product');
-
-            // Преобразование и фильтрация недопустимых символов
-            $sku = $this->sanitizeForXML($product->sku, 'windows-1251//IGNORE');
-            $productNode->addAttribute('sku', $sku);
-
-            $name = $this->sanitizeForXML($product->name, 'windows-1251//IGNORE');
-            $productNode->addChild('name', $name);
-
-            $category = $this->sanitizeForXML($product->vidy_nomenklaturi, 'windows-1251//IGNORE');
-            $productNode->addChild('category', $category);
-
-            $vendor = $this->sanitizeForXML($product->brendy, 'windows-1251//IGNORE');
-            $productNode->addChild('vendor', $vendor);
-
+            $productNode->addAttribute('sku', htmlspecialchars($product->sku, ENT_XML1, 'UTF-8'));
+            $productNode->addChild('name', htmlspecialchars($product->name, ENT_XML1, 'UTF-8'));
+            $productNode->addChild('category', htmlspecialchars($product->vidy_nomenklaturi, ENT_XML1, 'UTF-8'));
+            $productNode->addChild('vendor', htmlspecialchars($product->brendy, ENT_XML1, 'UTF-8'));
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
             $productNode->addChild('RunFlat', $product->run_flat ? 'true' : 'false');
             $productNode->addChild('height', $product->vysota_shin);
             $productNode->addChild('diameter', $product->diametr_shin);
-            $productNode->addChild('load-index', $this->sanitizeForXML($product->indeks_nagruzki, 'windows-1251//IGNORE'));
-            $productNode->addChild('speed-index', $this->sanitizeForXML($product->indeks_skorosti, 'windows-1251//IGNORE'));
+            $productNode->addChild('load-index', $product->indeks_nagruzki);
+            $productNode->addChild('speed-index', $product->indeks_skorosti);
             $productNode->addChild('weight', $product->weight);
-
-            $model = $this->sanitizeForXML($product->modeli, 'windows-1251//IGNORE');
-            $productNode->addChild('model', $model);
-
+            $productNode->addChild('model', htmlspecialchars($product->modeli, ENT_XML1, 'UTF-8'));
             $productNode->addChild('season', $product->sezony);
             $productNode->addChild('spikes', $product->shipy ? 'true' : 'false');
             $productNode->addChild('width', $product->shirina_shin);
@@ -259,34 +245,24 @@ class ProductController extends Controller
         $ordersNode = $xml->addChild('orders');
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
-
-            $id = $this->sanitizeForXML($order->id, 'windows-1251//IGNORE');
-            $orderNode->addAttribute('id', $id);
-
-            $name = $this->sanitizeForXML($order->name, 'windows-1251//IGNORE');
-            $orderNode->addChild('name', $name);
-
-            $delivery_method = $this->sanitizeForXML($order->delivery_method, 'windows-1251//IGNORE');
-            $orderNode->addChild('delivery_method', $delivery_method);
-
-            $adres = $this->sanitizeForXML($order->adres, 'windows-1251//IGNORE');
-            $orderNode->addChild('adres', $adres);
-
-            $payment_method = $this->sanitizeForXML($order->payment_method, 'windows-1251//IGNORE');
-            $orderNode->addChild('payment_method', $payment_method);
+            $orderNode->addAttribute('id', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('name', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('delivery_method', htmlspecialchars($order->delivery_method, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('adres', htmlspecialchars($order->adres, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('payment_method', htmlspecialchars($order->payment_method, ENT_XML1, 'UTF-8'));
         }
 
         $filename = 'products_with_orders.xml';
-        $xml->asXML(public_path($filename));
+
+        $tempFile = tempnam(sys_get_temp_dir(), 'xml');
+        $xml->asXML($tempFile);
+
+        $utf8Content = mb_convert_encoding(file_get_contents($tempFile), 'UTF-8', 'UTF-16');
+        file_put_contents(public_path($filename), $utf8Content);
+        unlink($tempFile);
 
         return response()->download(public_path($filename));
     }
-    private function sanitizeForXML($string, $encoding)
-    {
-        $string = iconv('UTF-8//IGNORE', 'windows-1251//IGNORE', $string);
-        return htmlspecialchars($string, ENT_XML1, $encoding);
-    }
-
     public function exportProducts()
     {
         $products = Product::all();
