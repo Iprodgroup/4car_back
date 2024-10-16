@@ -287,21 +287,13 @@ class ProductController extends Controller
 
         return response()->download(public_path($filename));
     }
-
-// Функция для фильтрации недопустимых символов
     private function sanitizeForXML($string, $encoding)
     {
-        // Преобразование строки в указанную кодировку
-        $string = iconv('UTF-8', $encoding . '//TRANSLIT', $string);
-
-        // Удаление недопустимых символов
+        $string = iconv('UTF-8//IGNORE', 'windows-1251//IGNORE', $string);
         $string = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/', '', $string);
 
-        // Возвращаем отфильтрованную строку
         return htmlspecialchars($string, ENT_XML1, $encoding);
     }
-
-
 
     public function exportProducts()
     {
