@@ -232,10 +232,19 @@ class ProductController extends Controller
         $productsNode = $xml->addChild('products');
         foreach ($products as $product) {
             $productNode = $productsNode->addChild('product');
-            $productNode->addAttribute('sku', htmlspecialchars($product->sku, ENT_XML1, 'UTF-8'));
-            $productNode->addChild('name', htmlspecialchars($product->name, ENT_XML1, 'UTF-8'));
-            $productNode->addChild('category', htmlspecialchars($product->vidy_nomenklaturi, ENT_XML1, 'UTF-8'));
-            $productNode->addChild('vendor', htmlspecialchars($product->brendy, ENT_XML1, 'UTF-8'));
+
+            $sku = iconv('UTF-8', 'windows-1251', $product->sku);
+            $productNode->addAttribute('sku', htmlspecialchars($sku, ENT_XML1, 'windows-1251'));
+
+            $name = iconv('UTF-8', 'windows-1251', $product->name);
+            $productNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
+
+            $category = iconv('UTF-8', 'windows-1251', $product->vidy_nomenklaturi);
+            $productNode->addChild('category', htmlspecialchars($category, ENT_XML1, 'windows-1251'));
+
+            $vendor = iconv('UTF-8', 'windows-1251', $product->brendy);
+            $productNode->addChild('vendor', htmlspecialchars($vendor, ENT_XML1, 'windows-1251'));
+
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
             $productNode->addChild('RunFlat', $product->run_flat ? 'true' : 'false');
             $productNode->addChild('height', $product->vysota_shin);
@@ -243,7 +252,10 @@ class ProductController extends Controller
             $productNode->addChild('load-index', $product->indeks_nagruzki);
             $productNode->addChild('speed-index', $product->indeks_skorosti);
             $productNode->addChild('weight', $product->weight);
-            $productNode->addChild('model', htmlspecialchars($product->modeli, ENT_XML1, 'UTF-8'));
+
+            $model = iconv('UTF-8', 'windows-1251', $product->modeli);
+            $productNode->addChild('model', htmlspecialchars($model, ENT_XML1, 'windows-1251'));
+
             $productNode->addChild('season', $product->sezony);
             $productNode->addChild('spikes', $product->shipy ? 'true' : 'false');
             $productNode->addChild('width', $product->shirina_shin);
@@ -252,11 +264,21 @@ class ProductController extends Controller
         $ordersNode = $xml->addChild('orders');
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
-            $orderNode->addAttribute('id', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('name', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('delivery_method', htmlspecialchars($order->delivery_method, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('adres', htmlspecialchars($order->adres, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('payment_method', htmlspecialchars($order->payment_method, ENT_XML1, 'UTF-8'));
+
+            $id = iconv('UTF-8', 'windows-1251', $order->id);
+            $orderNode->addAttribute('id', htmlspecialchars($id, ENT_XML1, 'windows-1251'));
+
+            $name = iconv('UTF-8', 'windows-1251', $order->name);
+            $orderNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
+
+            $delivery_method = iconv('UTF-8', 'windows-1251', $order->delivery_method);
+            $orderNode->addChild('delivery_method', htmlspecialchars($delivery_method, ENT_XML1, 'windows-1251'));
+
+            $adres = iconv('UTF-8', 'windows-1251', $order->adres);
+            $orderNode->addChild('adres', htmlspecialchars($adres, ENT_XML1, 'windows-1251'));
+
+            $payment_method = iconv('UTF-8', 'windows-1251', $order->payment_method);
+            $orderNode->addChild('payment_method', htmlspecialchars($payment_method, ENT_XML1, 'windows-1251'));
         }
 
         $filename = 'products_with_orders.xml';

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\OrdersController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ProductController;
@@ -54,3 +55,7 @@ Route::delete('orders/{id}', [OrdersController::class, 'destroy'])->name('admin.
 //Comments
 Route::get('/comments/', [CommentsController::class, 'index'])->name('admin.comments.index');
 Route::delete('comments/{id}', [CommentsController::class, 'destroy'])->name('admin.comments.delete');
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
