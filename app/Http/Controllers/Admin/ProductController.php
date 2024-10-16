@@ -233,33 +233,29 @@ class ProductController extends Controller
         foreach ($products as $product) {
             $productNode = $productsNode->addChild('product');
 
-            // Преобразование SKU в кодировку windows-1251 с заменой недопустимых символов
-            $sku = iconv('UTF-8', 'windows-1251//TRANSLIT', $product->sku);
-            $productNode->addAttribute('sku', htmlspecialchars($sku, ENT_XML1, 'windows-1251'));
+            // Преобразование и фильтрация недопустимых символов
+            $sku = $this->sanitizeForXML($product->sku, 'windows-1251');
+            $productNode->addAttribute('sku', $sku);
 
-            // Преобразование имени в кодировку windows-1251 с заменой недопустимых символов
-            $name = iconv('UTF-8', 'windows-1251//TRANSLIT', $product->name);
-            $productNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
+            $name = $this->sanitizeForXML($product->name, 'windows-1251');
+            $productNode->addChild('name', $name);
 
-            // Преобразование категории в кодировку windows-1251 с заменой недопустимых символов
-            $category = iconv('UTF-8', 'windows-1251//TRANSLIT', $product->vidy_nomenklaturi);
-            $productNode->addChild('category', htmlspecialchars($category, ENT_XML1, 'windows-1251'));
+            $category = $this->sanitizeForXML($product->vidy_nomenklaturi, 'windows-1251');
+            $productNode->addChild('category', $category);
 
-            // Преобразование вендора в кодировку windows-1251 с заменой недопустимых символов
-            $vendor = iconv('UTF-8', 'windows-1251//TRANSLIT', $product->brendy);
-            $productNode->addChild('vendor', htmlspecialchars($vendor, ENT_XML1, 'windows-1251'));
+            $vendor = $this->sanitizeForXML($product->brendy, 'windows-1251');
+            $productNode->addChild('vendor', $vendor);
 
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
             $productNode->addChild('RunFlat', $product->run_flat ? 'true' : 'false');
             $productNode->addChild('height', $product->vysota_shin);
             $productNode->addChild('diameter', $product->diametr_shin);
-            $productNode->addChild('load-index', $product->indeks_nagruzki);
-            $productNode->addChild('speed-index', $product->indeks_skorosti);
+            $productNode->addChild('load-index', $this->sanitizeForXML($product->indeks_nagruzki, 'windows-1251'));
+            $productNode->addChild('speed-index', $this->sanitizeForXML($product->indeks_skorosti, 'windows-1251'));
             $productNode->addChild('weight', $product->weight);
 
-            // Преобразование модели в кодировку windows-1251 с заменой недопустимых символов
-            $model = iconv('UTF-8', 'windows-1251//TRANSLIT', $product->modeli);
-            $productNode->addChild('model', htmlspecialchars($model, ENT_XML1, 'windows-1251'));
+            $model = $this->sanitizeForXML($product->modeli, 'windows-1251');
+            $productNode->addChild('model', $model);
 
             $productNode->addChild('season', $product->sezony);
             $productNode->addChild('spikes', $product->shipy ? 'true' : 'false');
@@ -270,25 +266,20 @@ class ProductController extends Controller
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
 
-            // Преобразование ID в кодировку windows-1251 с заменой недопустимых символов
-            $id = iconv('UTF-8', 'windows-1251//TRANSLIT', $order->id);
-            $orderNode->addAttribute('id', htmlspecialchars($id, ENT_XML1, 'windows-1251'));
+            $id = $this->sanitizeForXML($order->id, 'windows-1251');
+            $orderNode->addAttribute('id', $id);
 
-            // Преобразование имени в кодировку windows-1251 с заменой недопустимых символов
-            $name = iconv('UTF-8', 'windows-1251//TRANSLIT', $order->name);
-            $orderNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
+            $name = $this->sanitizeForXML($order->name, 'windows-1251');
+            $orderNode->addChild('name', $name);
 
-            // Преобразование метода доставки в кодировку windows-1251 с заменой недопустимых символов
-            $delivery_method = iconv('UTF-8', 'windows-1251//TRANSLIT', $order->delivery_method);
-            $orderNode->addChild('delivery_method', htmlspecialchars($delivery_method, ENT_XML1, 'windows-1251'));
+            $delivery_method = $this->sanitizeForXML($order->delivery_method, 'windows-1251');
+            $orderNode->addChild('delivery_method', $delivery_method);
 
-            // Преобразование адреса в кодировку windows-1251 с заменой недопустимых символов
-            $adres = iconv('UTF-8', 'windows-1251//TRANSLIT', $order->adres);
-            $orderNode->addChild('adres', htmlspecialchars($adres, ENT_XML1, 'windows-1251'));
+            $adres = $this->sanitizeForXML($order->adres, 'windows-1251');
+            $orderNode->addChild('adres', $adres);
 
-            // Преобразование метода оплаты в кодировку windows-1251 с заменой недопустимых символов
-            $payment_method = iconv('UTF-8', 'windows-1251//TRANSLIT', $order->payment_method);
-            $orderNode->addChild('payment_method', htmlspecialchars($payment_method, ENT_XML1, 'windows-1251'));
+            $payment_method = $this->sanitizeForXML($order->payment_method, 'windows-1251');
+            $orderNode->addChild('payment_method', $payment_method);
         }
 
         $filename = 'products_with_orders.xml';
@@ -296,6 +287,20 @@ class ProductController extends Controller
 
         return response()->download(public_path($filename));
     }
+
+// Функция для фильтрации недопустимых символов
+    private function sanitizeForXML($string, $encoding)
+    {
+        // Преобразование строки в указанную кодировку
+        $string = iconv('UTF-8', $encoding . '//TRANSLIT', $string);
+
+        // Удаление недопустимых символов
+        $string = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/', '', $string);
+
+        // Возвращаем отфильтрованную строку
+        return htmlspecialchars($string, ENT_XML1, $encoding);
+    }
+
 
 
     public function exportProducts()
