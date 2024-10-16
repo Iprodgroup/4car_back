@@ -78,7 +78,6 @@ class ProductController extends Controller
             'image' => 'image|mimes:jpeg,jpg,png'
         ]);
         if ($request->hasFile('image')) {
-            // Удаляем старую фотографию, если она существует
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
@@ -143,23 +142,18 @@ class ProductController extends Controller
 
         if (isset($xml->shop)) {
             Log::info("Обрабатываем элемент <shop>");
-
-            // Проверяем наличие секции с продуктами
             if (isset($xml->shop->products)) {
                 Log::info("Количество продуктов: " . count($xml->shop->products->product));
 
-                // Обрабатываем каждый продукт
                 foreach ($xml->shop->products->product as $product) {
                     Log::info("Обрабатываем продукт SKU: " . $product['sku']);
                     $this->saveToDatabase($product, 'product');
                 }
             }
 
-            // Проверяем наличие секции с предложениями (если она есть)
             if (isset($xml->shop->offers)) {
                 Log::info("Количество предложений: " . count($xml->shop->offers->offer));
 
-                // Обрабатываем каждое предложение
                 foreach ($xml->shop->offers->offer as $offer) {
                     Log::info("Обрабатываем предложение SKU: " . $offer['sku']);
                     $this->saveToDatabase($offer, 'offer');
@@ -234,27 +228,27 @@ class ProductController extends Controller
             $productNode = $productsNode->addChild('product');
 
             // Преобразование и фильтрация недопустимых символов
-            $sku = $this->sanitizeForXML($product->sku, 'windows-1251');
+            $sku = $this->sanitizeForXML($product->sku, 'windows-1251//IGNORE');
             $productNode->addAttribute('sku', $sku);
 
-            $name = $this->sanitizeForXML($product->name, 'windows-1251');
+            $name = $this->sanitizeForXML($product->name, 'windows-1251//IGNORE');
             $productNode->addChild('name', $name);
 
-            $category = $this->sanitizeForXML($product->vidy_nomenklaturi, 'windows-1251');
+            $category = $this->sanitizeForXML($product->vidy_nomenklaturi, 'windows-1251//IGNORE');
             $productNode->addChild('category', $category);
 
-            $vendor = $this->sanitizeForXML($product->brendy, 'windows-1251');
+            $vendor = $this->sanitizeForXML($product->brendy, 'windows-1251//IGNORE');
             $productNode->addChild('vendor', $vendor);
 
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
             $productNode->addChild('RunFlat', $product->run_flat ? 'true' : 'false');
             $productNode->addChild('height', $product->vysota_shin);
             $productNode->addChild('diameter', $product->diametr_shin);
-            $productNode->addChild('load-index', $this->sanitizeForXML($product->indeks_nagruzki, 'windows-1251'));
-            $productNode->addChild('speed-index', $this->sanitizeForXML($product->indeks_skorosti, 'windows-1251'));
+            $productNode->addChild('load-index', $this->sanitizeForXML($product->indeks_nagruzki, 'windows-1251//IGNORE'));
+            $productNode->addChild('speed-index', $this->sanitizeForXML($product->indeks_skorosti, 'windows-1251//IGNORE'));
             $productNode->addChild('weight', $product->weight);
 
-            $model = $this->sanitizeForXML($product->modeli, 'windows-1251');
+            $model = $this->sanitizeForXML($product->modeli, 'windows-1251//IGNORE');
             $productNode->addChild('model', $model);
 
             $productNode->addChild('season', $product->sezony);
@@ -266,19 +260,19 @@ class ProductController extends Controller
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
 
-            $id = $this->sanitizeForXML($order->id, 'windows-1251');
+            $id = $this->sanitizeForXML($order->id, 'windows-1251//IGNORE');
             $orderNode->addAttribute('id', $id);
 
-            $name = $this->sanitizeForXML($order->name, 'windows-1251');
+            $name = $this->sanitizeForXML($order->name, 'windows-1251//IGNORE');
             $orderNode->addChild('name', $name);
 
-            $delivery_method = $this->sanitizeForXML($order->delivery_method, 'windows-1251');
+            $delivery_method = $this->sanitizeForXML($order->delivery_method, 'windows-1251//IGNORE');
             $orderNode->addChild('delivery_method', $delivery_method);
 
-            $adres = $this->sanitizeForXML($order->adres, 'windows-1251');
+            $adres = $this->sanitizeForXML($order->adres, 'windows-1251//IGNORE');
             $orderNode->addChild('adres', $adres);
 
-            $payment_method = $this->sanitizeForXML($order->payment_method, 'windows-1251');
+            $payment_method = $this->sanitizeForXML($order->payment_method, 'windows-1251//IGNORE');
             $orderNode->addChild('payment_method', $payment_method);
         }
 
@@ -290,8 +284,6 @@ class ProductController extends Controller
     private function sanitizeForXML($string, $encoding)
     {
         $string = iconv('UTF-8//IGNORE', 'windows-1251//IGNORE', $string);
-        $string = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/', '', $string);
-
         return htmlspecialchars($string, ENT_XML1, $encoding);
     }
 
