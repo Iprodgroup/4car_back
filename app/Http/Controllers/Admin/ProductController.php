@@ -233,16 +233,20 @@ class ProductController extends Controller
         foreach ($products as $product) {
             $productNode = $productsNode->addChild('product');
 
-            $sku = iconv('UTF-8', 'windows-1251//IGNORE', $product->sku);
+            // Преобразование SKU в кодировку windows-1251 с заменой недопустимых символов
+            $sku = mb_convert_encoding($product->sku, 'windows-1251', 'UTF-8');
             $productNode->addAttribute('sku', htmlspecialchars($sku, ENT_XML1, 'windows-1251'));
 
-            $name = iconv('UTF-8', 'windows-1251//IGNORE', $product->name);
+            // Преобразование имени в кодировку windows-1251 с заменой недопустимых символов
+            $name = mb_convert_encoding($product->name, 'windows-1251', 'UTF-8');
             $productNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
 
-            $category = iconv('UTF-8', 'windows-1251//IGNORE', $product->vidy_nomenklaturi);
+            // Преобразование категории в кодировку windows-1251 с заменой недопустимых символов
+            $category = mb_convert_encoding($product->vidy_nomenklaturi, 'windows-1251', 'UTF-8');
             $productNode->addChild('category', htmlspecialchars($category, ENT_XML1, 'windows-1251'));
 
-            $vendor = iconv('UTF-8', 'windows-1251//IGNORE', $product->brendy);
+            // Преобразование вендора в кодировку windows-1251 с заменой недопустимых символов
+            $vendor = mb_convert_encoding($product->brendy, 'windows-1251', 'UTF-8');
             $productNode->addChild('vendor', htmlspecialchars($vendor, ENT_XML1, 'windows-1251'));
 
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
@@ -253,7 +257,8 @@ class ProductController extends Controller
             $productNode->addChild('speed-index', $product->indeks_skorosti);
             $productNode->addChild('weight', $product->weight);
 
-            $model = iconv('UTF-8', 'windows-1251//IGNORE', $product->modeli);
+            // Преобразование модели в кодировку windows-1251 с заменой недопустимых символов
+            $model = mb_convert_encoding($product->modeli, 'windows-1251', 'UTF-8');
             $productNode->addChild('model', htmlspecialchars($model, ENT_XML1, 'windows-1251'));
 
             $productNode->addChild('season', $product->sezony);
@@ -265,19 +270,24 @@ class ProductController extends Controller
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
 
-            $id = iconv('UTF-8', 'windows-1251//IGNORE', $order->id);
+            // Преобразование ID в кодировку windows-1251 с заменой недопустимых символов
+            $id = mb_convert_encoding($order->id, 'windows-1251', 'UTF-8');
             $orderNode->addAttribute('id', htmlspecialchars($id, ENT_XML1, 'windows-1251'));
 
-            $name = iconv('UTF-8', 'windows-1251//IGNORE', $order->name);
+            // Преобразование имени в кодировку windows-1251 с заменой недопустимых символов
+            $name = mb_convert_encoding($order->name, 'windows-1251', 'UTF-8');
             $orderNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
 
-            $delivery_method = iconv('UTF-8', 'windows-1251//IGNORE', $order->delivery_method);
+            // Преобразование метода доставки в кодировку windows-1251 с заменой недопустимых символов
+            $delivery_method = mb_convert_encoding($order->delivery_method, 'windows-1251', 'UTF-8');
             $orderNode->addChild('delivery_method', htmlspecialchars($delivery_method, ENT_XML1, 'windows-1251'));
 
-            $adres = iconv('UTF-8', 'windows-1251//IGNORE', $order->adres);
+            // Преобразование адреса в кодировку windows-1251 с заменой недопустимых символов
+            $adres = mb_convert_encoding($order->adres, 'windows-1251', 'UTF-8');
             $orderNode->addChild('adres', htmlspecialchars($adres, ENT_XML1, 'windows-1251'));
 
-            $payment_method = iconv('UTF-8', 'windows-1251//IGNORE', $order->payment_method);
+            // Преобразование метода оплаты в кодировку windows-1251 с заменой недопустимых символов
+            $payment_method = mb_convert_encoding($order->payment_method, 'windows-1251', 'UTF-8');
             $orderNode->addChild('payment_method', htmlspecialchars($payment_method, ENT_XML1, 'windows-1251'));
         }
 
