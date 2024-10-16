@@ -233,16 +233,16 @@ class ProductController extends Controller
         foreach ($products as $product) {
             $productNode = $productsNode->addChild('product');
 
-            $sku = iconv('UTF-8', 'windows-1251', $product->sku);
+            $sku = iconv('UTF-8', 'windows-1251//IGNORE', $product->sku);
             $productNode->addAttribute('sku', htmlspecialchars($sku, ENT_XML1, 'windows-1251'));
 
-            $name = iconv('UTF-8', 'windows-1251', $product->name);
+            $name = iconv('UTF-8', 'windows-1251//IGNORE', $product->name);
             $productNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
 
-            $category = iconv('UTF-8', 'windows-1251', $product->vidy_nomenklaturi);
+            $category = iconv('UTF-8', 'windows-1251//IGNORE', $product->vidy_nomenklaturi);
             $productNode->addChild('category', htmlspecialchars($category, ENT_XML1, 'windows-1251'));
 
-            $vendor = iconv('UTF-8', 'windows-1251', $product->brendy);
+            $vendor = iconv('UTF-8', 'windows-1251//IGNORE', $product->brendy);
             $productNode->addChild('vendor', htmlspecialchars($vendor, ENT_XML1, 'windows-1251'));
 
             $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
@@ -253,7 +253,7 @@ class ProductController extends Controller
             $productNode->addChild('speed-index', $product->indeks_skorosti);
             $productNode->addChild('weight', $product->weight);
 
-            $model = iconv('UTF-8', 'windows-1251', $product->modeli);
+            $model = iconv('UTF-8', 'windows-1251//IGNORE', $product->modeli);
             $productNode->addChild('model', htmlspecialchars($model, ENT_XML1, 'windows-1251'));
 
             $productNode->addChild('season', $product->sezony);
@@ -265,19 +265,19 @@ class ProductController extends Controller
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
 
-            $id = iconv('UTF-8', 'windows-1251', $order->id);
+            $id = iconv('UTF-8', 'windows-1251//IGNORE', $order->id);
             $orderNode->addAttribute('id', htmlspecialchars($id, ENT_XML1, 'windows-1251'));
 
-            $name = iconv('UTF-8', 'windows-1251', $order->name);
+            $name = iconv('UTF-8', 'windows-1251//IGNORE', $order->name);
             $orderNode->addChild('name', htmlspecialchars($name, ENT_XML1, 'windows-1251'));
 
-            $delivery_method = iconv('UTF-8', 'windows-1251', $order->delivery_method);
+            $delivery_method = iconv('UTF-8', 'windows-1251//IGNORE', $order->delivery_method);
             $orderNode->addChild('delivery_method', htmlspecialchars($delivery_method, ENT_XML1, 'windows-1251'));
 
-            $adres = iconv('UTF-8', 'windows-1251', $order->adres);
+            $adres = iconv('UTF-8', 'windows-1251//IGNORE', $order->adres);
             $orderNode->addChild('adres', htmlspecialchars($adres, ENT_XML1, 'windows-1251'));
 
-            $payment_method = iconv('UTF-8', 'windows-1251', $order->payment_method);
+            $payment_method = iconv('UTF-8', 'windows-1251//IGNORE', $order->payment_method);
             $orderNode->addChild('payment_method', htmlspecialchars($payment_method, ENT_XML1, 'windows-1251'));
         }
 
