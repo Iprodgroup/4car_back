@@ -276,7 +276,17 @@ class ProductController extends Controller
             $productNode->addChild('name', htmlspecialchars($product->name, ENT_XML1, 'UTF-8'));
             $productNode->addChild('category', htmlspecialchars($product->vidy_nomenklaturi, ENT_XML1, 'UTF-8'));
             $productNode->addChild('vendor', htmlspecialchars($product->brendy, ENT_XML1, 'UTF-8'));
-            // Добавьте другие поля по необходимости
+            $productNode->addChild('PublishInKaspi', $product->publish_in_kaspi ? 'true' : 'false');
+            $productNode->addChild('RunFlat', $product->run_flat ? 'true' : 'false');
+            $productNode->addChild('height', $product->vysota_shin);
+            $productNode->addChild('diameter', $product->diametr_shin);
+            $productNode->addChild('load-index', $product->indeks_nagruzki);
+            $productNode->addChild('speed-index', $product->indeks_skorosti);
+            $productNode->addChild('weight', $product->weight);
+            $productNode->addChild('model', htmlspecialchars($product->modeli, ENT_XML1, 'UTF-8'));
+            $productNode->addChild('season', $product->sezony);
+            $productNode->addChild('spikes', $product->shipy ? 'true' : 'false');
+            $productNode->addChild('width', $product->shirina_shin);
         }
 
         $filename = 'products.xml';
