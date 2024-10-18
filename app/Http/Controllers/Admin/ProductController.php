@@ -285,6 +285,7 @@ class ProductController extends Controller
             $productNode->addChild('weight', $product->weight);
             $productNode->addChild('model', htmlspecialchars($product->modeli, ENT_XML1, 'UTF-8'));
             $productNode->addChild('season', $product->sezony);
+            $productNode->addChild('quantity', $product->stock_quantity);
             $productNode->addChild('spikes', $product->shipy ? 'true' : 'false');
             $productNode->addChild('width', $product->shirina_shin);
         }
