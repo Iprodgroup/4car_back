@@ -322,12 +322,16 @@ class ProductController extends Controller
             $orderNode->addChild('sum', $order->sum);
             $orderNode->addChild('status_id', $order->status_id);
 
-            $tiresNode = $orderNode->addChild('tires');
-            $tires = json_decode($order->tires, true);
-            foreach ($tires as $tire) {
-                $tireNode = $tiresNode->addChild('tire');
-                foreach ($tire as $key => $value) {
-                    $tireNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+            $productsNode = $orderNode->addChild('products');
+            $products = json_decode($order->products, true);
+
+            // Проверка на null
+            if (is_array($products)) {
+                foreach ($products as $product) {
+                    $productNode = $productsNode->addChild('product');
+                    foreach ($product as $key => $value) {
+                        $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+                    }
                 }
             }
         }
