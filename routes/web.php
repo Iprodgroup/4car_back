@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ManufacturersController;
 //        "https://example.kz/order/1123/fail","RU","HBpaymentgateway", "test1", "", "");
 //    }
 //);
+
 //Products
 Route::get('/products', [ProductController::class, 'showAllProducts'])->name('admin.products.index');
 Route::get('/products/upload', [ProductController::class, 'showUploadForm'])->name('admin.products.upload');
@@ -28,6 +29,7 @@ Route::post('/products/upload', [ProductController::class, 'handleUpload'])->nam
 Route::get('/products/export-with-orders', [ProductController::class, 'exportProductsWithOrders'])->name('admin.products.export-with-orders');
 Route::get('/products/export', [ProductController::class, 'exportProducts'])->name('admin.products.export');
 Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+Route::get('/export-orders', [ProductController::class, 'exportOrders'])->name('admin.products.export-orders');
 Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
 Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
 Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');

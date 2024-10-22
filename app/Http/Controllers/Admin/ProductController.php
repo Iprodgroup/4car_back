@@ -296,4 +296,46 @@ class ProductController extends Controller
         return response()->download(public_path($filename));
     }
 
+    public function exportOrders()
+    {
+        $orders = Order::all();
+
+        $xml = new \SimpleXMLElement('<shop/>');
+
+        $ordersNode = $xml->addChild('orders');
+        foreach ($orders as $order) {
+            $orderNode = $ordersNode->addChild('order');
+            $orderNode->addAttribute('id', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('name', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('number', htmlspecialchars($order->number, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('city', htmlspecialchars($order->city, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('district', htmlspecialchars($order->district, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('delivery_method', htmlspecialchars($order->delivery_method, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('town', htmlspecialchars($order->town, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('adres', htmlspecialchars($order->adres, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('orient', htmlspecialchars($order->orient, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('work_adres', htmlspecialchars($order->work_adres, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('phone', htmlspecialchars($order->phone, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('comment', htmlspecialchars($order->comment, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('coupon', htmlspecialchars($order->coupon, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('payment_method', htmlspecialchars($order->payment_method, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('sum', $order->sum);
+            $orderNode->addChild('status_id', $order->status_id);
+
+            $tiresNode = $orderNode->addChild('tires');
+            $tires = json_decode($order->tires, true);
+            foreach ($tires as $tire) {
+                $tireNode = $tiresNode->addChild('tire');
+                foreach ($tire as $key => $value) {
+                    $tireNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+                }
+            }
+        }
+
+        $filename = 'orders.xml';
+        $xml->asXML(public_path($filename));
+
+        return response()->download(public_path($filename));
+    }
+
 }
