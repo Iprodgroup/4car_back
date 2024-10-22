@@ -107,6 +107,7 @@
                             <label for="file">Скачать xml с продуктами и заказами</label>
                             <button type="submit" class="btn btn-primary">Скачать XML с продуктами и заказами</button>
                         </form>
+                        <br>
                         <form action="{{ route('admin.products.export-orders') }}" method="GET">
                             <label for="file">Скачать xml с заказами</label>
                             <button type="submit" class="btn btn-primary">Скачать XML с продуктами и заказами</button>

@@ -56,9 +56,9 @@ class OrderController extends Controller
         }
         $orderSum = $cart['total_price'];
 
-        if ($validatedData['delivery_method'] === 'delivery') {
-            $orderSum += 10000;
-        }
+//        if ($validatedData['delivery_method'] === 'delivery') {
+//            $orderSum += 10000;
+//        }
 
         $order = new Order();
         $order->user_id = $request->user()->id ?? null; // Идентификатор пользователя, если он авторизован
