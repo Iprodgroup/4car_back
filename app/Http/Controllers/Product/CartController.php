@@ -68,6 +68,7 @@ class CartController extends Controller
             if ($product) {
                 return [
                     'id' => $product->id,
+                    'sku' => $product->sku,
                     'name' => $product->name,
                     'brand' => $product->brand,
                     'image' => $product->image,

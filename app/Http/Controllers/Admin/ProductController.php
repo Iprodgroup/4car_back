@@ -331,14 +331,11 @@ class ProductController extends Controller
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
 
-                    // Добавляем sku, если оно есть в данных продукта
                     if (isset($product['sku'])) {
                         $productNode->addChild('sku', htmlspecialchars($product['sku'], ENT_XML1, 'UTF-8'));
                     }
 
-                    // Перебираем остальные поля продукта, исключая 'id', так как оно заменено на 'sku'
                     foreach ($product as $key => $value) {
-                        // Пропускаем поле 'id', так как оно заменяется на 'sku'
                         if ($key !== 'id' && $key !== 'sku') {
                             $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
                         }
