@@ -331,12 +331,17 @@ class ProductController extends Controller
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
                     foreach ($product as $key => $value) {
-                        // Если ключ "id", меняем его на "sku"
-                        $xmlKey = ($key === 'id') ? 'sku' : $key;
-                        $productNode->addChild($xmlKey, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+                        // Проверяем, если ключ 'id', заменяем его на значение из 'sku'
+                        if ($key === 'id' && isset($product['sku'])) {
+                            $productNode->addChild('sku', htmlspecialchars($product['sku'], ENT_XML1, 'UTF-8'));
+                        } else {
+                            // Добавляем остальные ключи как есть
+                            $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+                        }
                     }
                 }
             }
+
         }
 
         $filename = 'orders.xml';
