@@ -327,23 +327,15 @@ class ProductController extends Controller
             $productsNode = $orderNode->addChild('products');
             $products = json_decode($order->products, true);
 
+            // Проверка на null
             if (is_array($products)) {
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
-
-                    if (isset($product['sku'])) {
-                        $productNode->addChild('sku', htmlspecialchars($product['sku'], ENT_XML1, 'UTF-8'));
-                    }
-
                     foreach ($product as $key => $value) {
-                        if ($key !== 'id' && $key !== 'sku') {
-                            $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
-                        }
+                        $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
                     }
                 }
             }
-
-
         }
 
         $filename = 'orders.xml';
