@@ -327,12 +327,13 @@ class ProductController extends Controller
             $productsNode = $orderNode->addChild('products');
             $products = json_decode($order->products, true);
 
-            // Проверка на null
             if (is_array($products)) {
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
                     foreach ($product as $key => $value) {
-                        $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
+                        // Если ключ "id", меняем его на "sku"
+                        $xmlKey = ($key === 'id') ? 'sku' : $key;
+                        $productNode->addChild($xmlKey, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
                     }
                 }
             }
