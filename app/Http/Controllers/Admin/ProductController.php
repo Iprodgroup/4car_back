@@ -305,8 +305,9 @@ class ProductController extends Controller
         $ordersNode = $xml->addChild('orders');
         foreach ($orders as $order) {
             $orderNode = $ordersNode->addChild('order');
-            $orderNode->addAttribute('id', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
-            $orderNode->addChild('name', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
+            $orderNode->addAttribute('OrderId', htmlspecialchars($order->id, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('ClientName', htmlspecialchars($order->name, ENT_XML1, 'UTF-8'));
+            $orderNode->addChild('CustomerId', htmlspecialchars($order->user_id, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('number', htmlspecialchars($order->number, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('city', htmlspecialchars($order->city, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('district', htmlspecialchars($order->district, ENT_XML1, 'UTF-8'));
@@ -320,7 +321,8 @@ class ProductController extends Controller
             $orderNode->addChild('coupon', htmlspecialchars($order->coupon, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('payment_method', htmlspecialchars($order->payment_method, ENT_XML1, 'UTF-8'));
             $orderNode->addChild('sum', $order->sum);
-            $orderNode->addChild('status_id', $order->status_id);
+            $statusText = $this->getOrderStatusText($order->status_id);
+            $orderNode->addChild('status_id', htmlspecialchars($statusText, ENT_XML1, 'UTF-8'));
 
             $productsNode = $orderNode->addChild('products');
             $products = json_decode($order->products, true);
@@ -340,6 +342,20 @@ class ProductController extends Controller
         $xml->asXML(public_path($filename));
 
         return response()->download(public_path($filename));
+    }
+
+    private function getOrderStatusText($statusId)
+    {
+        switch ($statusId) {
+            case 1:
+                return 'Новый';
+            case 2:
+                return 'В процессе';
+            case 3:
+                return 'Оплачен';
+            default:
+                return 'Неизвестен';  // На случай, если статус не распознан
+        }
     }
 
 }
