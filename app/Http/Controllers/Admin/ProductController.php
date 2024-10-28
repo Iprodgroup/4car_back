@@ -327,7 +327,6 @@ class ProductController extends Controller
             $productsNode = $orderNode->addChild('products');
             $products = json_decode($order->products, true);
 
-            // Проверка на null
             if (is_array($products)) {
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
