@@ -19,13 +19,13 @@ class CartController extends Controller
     public function addToCartProducts(Request $request, CartService  $cartService): JsonResponse
     {
         $cart = $cartService->addProductToCart($request);
-        return $this->success('Товары успешно добавлены в корзину!', $cart);
+        return response()->json(['Товары успешно добавлены в корзину!', $cart]);
     }
 
     public function cleanCart(Request $request)
     {
         $request->session()->forget('cart');
-        return $this->success('Корзина успешно очищена!');
+        return response()->json('Корзина успешно очищена!');
     }
 
     public function cleanOneElementFromCart(Request $request, $type, $id)
