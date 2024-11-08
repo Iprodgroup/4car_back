@@ -52,6 +52,7 @@ class CartService
                     'slug' => $this->generateSlug($product->name, $product->sku),
                     'name' => $product->name,
                     'brand' => $product->brendy,
+                    'sku' => $product->sku,
                     'image' => 'https://test.4car.kz'.$product->image,
                     'quantity' => $item['quantity'],
                     'price' => $product->price,

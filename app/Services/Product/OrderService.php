@@ -79,6 +79,7 @@ class OrderService
                     'name' => $product->name,
                     'slug' => $this->generateSlug($product->name, $product->sku),
                     'brand' => $product->brendy,
+                    'sku' => $product->sku,
                     'image' => $product->image,
                     'quantity' => $quantity,
                     'price' => $product->price,
