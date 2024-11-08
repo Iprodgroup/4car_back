@@ -33,7 +33,7 @@ class AuthController extends Controller
         if ($this->authService) {
             return $this->error('Пользователь с таким email уже зарегистрирован!', $user, 400);
         }
-        return $this->success('Вы успешно зарегестрировались!', $user, 201);
+        return response()->json(['Вы успешно зарегестрировались!', $user], 201);
     }
 
     public function login(Request $request)
