@@ -330,9 +330,16 @@ class ProductController extends Controller
             if (is_array($products)) {
                 foreach ($products as $product) {
                     $productNode = $productsNode->addChild('product');
-                    foreach ($product as $key => $value) {
-                        $productNode->addChild($key, htmlspecialchars($value, ENT_XML1, 'UTF-8'));
-                    }
+
+                    $productNode->addChild('id', htmlspecialchars($product['id'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('name', htmlspecialchars($product['name'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('slug', htmlspecialchars($product['slug'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('brand', htmlspecialchars($product['brand'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('image', htmlspecialchars($product['image'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('price', htmlspecialchars($product['price'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('sku', htmlspecialchars($product['sku'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('quantity', htmlspecialchars($product['quantity'] ?? '', ENT_XML1, 'UTF-8'));
+                    $productNode->addChild('total_price', htmlspecialchars($product['total_price'] ?? '', ENT_XML1, 'UTF-8'));
                 }
             }
         }
