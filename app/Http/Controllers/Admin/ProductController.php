@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
     public function showAllProducts()
     {
         $products = Product::query()->paginate(15);
@@ -127,7 +128,7 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'XML файл успешно загружен и обработан.');
 
     }
-    private function processXmlFile($filePath)
+    public function processXmlFile($filePath)
     {
         $xml = simplexml_load_file($filePath);
         if ($xml === false) {
