@@ -53,6 +53,9 @@ Route::get('/users', [UsersController::class, 'showAllUsers'])->name('admin.user
 Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('admin.dashboard.index');
 //Orders
 Route::get('/orders', [OrdersController::class, 'getAllOrders'])->name('admin.orders.index');
+Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('admin.orders.edit');
+Route::put('orders/update/{id}', [OrdersController::class, 'update'])->name('admin.orders.update');
+
 Route::delete('orders/{id}', [OrdersController::class, 'destroy'])->name('admin.orders.delete');
 //Comments
 Route::get('/comments/', [CommentsController::class, 'index'])->name('admin.comments.index');

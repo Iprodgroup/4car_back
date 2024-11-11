@@ -95,73 +95,89 @@
 
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4">Товары</h4>
+                    <h4 class="fw-bold py-3 mb-4">Заказы</h4>
 
                     <div class="card">
-                        <h5 class="card-header">Изменить товар <?php echo $product->name ?> </h5>
-                        <form class="card-body" method="post" enctype="multipart/form-data" action="{{ route('admin.products.update', $product->id) }}">
+                        <h5 class="card-header">Изменить заказ <?php echo $order->name ?> </h5>
+                        <form class="card-body" method="post" enctype="multipart/form-data" action="{{ route('admin.orders.update', $order->id) }}">
                             @csrf
                             @method('PUT')
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Sku</label>
-                                <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->name ?>">
-                            </div>
+
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Название</label>
-                                <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $product->name ?>">
+                                <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $order->name ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Номер</label>
+                                <input type="text" class="form-control" name="number" id="exampleFormControlInput1" value="<?php echo $order->number ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Город</label>
+                                <input type="text" class="form-control" name="city" id="exampleFormControlInput1" value="<?php echo $order->city ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Район</label>
+                                <input type="text" class="form-control" name="district" id="exampleFormControlInput1" value="<?php echo $order->district ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="characteristics" class="form-label">Метод доставки</label>
+                                <input class="form-control" name="delivery_method" id="characteristics" value="<?php echo $order->delivery_method?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Поселок</label>
+                                <input type="text" class="form-control" name="town" id="exampleFormControlInput1" value="<?php echo $order->town ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Адрес </label>
+                                <input type="text" class="form-control" name="adres" id="exampleFormControlInput1" value="<?php echo $order->adres ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Ориентация</label>
+                                <input type="text" class="form-control" name="orient" id="exampleFormControlInput1" value="<?php echo $order->orient ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Рабочий адрес</label>
+                                <input type="text" class="form-control" name="work_adres" id="exampleFormControlInput1" value="<?php echo $order->work_adres ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Категория</label>
-                                <input type="text" class="form-control" name="vidy_nomenklaturi" id="exampleFormControlInput1" value="<?php echo $product->vidy_nomenklaturi ?>">
+                                <label for="exampleFormControlInput1" class="form-label">Номер</label>
+                                <input type="text" class="form-control" name="phone" id="exampleFormControlInput1" value="<?php echo $order->phone ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Бренд</label>
-                                <input type="text" class="form-control" name="brendy" id="exampleFormControlInput1" value="<?php echo $product->brendy ?>">
+                                <label for="exampleFormControlInput1" class="form-label">Комментарий</label>
+                                <input type="text" class="form-control" name="comment" id="exampleFormControlInput1" value="<?php echo $order->comment ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="characteristics" class="form-label">Run Flat</label>
-                                <input class="form-control" name="run_flat" id="characteristics" value="<?php echo $product->run_flat?>">
+                                <label for="exampleFormControlInput1" class="form-label">Купон</label>
+                                <input type="text" class="form-control" name="coupon" id="exampleFormControlInput1" value="<?php echo $order->coupon ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Ширина</label>
-                                <input type="text" class="form-control" name="weight" id="exampleFormControlInput1" value="<?php echo $product->weight ?>">
+                                <label for="exampleFormControlInput1" class="form-label">Метод оплаты</label>
+                                <input type="text" class="form-control" name="payment_method" id="exampleFormControlInput1" value="<?php echo $order->payment_method ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Сумма</label>
+                                <input type="text" class="form-control" name="sum" id="exampleFormControlInput1" value="<?php echo $order->sum ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Модель</label>
-                                <input type="text" class="form-control" name="modeli" id="exampleFormControlInput1" value="<?php echo $product->modeli ?>">
+                                <label for="exampleFormControlInput1" class="form-label">Статус</label>
+                                <input type="text" class="form-control" name="status_id" id="exampleFormControlInput1" value="<?php echo $order->status_id ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Сезонность</label>
-                                <input type="text" class="form-control" name="sezony" id="exampleFormControlInput1" value="<?php echo $product->sezony ?>">
+                                <label for="exampleFormControlInput1" class="form-label">Продукты</label>
+                                <input type="text" class="form-control" name="products" id="exampleFormControlInput1" value="<?php echo $order->products ?>">
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Шипы</label>
-                                <input type="text" class="form-control" name="shipy" id="exampleFormControlInput1" value="<?php echo $product->shipy ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Высота шин</label>
-                                <input type="text" class="form-control" name="vysota_shin" id="exampleFormControlInput1" value="<?php echo $product->vysota_shin ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Диаметр шин</label>
-                                <input type="text" class="form-control" name="diametr_shin" id="exampleFormControlInput1" value="<?php echo $product->diametr_shin ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Индекс скорости</label>
-                                <input type="text" class="form-control" name="indeks_skorosti" id="exampleFormControlInput1" value="<?php echo $product->indeks_skorosti ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Диаметр шин</label>
-                                <input type="text" class="form-control" name="indeks_nagruzki" id="exampleFormControlInput1" value="<?php echo $product->indeks_nagruzki ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Image</label>
-                                <input class="form-control" type="file" id="formFile" name="image">
-                                @if($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 100px; margin-top: 10px;">
-                                @endif
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
+
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
                         </form>
                     </div>
                 </div>

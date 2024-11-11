@@ -107,9 +107,9 @@
                                     <th>Статус заказа</th>
                                     <th>Способ оплаты</th>
                                     <th>Клиент</th>
-                                    <th>Адрес</th>
                                     <th>Дата </th>
                                     <th>Сумма</th>
+                                    <th>Изменить</th>
                                     <th>Удалить</th>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -118,14 +118,19 @@
                                         <td>{{$order->status_id}}</td>
                                         <td>{{$order->payment_method}}</td>
                                         <td>{{$order->name}}</td>
-                                        <td>{{$order->adres}}</td>
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->sum}}</td>
                                         <td>
-                                            <form action="{{ route('admin.comments.delete', $order->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
+                                            <form action="{{ route('admin.orders.edit', $order->id) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Изменить</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('admin.orders.delete', $order->id) }}" method="post"  onsubmit="return confirm('Вы уверены');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <button type="submit" class="btn btn-danger">Удалить</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -138,9 +143,7 @@
                 </div>
             </div>
             <footer class="content-footer footer bg-footer-theme">
-
             </footer>
-
             <div class="content-backdrop fade"></div>
         </div>
     </div>
