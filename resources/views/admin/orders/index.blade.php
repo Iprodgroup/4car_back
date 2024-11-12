@@ -121,9 +121,9 @@
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->sum}}</td>
                                         <td>
-                                            <form action="{{ route('admin.orders.edit', $order->id) }}" method="post">
+                                            <form action="{{ route('admin.orders.edit', $order->id) }}" method="get" >
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger">Изменить</button>
+                                                <button type="submit" class="btn btn-primary">Изменить</button>
                                             </form>
                                         </td>
                                         <td>

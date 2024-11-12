@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('xml:process-ftp')->everyTenMinutes();
+        $schedule->command('orders:export-xml')->everyTenMinutes();
     }
 
 
