@@ -211,8 +211,6 @@ class ProductController extends Controller
                     })
                 );
             }
-
-            Log::info("Продукт с SKU {$data['sku']} успешно сохранен/обновлен.");
         } catch (\Exception $e) {
             Log::error("Ошибка при сохранении данных продукта с SKU {$item['sku']}: " . $e->getMessage());
         }

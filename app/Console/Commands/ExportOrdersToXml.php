@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use SimpleXMLElement;
 use App\Models\Product\Order;
 use Illuminate\Console\Command;
-use SimpleXMLElement;
 
 class ExportOrdersToXml extends Command
 {
@@ -67,5 +67,18 @@ class ExportOrdersToXml extends Command
 
         $this->info('Orders exported to XML successfully.');
 
+    }
+    private function getOrderStatusText($statusId)
+    {
+        switch ($statusId) {
+            case 1:
+                return 'Новый';
+            case 2:
+                return 'В процессе';
+            case 3:
+                return 'Оплачен';
+            default:
+                return 'Неизвестен';  // На случай, если статус не распознан
+        }
     }
 }

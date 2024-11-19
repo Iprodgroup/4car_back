@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProcessXmlFiles extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'process:xmlfiles';
 
     /**
@@ -32,9 +27,6 @@ class ProcessXmlFiles extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $exchangeDir = storage_path('app/ftp');
@@ -50,7 +42,7 @@ class ProcessXmlFiles extends Command
             if (pathinfo($filePath, PATHINFO_EXTENSION) === 'xml') {
                 try {
                     $this->processXmlFile($filePath);
-                    // unlink($filePath);
+                    unlink($filePath); // Удаляем файл после успешной обработки
                 } catch (\Exception $e) {
                     Log::error("Ошибка при обработке файла $filePath: " . $e->getMessage());
                 }
@@ -81,6 +73,7 @@ class ProcessXmlFiles extends Command
             }
         }
     }
+
     private function saveToDatabase($item, $type)
     {
         try {
@@ -121,14 +114,10 @@ class ProcessXmlFiles extends Command
                 $data['price'] = (int)$item->price;
             }
 
-            Log::info("Данные для сохранения: " . json_encode($data));
-
             Product::updateOrCreate(
                 ['sku' => $data['sku']],
                 $data
             );
-
-            Log::info("Данные успешно сохранены в базу данных");
         } catch (\Exception $e) {
             Log::error("Ошибка при сохранении данных в базу данных: " . $e->getMessage());
         }
