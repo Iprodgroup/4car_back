@@ -29,11 +29,15 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = $this->authService->register($request);
-        if ($this->authService) {
-            return response()->json(['Пользователь с таким email уже зарегистрирован!', $user], 400);
+        // Проверяем, существует ли пользователь с таким email
+        $existingUser = User::where('email', $request->email)->first();
+        if ($existingUser) {
+            return response()->json(['Пользователь с таким email уже зарегистрирован!'], 400);
         }
-        return response()->json(['Вы успешно зарегестрировались!', $user], 201);
+
+        // Регистрируем нового пользователя
+        $user = $this->authService->register($request);
+        return response()->json(['Вы успешно зарегистрировались!', $user], 201);
     }
 
     public function login(Request $request)
@@ -51,7 +55,7 @@ class AuthController extends Controller
             ], 401);
         }
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'],200);
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 200);
     }
 
     public function logout(Request $request)
