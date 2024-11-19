@@ -12,7 +12,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('orders:export-xml')->everyTenMinutes();
     }
 
-
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');

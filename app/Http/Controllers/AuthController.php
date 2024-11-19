@@ -31,7 +31,7 @@ class AuthController extends Controller
     {
         $user = $this->authService->register($request);
         if ($this->authService) {
-            return $this->error('Пользователь с таким email уже зарегистрирован!', $user, 400);
+            return response()->json(['Пользователь с таким email уже зарегистрирован!', $user], 400);
         }
         return response()->json(['Вы успешно зарегестрировались!', $user], 201);
     }
@@ -132,6 +132,10 @@ class AuthController extends Controller
         return $response == Password::PASSWORD_RESET
             ? response()->json(['message' => 'Пароль успешно сброшен.'], 200)
             : response()->json(['error' => 'Не удалось сбросить пароль'], 400);
+    }
+
+    private function error(string $string, bool $user, int $int)
+    {
     }
 
 }

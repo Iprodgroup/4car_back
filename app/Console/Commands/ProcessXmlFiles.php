@@ -9,19 +9,8 @@ use Illuminate\Support\Facades\Log;
 class ProcessXmlFiles extends Command
 {
     protected $signature = 'process:xmlfiles';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Process XML files and update products table';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
@@ -42,7 +31,7 @@ class ProcessXmlFiles extends Command
             if (pathinfo($filePath, PATHINFO_EXTENSION) === 'xml') {
                 try {
                     $this->processXmlFile($filePath);
-                    unlink($filePath); // Удаляем файл после успешной обработки
+                   // unlink($filePath); // Удаляем файл после успешной обработки
                 } catch (\Exception $e) {
                     Log::error("Ошибка при обработке файла $filePath: " . $e->getMessage());
                 }
