@@ -29,13 +29,11 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        // Проверяем, существует ли пользователь с таким email
         $existingUser = User::where('email', $request->email)->first();
         if ($existingUser) {
             return response()->json(['Пользователь с таким email уже зарегистрирован!'], 400);
         }
 
-        // Регистрируем нового пользователя
         $user = $this->authService->register($request);
         return response()->json(['Вы успешно зарегистрировались!', $user], 201);
     }

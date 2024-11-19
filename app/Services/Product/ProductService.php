@@ -116,12 +116,13 @@ class ProductService
 
     public function showProductBySlug($slug)
     {
-        ini_set('memory_limit', '512M');
-        $product = Product::with('categories', 'images')
+//        ini_set('memory_limit', '512M');
+        $products = Product::with('categories', 'images')
             ->whereNotNull('name')
-            ->get()
-            ->first(function ($productItem) use ($slug)
-            {
+            ->get();
+
+        // Ищем продукт с соответствующим слагом
+        $product = $products->first(function ($productItem) use ($slug) {
             return $this->generateSlug($productItem->name, $productItem->sku) === $slug;
         });
 
