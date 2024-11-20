@@ -116,12 +116,11 @@ class ProductService
 
     public function showProductBySlug($slug)
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '256M');
         $products = Product::with('categories', 'images')
             ->whereNotNull('name')
             ->get();
 
-        // Ищем продукт с соответствующим слагом
         $product = $products->first(function ($productItem) use ($slug) {
             return $this->generateSlug($productItem->name, $productItem->sku) === $slug;
         });
@@ -155,9 +154,9 @@ class ProductService
             35, 37, 40, 45, 50, 55,
             60, 65, 70, 75, 80, 85, 90
         ];
-        $diameter = ["R12", "R13", "R14",
-            "R15", "R16", "R17", "R18",
-            "R19", "R20", "R21", "R22"
+        $diameter = [12, 13, 14,
+            15, 16, 17, 18,
+            19, 20, 21, 22
         ];
         $season = ["Всесезонные", "Летние", "Зимние",];
         $spikes = ['Есть', "Нет"];
