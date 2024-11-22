@@ -28,7 +28,7 @@ class CommentController extends Controller
         $comment = $this->commentService->storeComment($newsId,
             $request->input('body')
         );
-        return response()->json('Комментарий успешно создан', $comment);
+        return response()->json(['Комментарий успешно создан', $comment], 201);
     }
 
 }
