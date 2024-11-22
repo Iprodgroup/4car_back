@@ -51,7 +51,7 @@ class ReviewController extends Controller
 
         $reviewWithUserName = $review->toArray();
         $reviewWithUserName['user_name'] = $userName;
-        return $this->success('Review created', $reviewWithUserName);
+        return response()->json(['Review created', $reviewWithUserName], 201);
     }
 
     public function show(Review $reviews)
@@ -76,12 +76,12 @@ class ReviewController extends Controller
         ]);
 
         $reviews->update($request->all());
-        return $this->success('Ваш отзыв успешно обновлен', $reviews);
+        return response()->json(['Ваш отзыв успешно обновлен', $reviews], 201);
     }
 
     public function destroy(Review $reviews)
     {
         $reviews->delete();
-        return $this->success('Ваш отзыв успешно удален', $reviews);
+        return response()->json(['Ваш отзыв успешно удален', $reviews], 201);
     }
 }
