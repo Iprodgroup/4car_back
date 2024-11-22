@@ -116,7 +116,7 @@ class ProductService
 
     public function showProductBySlug($slug)
     {
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '512M');
         $products = Product::with('categories', 'images')
             ->whereNotNull('name')
             ->get();
