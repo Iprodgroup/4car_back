@@ -320,6 +320,8 @@ class ProductService
         }
         return (['error' => 'Модификация не выбрана']);
     }
+
+
 //    public function optionsByModificationForTires(Request $request)
 //    {
 //        if ($request->has('modification')) {

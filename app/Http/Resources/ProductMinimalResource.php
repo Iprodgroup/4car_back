@@ -16,16 +16,10 @@ class ProductMinimalResource extends JsonResource
           'sku' => $this->sku,
           'name' => $this->name,
           'brand' => $this->brendy,
-          'slug' => $this->generateSlug($this->name, $this->sku),
+          'slug' => $this->manufacturer_part_number,
           'price' => $this->price,
           'quantity' => $this->stock_quantity,
           'image' => 'https://test.4car.kz/'.$this->image,
         ];
-    }
-    protected function generateProductSlug(string $name, string $sku): string
-    {
-        $namePart = $this->generateSlug($name);
-        $skuPart = 'p' . $sku;
-        return "$namePart-$skuPart";
     }
 }
