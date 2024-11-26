@@ -24,7 +24,7 @@ class ProductFullResource extends JsonResource
             'category' =>  $this->categories->pluck('name'),
             'name' => $this->name,
             'sku' => $this->sku,
-            'slug' => $this->generateSlug($this->name, $this->sku),
+            'slug' => $this->manufacturer_part_number,
             'short_description' => $this->short_description,
             'full_description' => $this->full_description,
             'meta_description' => $this->full_description,
@@ -54,7 +54,8 @@ class ProductFullResource extends JsonResource
         $similarProducts = Product::query()
             ->where('modeli', $this->modeli) // Условие для модели
             ->where('id', '!=', $this->id)
-            ->where('price', '!=', 0)
+            ->where('image', '!=', null)
+            ->where('price', '>', 0)
             ->limit(10)
             ->get();
 
@@ -62,7 +63,7 @@ class ProductFullResource extends JsonResource
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'slug' => $this->generateSlug($product->name, $product->sku),
+                'slug' => $product->manufacturer_part_number,
                 'image' => "https://test.4car.kz".$product->image,
                 'short_description' => $product->short_description,
                 'price' => $product->price,

@@ -119,7 +119,6 @@ class ProductService
         $product = Product::with('categories', 'images')
             ->where('manufacturer_part_number', $slug)
             ->firstOrFail();
-
         return $product;
     }
 
