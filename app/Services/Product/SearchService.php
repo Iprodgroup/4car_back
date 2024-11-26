@@ -18,7 +18,7 @@ class SearchService
             $q->where('name', 'LIKE', "%{$query}%")
             ->where('published', "!=", 0);
         })
-            ->select('id', 'name', 'sku', 'image', 'price')
+            ->select('id', 'name', 'sku', 'image', 'price', 'manufacturer_part_number')
             ->paginate(15);
 
         $productsData = collect($products->items())->map(function ($product) {
@@ -26,7 +26,7 @@ class SearchService
                 'id' => $product['id'],
                 'name' => $product['name'],
                 'sku' => $product['sku'],
-                'slug' => $this->generateSlug($product['name'], $product['sku']),
+                'slug' => $product['manufacturer_part_number'],
                 'price' => $product['price'],
                 'image'=> 'https://test.4car.kz'.$product['image'],
             ];

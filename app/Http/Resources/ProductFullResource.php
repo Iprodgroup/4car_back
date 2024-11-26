@@ -52,7 +52,7 @@ class ProductFullResource extends JsonResource
     private function getSimilarProducts()
     {
         $similarProducts = Product::query()
-            ->where('modeli', $this->modeli) // Условие для модели
+            ->where('modeli', $this->modeli)
             ->where('id', '!=', $this->id)
             ->where('image', '!=', null)
             ->where('price', '>', 0)
