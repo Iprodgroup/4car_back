@@ -56,6 +56,7 @@ class ProductController extends Controller
 
         return ProductMinimalResource::collection($products);
     }
+
     public function showAllTires(Request $request): JsonResponse
     {
         $tires = $this->productService->getAllTires($request, $this->productService);

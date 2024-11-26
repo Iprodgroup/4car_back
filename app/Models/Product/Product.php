@@ -5,13 +5,14 @@ namespace App\Models\Product;
 use App\Models\Tire;
 use App\Models\Disk;
 use App\Models\Image;
+use App\Traits\SlugTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SlugTrait;
     protected $table = 'products';
     protected $fillable = [
         'product_type_id', 'name', 'short_description',
@@ -69,12 +70,15 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::saving(function ($product) {
-//            $product->slug = $product->generateSlug($product->name);
-//        });
-//    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($product) {
+            $product->manufacturer_part_number = $product->generateSlug($product->name, $product->sku);
+        });
+    }
 }
+
+// Обновление всех существующих продуктов

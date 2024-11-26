@@ -116,18 +116,10 @@ class ProductService
 
     public function showProductBySlug($slug)
     {
-        ini_set('memory_limit', '512M');
-        $products = Product::with('categories', 'images')
-            ->whereNotNull('name')
-            ->get();
+        $product = Product::with('categories', 'images')
+            ->where('manufacturer_part_number', $slug)
+            ->firstOrFail();
 
-        $product = $products->first(function ($productItem) use ($slug) {
-            return $this->generateSlug($productItem->name, $productItem->sku) === $slug;
-        });
-
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
         return $product;
     }
 
@@ -329,4 +321,27 @@ class ProductService
         }
         return (['error' => 'Модификация не выбрана']);
     }
+//    public function optionsByModificationForTires(Request $request)
+//    {
+//        if ($request->has('modification')) {
+//            $modificationParts = explode(',', $request->input('modification'));
+//            $kuzov = $modificationParts[0] ?? null;
+//            $dvigatel = $modificationParts[1] ?? null;
+//
+//            $tires = Product::query()
+//                ->where('published', 1)
+//                ->whereHas('categories', function ($q) {
+//                    $q->where('category_id', 370) // ID категории шин
+//                    ->where('published', '!=', 0);
+//                })
+//                ->where('kuzov', $kuzov) // Предполагается, что у вас есть поле кузов в таблице шин
+//                ->where('dvigatel', $dvigatel) // Предполагается, что у вас есть поле двигатель в таблице шин
+//                ->select('name', 'price', 'short_description')
+//                ->get();
+//
+//            return $tires;
+//        }
+//
+//        return [];
+//    }
 }
