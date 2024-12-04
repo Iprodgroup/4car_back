@@ -70,6 +70,9 @@ class ProductService
         if($request->has('run_flat')){
             $query->where('run_flat', $request->input('run_flat'));
         }
+        if($request->has('run_flat')){
+            $query->where('run_flat', $request->input('run_flat'));
+        }
         return $query;
     }
 
@@ -110,7 +113,6 @@ class ProductService
             'products' => ProductMinimalResource::collection($filteredProducts),
             'filter' => $productsForFilter,
             'pagination' => $this->paginate($filteredProducts),
-
         ];
     }
 
@@ -134,6 +136,16 @@ class ProductService
         Models::query()->chunk(100, function ($models) use (&$modelNames) {
             $modelNames = array_merge($modelNames, $models->pluck('name')->toArray());
         });
+
+
+
+        $disk_models = [
+            "AMG55 (tw)", "ADX.01", "ADX.02", "AU-5131", "AU-5456", "AU-832", "Competition 2", "Conquista-Karizma", "D-5459", "D712 Rage", "D718 Heater", "D720 Heater", "HU-485", "M204 Vosso ", "MB-962 AMG", "Passion", "RX-281", "RX-XH273", "Tormenta", "TRD-1380", "TY-1905 (300) ", "TY-FC1734 (300) ", "TY-JC2002 (200) ", "TY-P6067", "TY-R2027 ", "TY-RH5001 (200) ", "X5-5497 ", "XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "CATANIA", "Como", "CROSSLIGHT", "Davos", "DH", "DRIVE X", "DYNAMITE", "Grid", "GRIP", "IKENU", "JAGER-DYNA", "KIBO", "LUCCA", "LUGANO", "M10", "M10X", "MILANO", "MIZAR", "MO970", "MO977 LINK", "MONSTR", "Murago", "OSLO", "PADUA", "PERFEKTION", "POISON", "POISON CUP", "QC1151", "QUINTO", "RACELIGHT", "RADIAL", "RAPTR", "SHARK", "Singa", "STREETRALLYE", "Temperament", "TITAN", "Torino", "TRANSPORTER", "W10", "W10X", "XD140 RECON", "XD827 ROCKSTAR III", "ZAMORA"
+        ];
+
+        $disk_manufacturers = [
+            "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
+        ];
 
         $width = [ 7.00, 7.50, 10.50, 11.50,
             12.50, 13.50, 155, 165, 175,
@@ -179,6 +191,8 @@ class ProductService
         ];
         $run_flat = ['нет'];
         return [
+            'disk_manufacturers' => $disk_manufacturers,
+            'disk_models' => $disk_models,
             'manufacturers' => $manufacturerNames,
             'models' => $modelNames,
             'width' => $width,

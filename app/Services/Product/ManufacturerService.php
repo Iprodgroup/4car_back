@@ -38,8 +38,4 @@ class ManufacturerService
         return ManufacturerResource::collection($manufacturers);
     }
 
-    public function generateSlug($name): string
-    {
-        return strtolower(str_replace(' ', '-', $name));
-    }
 }
