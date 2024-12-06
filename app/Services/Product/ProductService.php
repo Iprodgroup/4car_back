@@ -216,6 +216,7 @@ class ProductService
         return [
             'manufacturers' => $formattedManufacturers,
             'models' => $modelNames,
+            'disk_manufacturers_with_models' => $disk_manufacturers_with_models,
             'disk_manufacturers' => $disk_manufacturers,
             'disk_models' => $disk_models,
             'width' => $width,
