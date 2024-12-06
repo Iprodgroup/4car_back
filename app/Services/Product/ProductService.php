@@ -139,7 +139,7 @@ class ProductService
             $formattedManufacturers[] = $manufacturer;
         }
 
-        $disk_models = [
+        $disk_manufacturers_with_models = [
             "AED" => ["AMG55 (tw)"],
             "ALUTEC" => ["ADX.01", "ADX.02","Tormenta","DRIVE X","IKENU","GRIP","DYNAMITE","MONSTR", "POISON CUP", "POISON", "RAPTR","SHARK","Singa", "TITAN", "W10","W10X"],
             "ATS" => ["Competition 2","Passion", "CROSSLIGHT","MIZAR", "Grid","PERFEKTION","RACELIGHT","RADIAL", "Temperament",],
@@ -158,6 +158,13 @@ class ProductService
             "XD SERIES" => ["XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "XD140 RECON", "XD827 ROCKSTAR III"]
 
             ];
+        $disk_models = [
+            "AMG55 (tw)","ADX.01", "ADX.02","Tormenta","DRIVE X","IKENU","GRIP","DYNAMITE","MONSTR", "POISON CUP", "POISON", "RAPTR","SHARK","Singa", "TITAN", "W10","W10X",
+            "Competition 2","Passion", "CROSSLIGHT","MIZAR", "Grid","PERFEKTION","RACELIGHT","RADIAL", "Temperament","MB-962 AMG", "RX-XH273","TY-FC1734 (300)", "TY-RH5001 (200)",
+            "QC1151","AU-5131", "AU-5436", "D-5459", "HU-485","TRD-1380", "TY-R2027", "TY-P6067","D712 Rage", "D720 Heater", "D718 Heater",
+            "MO977 LINK", "MO977","TY-1905 (300)","M204 Vosso","CATANIA", "Como", "Davos", "DH", "KIBO","LUCCA","LUGANO","M10","M10X","MILANO", "Murago", "OSLO", "PADUA","QUINTO", "Torino",
+            "Transporter", "ZAMORA","XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "XD140 RECON", "XD827 ROCKSTAR III"
+        ];
 
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
