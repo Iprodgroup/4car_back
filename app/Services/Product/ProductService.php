@@ -121,13 +121,21 @@ class ProductService
         $manufacturers = Manufacturer::query()->get();
         $manufacturerNames = $manufacturers->pluck('name')->toArray();
 
-        $manufacturersWithModels = $manufacturers->mapWithKeys(function ($manufacturer) {
+        // Создаем массив для хранения производителей в нужном формате
+        $manufacturersWithModels = $manufacturers->map(function ($manufacturer) {
             $models = Models::where('brand_id', $manufacturer->id)
                 ->pluck('name')
                 ->toArray();
 
             return [$manufacturer->name => $models];
         })->toArray();
+
+        // Преобразуем массив в нужный формат
+        $formattedManufacturers = [];
+        foreach ($manufacturersWithModels as $manufacturer) {
+            $formattedManufacturers[] = $manufacturer;
+        }
+
         $disk_models = [
             "AED" => ["AMG55 (tw)"],
             "ALUTEC" => ["ADX.01", "ADX.02","Tormenta","DRIVE X","IKENU","GRIP","DYNAMITE","MONSTR", "POISON CUP", "POISON", "RAPTR","SHARK","Singa", "TITAN", "W10","W10X"],
@@ -200,10 +208,10 @@ class ProductService
         $run_flat = ['нет'];
 
         return [
-            'models' => $manufacturersWithModels,
+//            'models' => $manufacturersWithModels,
+            'manufacturers' => $formattedManufacturers,
             'disk_manufacturers' => $disk_manufacturers,
             'disk_models' => $disk_models,
-            'manufacturers' => $manufacturerNames,
             'width' => $width,
             'height' => $height,
             'diameter' => $diameter,
@@ -353,3 +361,6 @@ class ProductService
     }
 
 }
+
+//disk_models: [{ }]
+//
