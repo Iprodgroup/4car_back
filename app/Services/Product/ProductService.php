@@ -118,10 +118,10 @@ class ProductService
 
     private function filtersAttributes(): array
     {
+        $modelNames = [];
         $manufacturers = Manufacturer::query()->get();
         $manufacturerNames = $manufacturers->pluck('name')->toArray();
 
-        // Создаем массив для хранения производителей в нужном формате
         $manufacturersWithModels = $manufacturers->map(function ($manufacturer) {
             $models = Models::where('brand_id', $manufacturer->id)
                 ->pluck('name')
@@ -130,7 +130,10 @@ class ProductService
             return [$manufacturer->name => $models];
         })->toArray();
 
-        // Преобразуем массив в нужный формат
+        Models::query()->chunk(100, function ($models) use (&$modelNames) {
+            $modelNames = array_merge($modelNames, $models->pluck('name')->toArray());
+        });
+
         $formattedManufacturers = [];
         foreach ($manufacturersWithModels as $manufacturer) {
             $formattedManufacturers[] = $manufacturer;
@@ -155,11 +158,7 @@ class ProductService
             "XD SERIES" => ["XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "XD140 RECON", "XD827 ROCKSTAR III"]
 
             ];
-//        "AED" => ["AMG55 (tw)", "ADX.01", "ADX.02"],
-//    "ALUTEC" => ["AU-5131", "AU-5456", "AU-832"],
-//        $disk_models = [
-//            "AMG55 (tw)", "ADX.01", "ADX.02", "AU-5131", "AU-5456", "AU-832", "Competition 2", "Conquista-Karizma", "D-5459", "D712 Rage", "D718 Heater", "D720 Heater", "HU-485", "M204 Vosso ", "MB-962 AMG", "Passion", "RX-281", "RX-XH273", "Tormenta", "TRD-1380", "TY-1905 (300) ", "TY-FC1734 (300) ", "TY-JC2002 (200) ", "TY-P6067", "TY-R2027 ", "TY-RH5001 (200) ", "X5-5497 ", "XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "CATANIA", "Como", "CROSSLIGHT", "Davos", "DH", "DRIVE X", "DYNAMITE", "Grid", "GRIP", "IKENU", "JAGER-DYNA", "KIBO", "LUCCA", "LUGANO", "M10", "M10X", "MILANO", "MIZAR", "MO970", "MO977 LINK", "MONSTR", "Murago", "OSLO", "PADUA", "PERFEKTION", "POISON", "POISON CUP", "QC1151", "QUINTO", "RACELIGHT", "RADIAL", "RAPTR", "SHARK", "Singa", "STREETRALLYE", "Temperament", "TITAN", "Torino", "TRANSPORTER", "W10", "W10X", "XD140 RECON", "XD827 ROCKSTAR III", "ZAMORA"
-//        ];
+
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
         ];
@@ -208,8 +207,8 @@ class ProductService
         $run_flat = ['нет'];
 
         return [
-//            'models' => $manufacturersWithModels,
             'manufacturers' => $formattedManufacturers,
+            'models' => $modelNames,
             'disk_manufacturers' => $disk_manufacturers,
             'disk_models' => $disk_models,
             'width' => $width,
