@@ -140,7 +140,6 @@ class ProductService
         }
 
     $result = [
-    "manufacturers" => [
         [
             "AED" => ["AMG55 (tw)"]
         ],
@@ -206,7 +205,6 @@ class ProductService
                 "XD827 ROCKSTAR III"
             ]
         ]
-    ]
 ];
 
         $disk_manufacturers_with_models = json_encode($result, JSON_PRETTY_PRINT);
