@@ -120,7 +120,11 @@ class ProductService
     {
         $modelNames = [];
         $manufacturers = Manufacturer::query()->get();
-        $manufacturerNames = $manufacturers->pluck('name')->toArray();
+        $manufacturerNames = [];
+
+        Manufacturer::query()->chunk(100, function ($manufacturers) use (&$manufacturerNames) {
+            $manufacturerNames = array_merge($manufacturerNames, $manufacturers->pluck('name')->toArray());
+        });
 
         $manufacturersWithModels = $manufacturers->map(function ($manufacturer) {
             $models = Models::where('brand_id', $manufacturer->id)
@@ -221,6 +225,7 @@ class ProductService
         $run_flat = ['нет'];
 
         return [
+            "just_manufacturers" => $manufacturerNames,
             'manufacturers' => $formattedManufacturers,
             'models' => $modelNames,
             'disk_manufacturers_with_models' => $disk_manufacturers_with_models,
