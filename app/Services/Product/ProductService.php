@@ -116,37 +116,25 @@ class ProductService
         ];
     }
 
-    public function showProductBySlug($slug)
-    {
-        $product = Product::with('categories', 'images')
-            ->where('manufacturer_part_number', $slug)
-            ->firstOrFail();
-        return $product;
-    }
-
     private function filtersAttributes(): array
     {
-        $manufacturerNames = [];
-        $modelNames = [];
+        $manufacturers = Manufacturer::query()->get();
+        $manufacturerNames = $manufacturers->pluck('name')->toArray();
 
-        Manufacturer::query()->chunk(100, function ($manufacturers) use (&$manufacturerNames) {
-            $manufacturerNames = array_merge($manufacturerNames, $manufacturers->pluck('name')->toArray());
-        });
+        $manufacturersWithModels = $manufacturers->mapWithKeys(function ($manufacturer) {
+            $models = Models::where('brand_id', $manufacturer->id)
+                ->pluck('name')
+                ->toArray();
 
-        Models::query()->chunk(100, function ($models) use (&$modelNames) {
-            $modelNames = array_merge($modelNames, $models->pluck('name')->toArray());
-        });
-
-
+            return [$manufacturer->name => $models];
+        })->toArray();
 
         $disk_models = [
             "AMG55 (tw)", "ADX.01", "ADX.02", "AU-5131", "AU-5456", "AU-832", "Competition 2", "Conquista-Karizma", "D-5459", "D712 Rage", "D718 Heater", "D720 Heater", "HU-485", "M204 Vosso ", "MB-962 AMG", "Passion", "RX-281", "RX-XH273", "Tormenta", "TRD-1380", "TY-1905 (300) ", "TY-FC1734 (300) ", "TY-JC2002 (200) ", "TY-P6067", "TY-R2027 ", "TY-RH5001 (200) ", "X5-5497 ", "XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "CATANIA", "Como", "CROSSLIGHT", "Davos", "DH", "DRIVE X", "DYNAMITE", "Grid", "GRIP", "IKENU", "JAGER-DYNA", "KIBO", "LUCCA", "LUGANO", "M10", "M10X", "MILANO", "MIZAR", "MO970", "MO977 LINK", "MONSTR", "Murago", "OSLO", "PADUA", "PERFEKTION", "POISON", "POISON CUP", "QC1151", "QUINTO", "RACELIGHT", "RADIAL", "RAPTR", "SHARK", "Singa", "STREETRALLYE", "Temperament", "TITAN", "Torino", "TRANSPORTER", "W10", "W10X", "XD140 RECON", "XD827 ROCKSTAR III", "ZAMORA"
         ];
-
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
         ];
-
         $width = [ 7.00, 7.50, 10.50, 11.50,
             12.50, 13.50, 155, 165, 175,
             185, 195, 205, 215, 225, 235,
@@ -190,11 +178,12 @@ class ProductService
             "W", "Y", "Н", "Т"
         ];
         $run_flat = ['нет'];
+
         return [
+            'models' => $manufacturersWithModels,
             'disk_manufacturers' => $disk_manufacturers,
             'disk_models' => $disk_models,
             'manufacturers' => $manufacturerNames,
-            'models' => $modelNames,
             'width' => $width,
             'height' => $height,
             'diameter' => $diameter,
@@ -204,6 +193,14 @@ class ProductService
             'indeks_skorosti' => $indeks_skorosti,
             'run_flat' => $run_flat,
         ];
+    }
+
+    public function showProductBySlug($slug)
+    {
+        $product = Product::with('categories', 'images')
+            ->where('manufacturer_part_number', $slug)
+            ->firstOrFail();
+        return $product;
     }
 
     public function modelsByBrand(Request $request)
@@ -335,28 +332,4 @@ class ProductService
         return (['error' => 'Модификация не выбрана']);
     }
 
-
-//    public function optionsByModificationForTires(Request $request)
-//    {
-//        if ($request->has('modification')) {
-//            $modificationParts = explode(',', $request->input('modification'));
-//            $kuzov = $modificationParts[0] ?? null;
-//            $dvigatel = $modificationParts[1] ?? null;
-//
-//            $tires = Product::query()
-//                ->where('published', 1)
-//                ->whereHas('categories', function ($q) {
-//                    $q->where('category_id', 370) // ID категории шин
-//                    ->where('published', '!=', 0);
-//                })
-//                ->where('kuzov', $kuzov) // Предполагается, что у вас есть поле кузов в таблице шин
-//                ->where('dvigatel', $dvigatel) // Предполагается, что у вас есть поле двигатель в таблице шин
-//                ->select('name', 'price', 'short_description')
-//                ->get();
-//
-//            return $tires;
-//        }
-//
-//        return [];
-//    }
 }
