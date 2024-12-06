@@ -128,10 +128,30 @@ class ProductService
 
             return [$manufacturer->name => $models];
         })->toArray();
-
         $disk_models = [
-            "AMG55 (tw)", "ADX.01", "ADX.02", "AU-5131", "AU-5456", "AU-832", "Competition 2", "Conquista-Karizma", "D-5459", "D712 Rage", "D718 Heater", "D720 Heater", "HU-485", "M204 Vosso ", "MB-962 AMG", "Passion", "RX-281", "RX-XH273", "Tormenta", "TRD-1380", "TY-1905 (300) ", "TY-FC1734 (300) ", "TY-JC2002 (200) ", "TY-P6067", "TY-R2027 ", "TY-RH5001 (200) ", "X5-5497 ", "XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "CATANIA", "Como", "CROSSLIGHT", "Davos", "DH", "DRIVE X", "DYNAMITE", "Grid", "GRIP", "IKENU", "JAGER-DYNA", "KIBO", "LUCCA", "LUGANO", "M10", "M10X", "MILANO", "MIZAR", "MO970", "MO977 LINK", "MONSTR", "Murago", "OSLO", "PADUA", "PERFEKTION", "POISON", "POISON CUP", "QC1151", "QUINTO", "RACELIGHT", "RADIAL", "RAPTR", "SHARK", "Singa", "STREETRALLYE", "Temperament", "TITAN", "Torino", "TRANSPORTER", "W10", "W10X", "XD140 RECON", "XD827 ROCKSTAR III", "ZAMORA"
-        ];
+            "AED" => ["AMG55 (tw)"],
+            "ALUTEC" => ["ADX.01", "ADX.02","Tormenta","DRIVE X","IKENU","GRIP","DYNAMITE","MONSTR", "POISON CUP", "POISON", "RAPTR","SHARK","Singa", "TITAN", "W10","W10X"],
+            "ATS" => ["Competition 2","Passion", "CROSSLIGHT","MIZAR", "Grid","PERFEKTION","RACELIGHT","RADIAL", "Temperament",],
+            "CR" => ["MB-962 AMG", "RX-XH273","TY-FC1734 (300)", "TY-RH5001 (200)"],
+            "DN" => ["AU-832","RX-281","X5-5497", "TY-JC2002 (200)"],
+            "F-POWER" => ["QC1151"],
+            "FR" => ["AU-5131", "AU-5436", "D-5459", "HU-485","TRD-1380", "TY-R2027", "TY-P6067"],
+            "FUEL" => ["D712 Rage", "D720 Heater", "D718 Heater"],
+            "LENSO" => ["Conquista-Karizma", "JAGER-DYNA"],
+            "MOTO METAL" => ["MO977 LINK", "MO977"],
+            "MR" => ["TY-1905 (300)"],
+            "NICHE" => ["M204 Vosso"],
+            "RIAL" => ["CATANIA", "Como", "Davos", "DH", "KIBO","LUCCA","LUGANO","M10","M10X","MILANO", "Murago", "OSLO", "PADUA","QUINTO", "Torino",
+                        "Transporter", "ZAMORA",
+                ],
+            "XD SERIES" => ["XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "XD140 RECON", "XD827 ROCKSTAR III"]
+
+            ];
+//        "AED" => ["AMG55 (tw)", "ADX.01", "ADX.02"],
+//    "ALUTEC" => ["AU-5131", "AU-5456", "AU-832"],
+//        $disk_models = [
+//            "AMG55 (tw)", "ADX.01", "ADX.02", "AU-5131", "AU-5456", "AU-832", "Competition 2", "Conquista-Karizma", "D-5459", "D712 Rage", "D718 Heater", "D720 Heater", "HU-485", "M204 Vosso ", "MB-962 AMG", "Passion", "RX-281", "RX-XH273", "Tormenta", "TRD-1380", "TY-1905 (300) ", "TY-FC1734 (300) ", "TY-JC2002 (200) ", "TY-P6067", "TY-R2027 ", "TY-RH5001 (200) ", "X5-5497 ", "XD133 Fusion Off-Road", "XD135 Grenade Off-Road", "XD847 Outbreak", "XD856 Omega", "CATANIA", "Como", "CROSSLIGHT", "Davos", "DH", "DRIVE X", "DYNAMITE", "Grid", "GRIP", "IKENU", "JAGER-DYNA", "KIBO", "LUCCA", "LUGANO", "M10", "M10X", "MILANO", "MIZAR", "MO970", "MO977 LINK", "MONSTR", "Murago", "OSLO", "PADUA", "PERFEKTION", "POISON", "POISON CUP", "QC1151", "QUINTO", "RACELIGHT", "RADIAL", "RAPTR", "SHARK", "Singa", "STREETRALLYE", "Temperament", "TITAN", "Torino", "TRANSPORTER", "W10", "W10X", "XD140 RECON", "XD827 ROCKSTAR III", "ZAMORA"
+//        ];
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
         ];
