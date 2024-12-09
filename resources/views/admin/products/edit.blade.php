@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html
     lang="en"
@@ -12,9 +11,7 @@
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-
     <title>4CAR</title>
-
     <meta name="description" content="" />
     <link rel="icon" type="image/x-icon" href="{{ asset('/assets/img/favicon/favicon.ico')}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -103,8 +100,12 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Sku</label>
+                                <label for="exampleFormControlInput1" class="form-label">Sku </label>
                                 <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->name ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Цена </label>
+                                <input type="text" class="form-control" name="price" id="exampleFormControlInput1" value="<?php echo $product->price ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Название</label>

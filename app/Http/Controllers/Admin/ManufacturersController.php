@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Manufacturer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ManufacturersController extends Controller
@@ -14,6 +14,29 @@ class ManufacturersController extends Controller
         $manufacturers = Manufacturer::query()->paginate(15);
         return view('admin.manufacturers.index', compact('manufacturers'));
     }
+
+    public function create()
+    {
+        return view('admin.manufacturers.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'picture_id' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('picture_id')) {
+            $imagePath = $request->file('picture_id')->store('manufacturers', 'public');
+            $validated['picture_id'] = $imagePath;
+        }
+        Manufacturer::create($validated);
+
+        return redirect()->route('admin.manufacturers.index')->with('success', 'Производитель успешно создан!');
+    }
+
 
     public function edit($id)
     {
@@ -25,23 +48,21 @@ class ManufacturersController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'nullable|required',
+            'picture_id' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $manufacturer = Manufacturer::findOrFail($id);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('picture_id')) {
             if ($manufacturer->image) {
                 Storage::delete($manufacturer->image);
             }
 
-            $imagePath = $request->file('image')->store('manufacturers', 'public');
-            $validated['image'] = $imagePath;
+            $imagePath = $request->file('picture_id')->store('manufacturers', 'public');
+            $validated['picture_id'] = $imagePath;
         }
-
         $manufacturer->update($validated);
-
         return redirect()->route('admin.manufacturers.index')->with('success', 'Производитель успешно обновлен!');
     }
 
@@ -50,6 +71,5 @@ class ManufacturersController extends Controller
         $manufacturer = Manufacturer::findOrFail($id);
         $manufacturer->delete();
         return redirect()->route('admin.manufacturers.index');
-
     }
 }

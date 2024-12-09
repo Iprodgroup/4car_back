@@ -51,17 +51,17 @@
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                     <!-- Search -->
                     <div class="navbar-nav align-items-center">
-                        <div class="nav-item d-flex align-items-center">
-                            <i class="bx bx-search fs-4 lh-0"></i>
-                            <input
-                                type="text"
-                                class="form-control border-0 shadow-none"
-                                placeholder="Search..."
-                                aria-label="Search..."
-                            />
-                        </div>
+                    <div class="nav-item d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input
+                            type="text"
+                            class="form-control border-0 shadow-none"
+                            placeholder="Поиск по артикулу"
+                            aria-label="Поиск по артикулу"
+                        />
                     </div>
-                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                </div>
+                <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                 <div class="avatar avatar-online">

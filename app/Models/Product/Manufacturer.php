@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Manufacturer extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id'; // Убедитесь, что это указано
+    public $incrementing = true; // Укажите, что поле `id` автоматически инкрементируется
+    protected $keyType = 'int';
     protected $fillable = ['name', 'description',
         'manufacturer_template_id', 'meta_keywords', 'meta_description',
         'meta_title', 'picture_id', 'page_size', 'allow_customers_to_select_page_size',

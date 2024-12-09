@@ -100,6 +100,27 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
     }
 
+    public function searchBySku(Request $request)
+    {
+        $request->validate([
+            'sku' => 'required|string',
+        ]);
+
+        $sku = $request->input('sku');
+
+        $products = Product::where('sku', 'like', "%$sku%")->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['success' => false]);
+        }
+
+        $html = view('admin.layouts.products_result', compact('products'))->render();
+
+        return response()->json(['success' => true, 'html' => $html]);
+    }
+
+
+
     public function showUploadForm()
     {
         return view('admin.products.form');

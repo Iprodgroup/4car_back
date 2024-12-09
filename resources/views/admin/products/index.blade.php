@@ -54,9 +54,10 @@
                             <i class="bx bx-search fs-4 lh-0"></i>
                             <input
                                 type="text"
+                                id="search-sku"
                                 class="form-control border-0 shadow-none"
-                                placeholder="Search..."
-                                aria-label="Search..."
+                                placeholder="Search by SKU..."
+                                aria-label="Search by SKU"
                             />
                         </div>
                     </div>
@@ -150,5 +151,34 @@
 
 <div class="layout-overlay layout-menu-toggle"></div>
 @extends('admin.layouts.footer')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#search-sku').on('input', function () {
+            let sku = $(this).val();
+
+            if (sku.length > 0) {
+                $.ajax({
+                    url: "{{ route('admin.products.search') }}", // Роут для поиска
+                    method: "GET",
+                    data: { sku: sku },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#search-results').html(response.html);
+                        } else {
+                            $('#search-results').html('<p>Товары не найдены</p>');
+                        }
+                    },
+                    error: function () {
+                        $('#search-results').html('<p>Ошибка выполнения поиска</p>');
+                    }
+                });
+            } else {
+                $('#search-results').html(''); // Очистка, если поле пустое
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

@@ -66,7 +66,7 @@
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">Производители</h4>
-                    <a type="button" class="btn btn-success">Добавить</a>
+                    <a type="button" href="{{ route('admin.manufacturers.create') }}" class="btn btn-success">Добавить</a>
                     <br>
                     <div class="card">
                         <h5 class="card-header">Производители</h5>
@@ -85,7 +85,7 @@
                                         <td><img src="{{ $product->picture_id }}" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
                                         <td>{{$product->name}}</td>
                                         <td>{{ $product->published ? 'Да' : 'Нет' }}</td>
-                                        <td><a type="button" href="#" class="btn btn-primary">Изменить</a></td>
+                                        <td><a type="button" href="{{ route('admin.manufacturers.edit', $product->id) }}" class="btn btn-primary">Изменить</a></td>
 
                                     </tr>
                                 @endforeach
