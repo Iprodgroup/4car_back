@@ -61,6 +61,7 @@
                             />
                         </div>
                     </div>
+                    <div id="search-results" class="mt-2 w-100"></div>
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

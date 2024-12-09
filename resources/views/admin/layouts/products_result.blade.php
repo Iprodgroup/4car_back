@@ -1,11 +1,32 @@
-@foreach ($products as $product)
-    <div class="product-item border p-3 mb-2">
-        <h5>{{ $product->name }}</h5>
-        <p><strong>SKU:</strong> {{ $product->sku }}</p>
-        <p><strong>Описание:</strong> {{ $product->description ?? 'Нет описания' }}</p>
-        @if($product->image)
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100" />
-        @endif
+@if($products->count() > 0)
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Артикул</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($products as $product)
+                    <tr>
+                        <td>
+                            <img src="{{ $product->image }}"
+                                 alt="{{ $product->name }}"
+                                 style="max-width: 50px; max-height: 50px;">
+                        </td>
+                        <td>{{ $product->sku }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->price }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-@endforeach
-
+@else
+    <div class="alert alert-warning">Товары не найдены</div>
+@endif

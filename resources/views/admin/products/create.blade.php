@@ -107,6 +107,10 @@
                                 <input type="text" class="form-control" name="sku" id="exampleFormControlInput1">
                             </div>
                             <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Цена</label>
+                                <input type="text" class="form-control" name="price" id="exampleFormControlInput1">
+                            </div>
+                            <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Название</label>
                                 <input type="text" class="form-control" name="name" id="exampleFormControlInput1" >
                             </div>

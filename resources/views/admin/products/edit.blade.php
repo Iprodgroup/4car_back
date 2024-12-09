@@ -57,6 +57,7 @@
                                 aria-label="Search..."
                             />
                         </div>
+                        <div id="search-results" class="mt-2 w-100"></div>
                     </div>
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
