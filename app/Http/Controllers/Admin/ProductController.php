@@ -67,7 +67,7 @@ class ProductController extends Controller
             'vidy_nomenklaturi' => 'required',
             'brendy' => 'required',
             'run_flat' => 'boolean',
-            'weight' => 'required|numeric',
+            'razmer_shiny' => 'nullable|string',
             'modeli' => 'required',
             'sezony' => 'required',
             'shipy' => 'required',
@@ -76,7 +76,7 @@ class ProductController extends Controller
             'indeks_nagruzki' => 'required',
             'indeks_skorosti' => 'required',
             'shirina_shin' => 'required|numeric',
-            'image' => 'image|mimes:jpeg,jpg,png'
+            'image' => 'nullable|image|mimes:jpeg,jpg,png'
         ]);
         if ($request->hasFile('image')) {
             if ($product->image) {

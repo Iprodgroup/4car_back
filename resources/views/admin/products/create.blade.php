@@ -161,7 +161,6 @@
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Image</label>
                                 <input class="form-control" type="file" id="formFile" name="image">
-
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>

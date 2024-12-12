@@ -100,9 +100,18 @@
                         <form class="card-body" method="post" enctype="multipart/form-data" action="{{ route('admin.products.update', $product->id) }}">
                             @csrf
                             @method('PUT')
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Sku </label>
-                                <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->name ?>">
+                                <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->sku ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Цена </label>
@@ -126,7 +135,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Ширина</label>
-                                <input type="text" class="form-control" name="weight" id="exampleFormControlInput1" value="<?php echo $product->weight ?>">
+                                <input type="text" class="form-control" name="shirina_shin" id="exampleFormControlInput1" value="<?php echo $product->shirina_shin ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Модель</label>
@@ -143,6 +152,10 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Высота шин</label>
                                 <input type="text" class="form-control" name="vysota_shin" id="exampleFormControlInput1" value="<?php echo $product->vysota_shin ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Размер шин</label>
+                                <input type="text" class="form-control" name="razmer_shiny" id="exampleFormControlInput1" value="<?php echo $product->razmer_shiny ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Диаметр шин</label>
