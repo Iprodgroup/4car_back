@@ -83,7 +83,7 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image);
             }
 
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = $request->file('image')->store('images/upload', 'public');
             $validatedData['image'] = $imagePath;
         }
 
