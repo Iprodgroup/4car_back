@@ -15,4 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /vendor
+/4car.sql
 price.txt
