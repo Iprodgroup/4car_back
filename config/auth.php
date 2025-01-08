@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'admin_users',
         ],
+        'api' => [
+            'driver' => 'sanctum', // Используйте 'sanctum' или 'passport' для API
+            'provider' => 'users', // Укажите провайдер для API
+        ],
     ],
 
     /*
