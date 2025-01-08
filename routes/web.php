@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function (){
     Route::get('/admin/products/search', [ProductController::class, 'searchBySku'])->name('admin.products.search');
 
     //Categories
+
     Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('admin.categories.index');
     Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     Route::put('/categories/update/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
