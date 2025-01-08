@@ -113,6 +113,7 @@
                                 <tr>
                                     <th>Изображение</th>
                                     <th>Артикул</th>
+                                    <th>Наименование</th>
                                     <th>Цена</th>
                                     <th>Кол-во на складе</th>
                                     <th>Изменить</th>
@@ -122,6 +123,7 @@
                                     <tr>
                                         <td><img src="{{ $product->image }}" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
                                         <td>{{$product->sku}}</td>
+                                        <td>{{$product->name}}</td>
                                         <td>{{$product->price}}</td>
                                         <td>{{$product->stock_quantity}}</td>
                                         <td><a type="button" href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary">Изменить</a></td>
