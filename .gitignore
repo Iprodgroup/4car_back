@@ -16,4 +16,5 @@ yarn-error.log
 /.vscode
 /vendor
 4car.sql
+/4car.sql
 price.txt
