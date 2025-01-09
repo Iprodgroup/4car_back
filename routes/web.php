@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ManufacturersController;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:web')->group(function (){
+Route::middleware('auth:admin')->group(function (){
     Route::get('/products', [ProductController::class, 'showAllProducts'])->name('admin.products.index');
     Route::get('/products/upload', [ProductController::class, 'showUploadForm'])->name('admin.products.upload');
     Route::post('/products/upload', [ProductController::class, 'handleUpload'])->name('admin.upload.handle');
