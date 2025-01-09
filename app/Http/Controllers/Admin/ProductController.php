@@ -66,6 +66,7 @@ class ProductController extends Controller
             'name' => 'required',
             'vidy_nomenklaturi' => 'required',
             'brendy' => 'required',
+            'price' => 'required',
             'run_flat' => 'boolean',
             'razmer_shiny' => 'nullable|string',
             'modeli' => 'required',
@@ -112,10 +113,7 @@ class ProductController extends Controller
         if ($products->isEmpty()) {
             return response()->json(['success' => false]);
         }
-
-        $html = view('admin.layouts.products_result', compact('products'))->render();
-
-        return response()->json(['success' => true, 'html' => $html]);
+        return response()->json(['success' => true, 'products' => $products]);
     }
 
 

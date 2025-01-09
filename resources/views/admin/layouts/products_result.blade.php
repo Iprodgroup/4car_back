@@ -1,5 +1,5 @@
 @if($products->count() > 0)
-    <div class="card">
+    <div class="card" style="height: 600px; width: 600px; position: absolute; top: 50px">
         <div class="table-responsive">
             <table class="table">
                 <thead>

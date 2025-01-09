@@ -111,23 +111,23 @@
                             @endif
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Sku </label>
-                                <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->sku ?>">
+                                <input type="text" class="form-control" name="sku" id="exampleFormControlInput1" value="<?php echo $product->sku?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Цена </label>
-                                <input type="text" class="form-control" name="price" id="exampleFormControlInput1" value="<?php echo $product->price ?>">
+                                <input type="text" class="form-control" name="price" id="exampleFormControlInput1" value="<?php echo $product->price?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Название</label>
-                                <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $product->name ?>">
+                                <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $product->name?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Категория</label>
-                                <input type="text" class="form-control" name="vidy_nomenklaturi" id="exampleFormControlInput1" value="<?php echo $product->vidy_nomenklaturi ?>">
+                                <input type="text" class="form-control" name="vidy_nomenklaturi" id="exampleFormControlInput1" value="<?php echo $product->vidy_nomenklaturi?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Бренд</label>
-                                <input type="text" class="form-control" name="brendy" id="exampleFormControlInput1" value="<?php echo $product->brendy ?>">
+                                <input type="text" class="form-control" name="brendy" id="exampleFormControlInput1" value="<?php echo $product->brendy?>">
                             </div>
                             <div class="mb-3">
                                 <label for="characteristics" class="form-label">Run Flat</label>
@@ -135,40 +135,51 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Ширина</label>
-                                <input type="text" class="form-control" name="shirina_shin" id="exampleFormControlInput1" value="<?php echo $product->shirina_shin ?>">
+                                <input type="text" class="form-control" name="shirina_shin" id="exampleFormControlInput1" value="<?php echo $product->shirina_shin?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Модель</label>
-                                <input type="text" class="form-control" name="modeli" id="exampleFormControlInput1" value="<?php echo $product->modeli ?>">
+                                <input type="text" class="form-control" name="modeli" id="exampleFormControlInput1" value="<?php echo $product->modeli?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Сезонность</label>
-                                <input type="text" class="form-control" name="sezony" id="exampleFormControlInput1" value="<?php echo $product->sezony ?>">
+                                <input type="text" class="form-control" name="sezony" id="exampleFormControlInput1" value="<?php echo $product->sezony?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Шипы</label>
-                                <input type="text" class="form-control" name="shipy" id="exampleFormControlInput1" value="<?php echo $product->shipy ?>">
+                                <input type="text" class="form-control" name="shipy" id="exampleFormControlInput1" value="<?php echo $product->shipy?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Высота шин</label>
-                                <input type="text" class="form-control" name="vysota_shin" id="exampleFormControlInput1" value="<?php echo $product->vysota_shin ?>">
+                                <input type="text" class="form-control" name="vysota_shin" id="exampleFormControlInput1" value="<?php echo $product->vysota_shin?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Размер шин</label>
-                                <input type="text" class="form-control" name="razmer_shiny" id="exampleFormControlInput1" value="<?php echo $product->razmer_shiny ?>">
+                                <input type="text" class="form-control" name="razmer_shiny" id="exampleFormControlInput1" value="<?php echo $product->razmer_shiny?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Диаметр шин</label>
-                                <input type="text" class="form-control" name="diametr_shin" id="exampleFormControlInput1" value="<?php echo $product->diametr_shin ?>">
+                                <input type="text" class="form-control" name="diametr_shin" id="exampleFormControlInput1" value="<?php echo $product->diametr_shin?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Индекс скорости</label>
-                                <input type="text" class="form-control" name="indeks_skorosti" id="exampleFormControlInput1" value="<?php echo $product->indeks_skorosti ?>">
+                                <input type="text" class="form-control" name="indeks_skorosti" id="exampleFormControlInput1" value="<?php echo $product->indeks_skorosti?>">
+                            </div> <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Индекс нагрузки</label>
+                                <input type="text" class="form-control" name="indeks_nagruzki" id="exampleFormControlInput1" value="<?php echo $product->indeks_skorosti?>">
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Диаметр шин</label>
-                                <input type="text" class="form-control" name="indeks_nagruzki" id="exampleFormControlInput1" value="<?php echo $product->indeks_nagruzki ?>">
-                            </div>
+{{--                            <div class="mb-3">--}}
+{{--                                <label for="exampleFormControlInput1" class="form-label">Width</label>--}}
+{{--                                <input type="text" class="form-control" name="width" id="exampleFormControlInput1" value="<?php echo $product->width?>">--}}
+{{--                            </div>--}}
+{{--                            <div class="mb-3">--}}
+{{--                                <label for="exampleFormControlInput1" class="form-label">Weight</label>--}}
+{{--                                <input type="text" class="form-control" name="weight" id="exampleFormControlInput1" value="<?php echo $product->weight?>">--}}
+{{--                            </div>--}}
+{{--                            <div class="mb-3">--}}
+{{--                                <label for="exampleFormControlInput1" class="form-label">Height</label>--}}
+{{--                                <input type="text" class="form-control" name="height" id="exampleFormControlInput1" value="<?php echo $product->height?>">--}}
+{{--                            </div>--}}
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Image</label>
                                 <input class="form-control" type="file" id="formFile" name="image">
