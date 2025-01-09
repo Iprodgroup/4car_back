@@ -111,7 +111,7 @@ class ProductController extends Controller
         $products = Product::where('sku', 'like', "%$sku%")->get();
 
         if ($products->isEmpty()) {
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false, 'message' => 'Товары не найдены']);
         }
         return response()->json(['success' => true, 'products' => $products]);
     }

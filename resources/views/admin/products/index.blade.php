@@ -124,51 +124,56 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        let debounceTimeout;
+
         $('#search-sku').on('input', function () {
+            clearTimeout(debounceTimeout);
             let sku = $(this).val();
 
-            if (sku.length > 0) {
-                $.ajax({
-                    url: "{{ route('admin.products.search') }}",
-                    method: "GET",
-                    data: { sku: sku },
-                    success: function (response) {
-                        if (response.success) {
-                            let products = response.products;
-                            let tableContent = '';
+            debounceTimeout = setTimeout(function() {
+                if (sku.length > 0) {
+                    $.ajax({
+                        url: "{{ route('admin.products.search') }}",
+                        method: "GET",
+                        data: { sku: sku },
+                        success: function (response) {
+                            if (response.success) {
+                                let products = response.products;
+                                let tableContent = '';
 
-                            products.forEach(product => {
-                                tableContent += `
-                                    <tr>
-                                        <td><img src="${product.image}" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
-                                        <td>${product.sku}</td>
-                                        <td>${product.name}</td>
-                                        <td>${product.price}</td>
-                                        <td>${product.stock_quantity}</td>
-                                        <td><a type="button" href="/products/edit/${product.id}" class="btn btn-primary">Изменить</a></td>
-                                        <td>
-                                            <form action="/products/${product.id}" method="post" onsubmit="return confirm('Are you sure?');">
-                                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Удалить</button>
-                            </form>
-                        </td>
-                    </tr>
+                                products.forEach(product => {
+                                    tableContent += `
+                                        <tr>
+                                            <td><img src="${product.image}" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
+                                            <td>${product.sku}</td>
+                                            <td>${product.name}</td>
+                                            <td>${product.price}</td>
+                                            <td>${product.stock_quantity}</td>
+                                            <td><a type="button" href="/products/edit/${product.id}" class="btn btn-primary">Изменить</a></td>
+                                            <td>
+                                                <form action="/products/delete/${product.id}" method="post" onsubmit="return confirm('Are you sure?');">
+                                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
 `;
-                            });
+                                });
 
-                            $('#product-table').html(tableContent);
-                        } else {
-                            $('#product-table').html('<tr><td colspan="7">Товары не найдены</td></tr>');
+                                $('#product-table').html(tableContent);
+                            } else {
+                                $('#product-table').html('<tr><td colspan="7">Товары не найдены</td></tr>');
+                            }
+                        },
+                        error: function () {
+                            $('#product-table').html('<tr><td colspan="7">Ошибка выполнения поиска</td></tr>');
                         }
-                    },
-                    error: function () {
-                        $('#product-table').html('<tr><td colspan="7">Ошибка выполнения поиска</td></tr>');
-                    }
-                });
-            } else {
-                location.reload();  // Перезагрузка страницы, если поле пустое
-            }
+                    });
+                } else {
+                    location.reload();  // Перезагрузка страницы, если поле пустое
+                }
+            }, 300);  // 300ms задержка перед отправкой запроса
         });
     });
 </script>
