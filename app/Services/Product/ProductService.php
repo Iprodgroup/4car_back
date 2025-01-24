@@ -172,6 +172,8 @@ class ProductService
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
         ];
+        $bolt = [3, 4, 5, 6, 8];
+        $colors = ["Черный", "Cеребристый", "Хром", "Темно-серый", "Белый", "Золотой"];
         $width = [ 5.00, 5.50, 6.00, 6.50,
             7.00, 7.50, 10.50, 11.50,
             12.50, 13.50, 155, 165, 175,
@@ -215,7 +217,8 @@ class ProductService
             "R", "S", "T", "V",
             "W", "Y", "Н", "Т"
         ];
-        $run_flat = ['нет'];
+        $run_flat = ['нет', 'да'];
+
 
         return [
             "just_manufacturers" => $manufacturerNames,
@@ -229,6 +232,8 @@ class ProductService
             'diameter' => $diameter,
             'season' => $season,
             'spikes' => $spikes,
+            'bolt' => $bolt,
+            'colors' => $colors,
             'indeks_nagruzki' => $indeks_nagruzki,
             'indeks_skorosti' => $indeks_skorosti,
             'run_flat' => $run_flat,
