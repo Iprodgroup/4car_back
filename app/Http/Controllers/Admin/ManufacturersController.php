@@ -48,21 +48,23 @@ class ManufacturersController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'description' => 'nullable|required',
+            'description' => 'nullable',
             'picture_id' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $manufacturer = Manufacturer::findOrFail($id);
 
         if ($request->hasFile('picture_id')) {
-            if ($manufacturer->image) {
-                Storage::delete($manufacturer->image);
+            if ($manufacturer->picture_id) {
+                Storage::delete('public/' . $manufacturer->picture_id);
             }
 
             $imagePath = $request->file('picture_id')->store('manufacturers', 'public');
             $validated['picture_id'] = $imagePath;
         }
+
         $manufacturer->update($validated);
+
         return redirect()->route('admin.manufacturers.index')->with('success', 'Производитель успешно обновлен!');
     }
 
