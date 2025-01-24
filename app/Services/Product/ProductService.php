@@ -172,7 +172,8 @@ class ProductService
         $disk_manufacturers = [
             "AED", "ALUTEC", "ATS", "CR", "DN", "F-POWER", "FR", "FUEL", "LENSO", "MOTO METAL", "MR", "NICHE", "RIAL", "XD SERIES"
         ];
-        $width = [ 7.00, 7.50, 10.50, 11.50,
+        $width = [ 5.00, 5.50, 6.00, 6.50,
+            7.00, 7.50, 10.50, 11.50,
             12.50, 13.50, 155, 165, 175,
             185, 195, 205, 215, 225, 235,
             245, 255, 265, 275, 285, 295,
@@ -233,6 +234,7 @@ class ProductService
             'run_flat' => $run_flat,
         ];
     }
+
 //    private function filtersAttributes(): array
 //    {
 //        $manufacturers = Manufacturer::all();
